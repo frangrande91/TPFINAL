@@ -62,7 +62,7 @@ public class Vuelo {
         this.avion = avion;
     }
 
-    public double costoTotal(){
-        return (this.tipoVuelo.getDistancia() * this.costoKm) + (cantPasajeros * 3500) + (Avion.getTarifa);
-    }
+//    public double costoTotal(){
+//        return (this.tipoVuelo.getDistancia() * this.costoKm) + (cantPasajeros * 3500) + (Avion.getTarifa);
+//    }
 }
