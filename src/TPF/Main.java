@@ -3,10 +3,7 @@ package TPF;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("PROBANDO GIT");
-        
-        System.out.println("UN SABADO A LA TARDE");
-
-
+        Gold Boeing = new Gold(123,1024.5,300,700,Propulsion.REACCION,true,true);
+        System.out.println(Boeing.toString());
     }
 }
