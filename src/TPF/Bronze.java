@@ -7,6 +7,10 @@ public class Bronze extends Avion {
         super(combustible,costo,pasajeros,velMax,propulsion,catering);
     }
 
+    @Override
+    public int getTarifa(){
+        return 3000;
+    }
 
     @Override
     public String toString() {

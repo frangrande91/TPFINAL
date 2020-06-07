@@ -6,7 +6,10 @@ public class Silver extends Avion{
         super(combustible,costo,pasajeros,velMax,propulsion,catering);
     }
 
-
+    @Override
+    public int getTarifa(){
+        return 4000;
+    }
 
     @Override
     public String toString() {

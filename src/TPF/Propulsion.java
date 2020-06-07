@@ -1,11 +1,13 @@
 package TPF;
 
-public final class Propulsion {
+public enum Propulsion {
+    HEL ("MotorAHelice"),
+    REAC ("MotorAReaccion"),
+    PIST ("MotorDePistones");
 
-    public static final String REACCION = "MotorAReaccion";
-    public static final String HELICE = "MotorAHelice";
-    public static final String PISTONES = "MotorAPistones";
+    private String motor;
 
-    private Propulsion() {
+    Propulsion(String motor) {
+        this.motor=motor;
     }
 }
