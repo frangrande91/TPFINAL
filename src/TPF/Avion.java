@@ -1,12 +1,12 @@
 package TPF;
 
 public abstract class Avion {
-    private int capacidadCombustible;
-    private double costoPorKm;
-    private int capacidadPasajeros;
-    private int velocidadMax;
-    private String propulsion;
-    private boolean catering;
+    protected int capacidadCombustible;
+    protected double costoPorKm;
+    protected int capacidadPasajeros;
+    protected int velocidadMax;
+    protected String propulsion;
+    protected boolean catering;
 
 
     public Avion(int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering){
@@ -65,6 +65,8 @@ public abstract class Avion {
     public void setCatering(boolean catering) {
         this.catering = catering;
     }
+
+    public abstract int getTarifa();
 
     @Override
     public String toString() {

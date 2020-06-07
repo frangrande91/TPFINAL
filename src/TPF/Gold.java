@@ -17,6 +17,11 @@ public class Gold extends Avion {
     }
 
     @Override
+    public int getTarifa(){
+        return 6000;
+    }
+
+    @Override
     public String toString() {
         return super.toString() +
                 "wifi=" + wifi +
