@@ -1,34 +1,27 @@
 package TPF;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Vuelo {
-    private Date fecha;
+    private LocalDate fechaVuelo;
     private TipoVuelo tipoVuelo;
     private Avion avion;
     private Set<Usuario> pasajeros;
     private int cantPasajeros;
 
-    public Vuelo() {
-        this.fecha = new Date();
-        this.tipoVuelo = null;
-        this.avion = null;
-        this.pasajeros = new HashSet<Usuario>();
-        this.cantPasajeros = pasajeros.size();
-    }
 
-    public Vuelo(TipoVuelo tipoVuelo, Avion avion, int cantPasajeros) {
-        this.fecha = new Date();
+    public Vuelo(LocalDate fechaVuelo, TipoVuelo tipoVuelo, Avion avion) {
+        this.fechaVuelo = fechaVuelo;
         this.tipoVuelo = tipoVuelo;
         this.avion = avion;
         this.pasajeros = new HashSet<Usuario>();
         this.cantPasajeros = pasajeros.size();
     }
 
-    public Date getFecha() {
-        return fecha;
+    public LocalDate getFechaVuelo() {
+        return fechaVuelo;
     }
 
     public TipoVuelo getTipoVuelo() {
@@ -51,7 +44,20 @@ public class Vuelo {
         this.avion = avion;
     }
 
+    public void setFechaVuelo(LocalDate fechaVuelo) {
+        this.fechaVuelo = fechaVuelo;
+    }
+
     public double costoTotal(){
        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.getTarifa());
+    }
+
+    @Override
+    public String toString() {
+        return "Vuelo {" +
+                "Fecha del vuelo: " + fechaVuelo +
+                " - Tipo de vuelo: " + tipoVuelo +
+                " - Avion: " + avion.toString() +
+                '}';
     }
 }

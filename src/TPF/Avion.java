@@ -78,4 +78,33 @@ public abstract class Avion {
                 ", propulsion=" + propulsion +
                 ", catering=" + catering+", ";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Avion avion = (Avion) o;
+
+        if (capacidadCombustible != avion.capacidadCombustible) return false;
+        if (Double.compare(avion.costoPorKm, costoPorKm) != 0) return false;
+        if (capacidadPasajeros != avion.capacidadPasajeros) return false;
+        if (velocidadMax != avion.velocidadMax) return false;
+        if (catering != avion.catering) return false;
+        return propulsion.equals(avion.propulsion);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = capacidadCombustible;
+        temp = Double.doubleToLongBits(costoPorKm);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + capacidadPasajeros;
+        result = 31 * result + velocidadMax;
+        result = 31 * result + propulsion.hashCode();
+        result = 31 * result + (catering ? 1 : 0);
+        return result;
+    }
 }

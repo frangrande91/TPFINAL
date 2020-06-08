@@ -30,4 +30,11 @@ public enum TipoVuelo {
         return distancia;
     }
 
+    @Override
+    public String toString() {
+        return  "Origen: " + origen +
+                " - Destino: " + destino +
+                " - distancia: " + distancia;
+    }
+
 }
