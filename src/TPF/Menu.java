@@ -27,11 +27,11 @@ public class Menu {
                 if (usuario == null)
                     System.out.println("Usuario no registrado. Intente nuevamente");
             }
-            //    if(usuario != null){
+            //    if(usuario != null){}
+            clearScreen();
             imprimirOpcMenuPrincipal();
             System.out.println("Elija una opción:");
             op = scan.nextInt();
-
             switch (op) {
                 case 1:
                     submenuContratarVuelo();
@@ -214,6 +214,9 @@ public class Menu {
         return ciudad;
     }
 
-
+    public void clearScreen(){
+        for(int i=0;i<80*300;i++)
+            System.out.println("\b");
+    }
 
 }
