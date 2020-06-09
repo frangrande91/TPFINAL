@@ -3,7 +3,7 @@ package TPF;
 public abstract class Avion {
     protected int capacidadCombustible;
     protected double costoPorKm;
-    protected int capacidadPasajeros;
+    protected int capacidadMaxPasajeros;
     protected int velocidadMax;
     protected String propulsion;
     protected boolean catering;
@@ -12,7 +12,7 @@ public abstract class Avion {
     public Avion(int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering){
         this.capacidadCombustible=combustible;
         this.costoPorKm=costo;
-        this.capacidadPasajeros=pasajeros;
+        this.capacidadMaxPasajeros =pasajeros;
         this.velocidadMax=velMax;
         this.propulsion=propulsion;
         this.catering=catering;
@@ -34,12 +34,12 @@ public abstract class Avion {
         this.costoPorKm = costoPorKm;
     }
 
-    public int getCapacidadPasajeros() {
-        return capacidadPasajeros;
+    public int getCapacidadMaxPasajeros() {
+        return capacidadMaxPasajeros;
     }
 
-    public void setCapacidadPasajeros(int capacidadPasajeros) {
-        this.capacidadPasajeros = capacidadPasajeros;
+    public void setCapacidadMaxPasajeros(int capacidadMaxPasajeros) {
+        this.capacidadMaxPasajeros = capacidadMaxPasajeros;
     }
 
     public int getVelocidadMax() {
@@ -72,10 +72,10 @@ public abstract class Avion {
     public String toString() {
         return "Avion {" + this.getClass().getSimpleName() +
                 " - capacidadCombustible=" + capacidadCombustible +
-                ", costoPorKm=" + costoPorKm +
-                ", capacidadPasajeros=" + capacidadPasajeros +
+                " lts., costoPorKm= $" + costoPorKm +
+                ", capacidadPasajeros=" + capacidadMaxPasajeros +
                 ", velocidadMax=" + velocidadMax +
-                ", propulsion=" + propulsion +
+                "km/h, propulsion=" + propulsion +
                 ", catering=" + catering+", ";
     }
 
@@ -88,7 +88,7 @@ public abstract class Avion {
 
         if (capacidadCombustible != avion.capacidadCombustible) return false;
         if (Double.compare(avion.costoPorKm, costoPorKm) != 0) return false;
-        if (capacidadPasajeros != avion.capacidadPasajeros) return false;
+        if (capacidadMaxPasajeros != avion.capacidadMaxPasajeros) return false;
         if (velocidadMax != avion.velocidadMax) return false;
         if (catering != avion.catering) return false;
         return propulsion.equals(avion.propulsion);
@@ -101,7 +101,7 @@ public abstract class Avion {
         result = capacidadCombustible;
         temp = Double.doubleToLongBits(costoPorKm);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + capacidadPasajeros;
+        result = 31 * result + capacidadMaxPasajeros;
         result = 31 * result + velocidadMax;
         result = 31 * result + propulsion.hashCode();
         result = 31 * result + (catering ? 1 : 0);

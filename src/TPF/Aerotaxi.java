@@ -66,22 +66,33 @@ public class Aerotaxi {
     }
 
     public void listarAvionesPorFecha(LocalDate fechaElegida){
-        int count = 1;
         for(Vuelo vuelo : this.vuelos){
             if(vuelo.getFechaVuelo().equals(fechaElegida))
-                System.out.println(count + " - " + vuelo.getAvion().toString());
-            count++;
+                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName()+" - ["+vuelo.getTipoVuelo().getOrigen()+"-"+vuelo.getTipoVuelo().getDestino()+"] - AsientosDisponibles: "+(vuelo.getAvion().getCapacidadMaxPasajeros()-vuelo.getCantPasajeros())+" - Costo: $"+vuelo.getAvion().getTarifa());
+        }
+    }
+
+    public void listarAvionesPorRecorrido(TipoVuelo tv){
+        for(Vuelo vuelo : this.vuelos){
+            if(vuelo.getTipoVuelo().getOrigen().equals(tv.getOrigen()) && vuelo.getTipoVuelo().getDestino().equals(tv.getDestino()))
+                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName()+" - Fecha salida: "+vuelo.getFechaVuelo() +" - AsientosDisponibles: "+(vuelo.getAvion().getCapacidadMaxPasajeros()-vuelo.getCantPasajeros())+" - Costo: $"+vuelo.getAvion().getTarifa());
         }
     }
 
     public void listarVuelosPorDatos(LocalDate fecha, TipoVuelo tipo, Avion avion){
         for(Vuelo vuelo : this.vuelos){
             if((vuelo.getFechaVuelo().equals(fecha)) && (vuelo.getTipoVuelo().equals(tipo)) && (vuelo.getAvion().equals(avion)))
-                System.out.println(vuelo.toString());    //Muestro todos los vuelos de esa fecha, con ese origen y destino y ese avion }
+                System.out.println(vuelo.toString());    //Muestro todos los vuelos de esa fecha, con ese origen y destino y ese avion
         }
     }
 
-
+    public int getIndexVuelo(int numVuelo){
+        int index=0;
+        for (Vuelo vuelo:this.vuelos){
+            if(vuelo.getNumeroDeVuelo()==numVuelo)
+                index=this.getVuelos().indexOf(vuelo);
+        }return index;
+    }
 
 
 }
