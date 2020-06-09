@@ -6,16 +6,17 @@ import java.util.Scanner;
 public class Menu {
     Scanner scan;
     Aerotaxi aerotaxi;
+    Usuario usuario;
 
     public Menu(Aerotaxi aerotaxi) {
         this.scan = new Scanner(System.in);
         this.aerotaxi = aerotaxi;
+        this.usuario=null;
     }
 
     public void menuPrincipal() {
         int op = 0;
         String dni;
-        Usuario usuario = null;
 
         do {
             System.out.println("********************* AEROTAXI *********************");
@@ -38,6 +39,8 @@ public class Menu {
                 case 2:
                     //cancelarVuelo
                     break;
+                case 3: verListaDeVuelosUser(usuario);
+                break;
                 case 0:
                     System.out.println("Gracias por elegir AEROTAXI");
                     break;
@@ -104,9 +107,11 @@ public class Menu {
         int cantAcompañantes = scan.nextInt();
 
         //chequear asientos disponibles
-        if((aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(numVuelo)).getCantPasajeros()+cantAcompañantes+1) <= aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(numVuelo)).getAvion().getCapacidadMaxPasajeros())
-        aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(numVuelo)).agregarPasajeros(cantAcompañantes+1); //agregar pasajeros a vuelp
-        else{
+        Vuelo aux=aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(numVuelo));
+        if((aux.getCantPasajeros()+cantAcompañantes+1) <= aux.getAvion().getCapacidadMaxPasajeros()) {
+            aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(numVuelo)).agregarPasajeros(cantAcompañantes + 1); //agregar pasajeros
+            usuario.agregarVuelo(aux);
+        }else{
             System.out.println("No hay asientos disponibles");
         }
 
@@ -151,6 +156,7 @@ public class Menu {
         System.out.println("************* MENU USUARIO *************");
         System.out.println("1. Contratar vuelo");
         System.out.println("2. Cancelar vuelo");
+        System.out.println("3. Ver mi lista de vuelos");
         System.out.println("0. Salir");
     }
 
@@ -193,6 +199,12 @@ public class Menu {
                 break;
         }
         return ciudad;
+    }
+
+    public void verListaDeVuelosUser(Usuario usuario){
+        for(Vuelo v:usuario.getVuelos()){
+            System.out.println(v.toString());
+        }
     }
 
 }

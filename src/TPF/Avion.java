@@ -72,10 +72,10 @@ public abstract class Avion {
     public String toString() {
         return "Avion {" + this.getClass().getSimpleName() +
                 " - capacidadCombustible=" + capacidadCombustible +
-                ", costoPorKm=" + costoPorKm +
+                " lts., costoPorKm= $" + costoPorKm +
                 ", capacidadPasajeros=" + capacidadMaxPasajeros +
                 ", velocidadMax=" + velocidadMax +
-                ", propulsion=" + propulsion +
+                "km/h, propulsion=" + propulsion +
                 ", catering=" + catering+", ";
     }
 

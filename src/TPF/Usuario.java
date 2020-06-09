@@ -1,25 +1,30 @@
 package TPF;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Usuario {
     private String nombre;
     private String apellido;
     private String dni;
     private int edad;
+    private List<Vuelo> vuelos;
 
-    public Usuario(){
+    public Usuario() {
         this.nombre = "";
         this.apellido = "";
         this.dni = "";
         this.edad = 0;
+        this.vuelos = new ArrayList<Vuelo>();
     }
 
-    public Usuario(String nombre, String apellido, String dni, int edad){
+    public Usuario(String nombre, String apellido, String dni, int edad) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.edad = edad;
+        this.vuelos = new ArrayList<Vuelo>();
     }
 
     public String getNombre() {
@@ -54,11 +59,17 @@ public class Usuario {
         this.edad = edad;
     }
 
-    public void contratarVuelo(Date fechaVuelo, TipoVuelo tipoVuelo, Avion avion, int cantAcompañantes){
 
-
+    public List<Vuelo> getVuelos() {
+        return vuelos;
     }
 
+    public void setVuelos(List<Vuelo> vuelos) {
+        this.vuelos = vuelos;
+    }
 
+    public void agregarVuelo(Vuelo vuelo) {
+        this.vuelos.add(vuelo);
+    }
 
 }

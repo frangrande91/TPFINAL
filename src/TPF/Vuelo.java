@@ -64,8 +64,8 @@ public class Vuelo {
     public String toString() {
         return "Vuelo {" +
                 "Fecha del vuelo: " + fechaVuelo +
-                " - Tipo de vuelo: " + tipoVuelo +
-                " - Avion: " + avion.toString() +
+                " - Tipo de vuelo: " + tipoVuelo
+                + avion.toString() +
                 '}';
     }
 }
