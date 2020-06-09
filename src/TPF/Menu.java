@@ -37,9 +37,9 @@ public class Menu {
                     submenuContratarVuelo();
                     break;
                 case 2:
-                    //cancelarVuelo
+                    cancelarVuelo();
                     break;
-                case 3: verListaDeVuelosUser(usuario);
+                case 3: imprimirListaDeVuelosUser(usuario);
                 break;
                 case 0:
                     System.out.println("Gracias por elegir AEROTAXI");
@@ -152,6 +152,13 @@ public class Menu {
         return rta; //Retorna el tipo de vuelo elegido o null si no existe un vuelo con ese origen y destino
     }
 
+    public void cancelarVuelo(){
+        imprimirListaDeVuelosUser(usuario);
+        System.out.println("Ingrese el numero de vuelo a cancelar: ");
+        int cancelar=scan.nextInt();
+        usuario.cancelarVuelo(cancelar); //y los acompañantes??
+        aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(cancelar)).quitarPasajeros(1);
+    }
     public void imprimirOpcMenuPrincipal() {
         System.out.println("************* MENU USUARIO *************");
         System.out.println("1. Contratar vuelo");
@@ -165,6 +172,12 @@ public class Menu {
         System.out.println("1. Contratar vuelo por origen/destino");
         System.out.println("2. Contratar vuelo por fecha");
         System.out.println("0. Salir");
+    }
+
+    public void imprimirListaDeVuelosUser(Usuario usuario){
+        for(Vuelo v:usuario.getVuelos()){
+            System.out.println(v.getNumeroDeVuelo()+ " - "+ v.toString());
+        }
     }
 
     public void imprimirCiudades(boolean origen) {
@@ -201,10 +214,6 @@ public class Menu {
         return ciudad;
     }
 
-    public void verListaDeVuelosUser(Usuario usuario){
-        for(Vuelo v:usuario.getVuelos()){
-            System.out.println(v.toString());
-        }
-    }
+
 
 }

@@ -70,6 +70,17 @@ public class Usuario {
 
     public void agregarVuelo(Vuelo vuelo) {
         this.vuelos.add(vuelo);
+    }   public void cancelarVuelo(int index) {
+        int i=getIndexVuelo(index);
+        this.vuelos.remove(i);
     }
 
+    public int getIndexVuelo(int numVuelo){
+        int index=-1;
+        for (Vuelo vuelo:this.vuelos){
+            System.out.println("numvuelo= " +vuelo.getNumeroDeVuelo());
+            if(vuelo.getNumeroDeVuelo()==numVuelo)
+                index=this.vuelos.indexOf(vuelo);
+        }return index;
+    }
 }

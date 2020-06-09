@@ -87,11 +87,12 @@ public class Aerotaxi {
     }
 
     public int getIndexVuelo(int numVuelo){
-        int index=-1;
+        int index=0;
         for (Vuelo vuelo:this.vuelos){
             if(vuelo.getNumeroDeVuelo()==numVuelo)
-                index=vuelos.indexOf(vuelo);
+                index=this.getVuelos().indexOf(vuelo);
         }return index;
     }
+
 
 }

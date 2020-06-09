@@ -55,6 +55,8 @@ public class Vuelo {
     }
     public void agregarPasajeros(int cant){
         this.cantPasajeros+=cant;
+    }    public void quitarPasajeros(int cant){
+        this.cantPasajeros-=cant;
     }
     public double costoTotal() {
         return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.getTarifa());
