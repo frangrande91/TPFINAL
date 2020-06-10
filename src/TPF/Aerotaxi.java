@@ -2,19 +2,21 @@ package TPF;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Aerotaxi {
     private List <Avion> flota;
-    private List <Usuario> clientes;
+    private Set<Usuario> clientes;
     private List <Vuelo> vuelos;
 
     public Aerotaxi (){
         this.flota=new ArrayList<Avion>();
-        this.clientes=new ArrayList<Usuario>();
+        this.clientes=new HashSet<Usuario>();
         this.vuelos=new ArrayList<Vuelo>();
     }
-    public Aerotaxi (List<Avion> flota, List<Usuario>clientes, List<Vuelo>vuelos){
+    public Aerotaxi (List<Avion> flota, Set<Usuario>clientes, List<Vuelo>vuelos){
         this.flota=flota;
         this.clientes=clientes;
         this.vuelos=vuelos;
@@ -23,23 +25,17 @@ public class Aerotaxi {
     public List<Avion> getFlota() {
         return flota;
     }
+    public List<Vuelo> getVuelos() {return vuelos; }
+    public Set<Usuario> getClientes() {
+        return clientes;
+    }
 
     public void setFlota(List<Avion> flota) {
         this.flota = flota;
     }
-
-    public List<Usuario> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<Usuario> clientes) {
+    public void setClientes(Set<Usuario> clientes) {
         this.clientes = clientes;
     }
-
-    public List<Vuelo> getVuelos() {
-        return vuelos;
-    }
-
     public void setVuelos(List<Vuelo> vuelos) {
         this.vuelos = vuelos;
     }
@@ -65,17 +61,27 @@ public class Aerotaxi {
         return buscado; //Retorna el usuario si existe o null si no existe
     }
 
-    public void listarAvionesPorFecha(LocalDate fechaElegida){
+    public boolean isPasajero(Set<Usuario> pasajerosDelVuelo, String dni){
+        boolean rta = false;
+        for(Usuario aux : pasajerosDelVuelo){
+            if(dni.equals(aux.getDni()))
+                rta = true;
+        }
+        return rta; //Retorna true si el usuario ya está registrado en el vuelo y false si no lo está
+    }
+
+
+    public void listarAvionesPorFecha(LocalDate fechaElegida,int cantAcomp){
         for(Vuelo vuelo : this.vuelos){
             if(vuelo.getFechaVuelo().equals(fechaElegida))
-                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName()+" - ["+vuelo.getTipoVuelo().getOrigen()+"-"+vuelo.getTipoVuelo().getDestino()+"] - AsientosDisponibles: "+(vuelo.getAvion().getCapacidadMaxPasajeros()-vuelo.getCantPasajeros())+" - Costo: $"+vuelo.getAvion().getTarifa());
+                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName()+" - ["+vuelo.getTipoVuelo().getOrigen()+"-"+vuelo.getTipoVuelo().getDestino()+"] - AsientosDisponibles: "+(vuelo.getAvion().getCapacidadMaxPasajeros()-vuelo.getCantPasajeros())+" - Costo: $"+vuelo.costoTotal(cantAcomp));
         }
     }
 
-    public void listarAvionesPorRecorrido(TipoVuelo tv){
+    public void listarAvionesPorRecorrido(TipoVuelo tv, int cantAcomp){
         for(Vuelo vuelo : this.vuelos){
             if(vuelo.getTipoVuelo().getOrigen().equals(tv.getOrigen()) && vuelo.getTipoVuelo().getDestino().equals(tv.getDestino()))
-                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName()+" - Fecha salida: "+vuelo.getFechaVuelo() +" - AsientosDisponibles: "+(vuelo.getAvion().getCapacidadMaxPasajeros()-vuelo.getCantPasajeros())+" - Costo: $"+vuelo.getAvion().getTarifa());
+                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName()+" - Fecha salida: "+vuelo.getFechaVuelo() +" - Asientos disponibles: "+(vuelo.getAvion().getCapacidadMaxPasajeros()-vuelo.getCantPasajeros())+" - Costo total: $"+vuelo.costoTotal(cantAcomp));
         }
     }
 
@@ -84,6 +90,21 @@ public class Aerotaxi {
             if((vuelo.getFechaVuelo().equals(fecha)) && (vuelo.getTipoVuelo().equals(tipo)) && (vuelo.getAvion().equals(avion)))
                 System.out.println(vuelo.toString());    //Muestro todos los vuelos de esa fecha, con ese origen y destino y ese avion
         }
+    }
+
+    public void listarVuelosUser (Usuario usuario){
+        System.out.println("************** Vuelos del usuario ***************");
+        if(usuario.getVuelos().size() == 0){
+            System.out.println("El usuario no tiene vuelos contratados");
+        }
+        for(Vuelo v:usuario.getVuelos()){
+            System.out.println(v.getNumeroDeVuelo()+ " - "+ v.toString());
+        }
+    }
+
+    public void listarClientes(){
+        for(Usuario user : clientes)
+            System.out.println(user.toString());
     }
 
     public int getIndexVuelo(int numVuelo){

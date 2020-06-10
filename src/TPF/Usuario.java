@@ -27,50 +27,22 @@ public class Usuario {
         this.vuelos = new ArrayList<Vuelo>();
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-
-    public List<Vuelo> getVuelos() {
-        return vuelos;
-    }
-
-    public void setVuelos(List<Vuelo> vuelos) {
-        this.vuelos = vuelos;
-    }
+    public String getNombre() {return nombre;}
+    public void setNombre(String nombre) {this.nombre = nombre;}
+    public String getApellido() {return apellido;}
+    public void setApellido(String apellido) {this.apellido = apellido;}
+    public String getDni() {return dni;}
+    public void setDni(String dni) {this.dni = dni;}
+    public int getEdad() {return edad;}
+    public void setEdad(int edad) {this.edad = edad;}
+    public List<Vuelo> getVuelos() {return vuelos;}
+    public void setVuelos(List<Vuelo> vuelos) {this.vuelos = vuelos;}
 
     public void agregarVuelo(Vuelo vuelo) {
         this.vuelos.add(vuelo);
-    }   public void cancelarVuelo(int index) {
+    }
+
+    public void darDeBajaVuelo(int index) {
         int i=getIndexVuelo(index);
         this.vuelos.remove(i);
     }
@@ -82,5 +54,15 @@ public class Usuario {
             if(vuelo.getNumeroDeVuelo()==numVuelo)
                 index=this.vuelos.indexOf(vuelo);
         }return index;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "Nombre: "+ nombre +
+                ", Apellido: " + apellido +
+                ", DNI: " + dni +
+                ", Edad: " + edad +
+                '}';
     }
 }
