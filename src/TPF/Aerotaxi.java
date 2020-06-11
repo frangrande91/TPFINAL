@@ -78,18 +78,26 @@ public class Aerotaxi {
     }
 
 
-    public void listarAvionesPorFecha(LocalDate fechaElegida, int cantAcomp) {
+    public int listarAvionesPorFecha(LocalDate fechaElegida, int cantAcomp) {
+        int cant = 0;
         for (Vuelo vuelo : this.vuelos) {
-            if (vuelo.getFechaVuelo().equals(fechaElegida))
+            if (vuelo.getFechaVuelo().equals(fechaElegida)) {
                 System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - [" + vuelo.getTipoVuelo().getOrigen() + "-" + vuelo.getTipoVuelo().getDestino() + "] - AsientosDisponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) + " - Costo: $" + vuelo.costoTotal(cantAcomp));
+                cant++;
+            }
         }
+        return cant;
     }
 
-    public void listarAvionesPorRecorrido(TipoVuelo tv, int cantAcomp) {
+    public int listarAvionesPorRecorrido(TipoVuelo tv, int cantAcomp) {
+        int cant = 0;
         for (Vuelo vuelo : this.vuelos) {
-            if (vuelo.getTipoVuelo().getOrigen().equals(tv.getOrigen()) && vuelo.getTipoVuelo().getDestino().equals(tv.getDestino()))
+            if (vuelo.getTipoVuelo().getOrigen().equals(tv.getOrigen()) && vuelo.getTipoVuelo().getDestino().equals(tv.getDestino())) {
                 System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - Fecha salida: " + vuelo.getFechaVuelo() + " - Asientos disponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) + " - Costo total: $" + vuelo.costoTotal(cantAcomp));
+                cant++;
+            }
         }
+        return cant;
     }
 
     public void listarVuelosPorDatos(LocalDate fecha, TipoVuelo tipo, Avion avion) {
@@ -124,5 +132,17 @@ public class Aerotaxi {
         return index;
     }
 
+    public boolean existenVuelos(TipoVuelo tipo, int cantPasajeros){
+        for(Vuelo v: this.vuelos){
+            if(v.getTipoVuelo().equals(tipo) && (cantPasajeros <= v.getAvion().getCapacidadMaxPasajeros()-v.getCantPasajeros()))
+                return true;
+        }return false;
+    }
+    public boolean existenVuelos(LocalDate fecha, int cantPasajeros){
+        for(Vuelo v: this.vuelos){
+            if(v.getFechaVuelo().equals(fecha) && (cantPasajeros <= v.getAvion().getCapacidadMaxPasajeros()-v.getCantPasajeros()))
+                return true;
+        }return false;
+    }
 
 }
