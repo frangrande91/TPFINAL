@@ -22,7 +22,7 @@ public class Menu {
         int op = 0;
 
         clearScreen();
-        autoGenerarVuelos(aerotaxi);
+        //  autoGenerarVuelos(aerotaxi);
         do {
             ingresoRegistro();
             while (true) {
@@ -52,6 +52,12 @@ public class Menu {
                                 c = scan.nextLine();
                             } while (!c.equals("c"));
                             clearScreen();
+                            break;
+                        case 4:
+                            aerotaxi.listarVuelosDisponibles(scan);
+                            break;
+                        case 5:
+                            aerotaxi.listarFlota(scan);
                             break;
                         case 0:
                             clearScreen();
@@ -318,9 +324,11 @@ public class Menu {
 
 
     public void imprimirOpcMenuPrincipal() {
-        System.out.println("1. Contratar vuelo");
+        System.out.println("\n1. Contratar vuelo");
         System.out.println("2. Cancelar vuelo");
         System.out.println("3. Ver mi lista de vuelos");
+        System.out.println("4. Listar vuelos disponibles de AEROTAXI");
+        System.out.println("5. Listar aviones disponibles de AEROTAXI");
         System.out.println("0. Salir");
         System.out.println("\nElija una opción:");
     }
@@ -369,24 +377,6 @@ public class Menu {
             System.out.println("\b");
     }
 
-    public static void autoGenerarVuelos(Aerotaxi aero) {      //vuelos q ya pasaron se renuevan una semana mas tarde
-        List<Vuelo> aux = new ArrayList<Vuelo>();
-
-        for (Vuelo v : aero.getVuelos()) {
-            if (v.getFechaVuelo().isBefore(LocalDate.now())) {   //si hay vuelos vencidos...
-                LocalDate vieja=v.getFechaVuelo();
-                LocalDate nueva=LocalDate.now();
-                Period diferencia=Period.between(vieja,nueva); //calcular diferencia entre fecha original y fecha actual
-                int dif=diferencia.getDays()+ diferencia.getMonths()*30+diferencia.getYears()*365; //pasar la dif a dias
-                Vuelo nuevo = new Vuelo(v.getNumeroDeVuelo(),v.getFechaVuelo().plusDays(dif+7), v.getTipoVuelo(), v.getAvion());
-                aux.add(nuevo);                                      //agregar a lista aux con 7 dias mas
-                aero.getVuelos().remove(aero.getIndexVuelo(v.getNumeroDeVuelo())); //quitar vuelos vencidos
-            }
-        }
-        for (Vuelo ve : aux) {
-            aero.addVuelo(ve); //copio vuelos actualizados a aerotaxi
-        }
-    }
 
 }
 

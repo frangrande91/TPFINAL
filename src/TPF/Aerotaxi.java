@@ -1,10 +1,7 @@
 package TPF;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Aerotaxi {
     private List<Avion> flota;
@@ -129,6 +126,42 @@ public class Aerotaxi {
     public void listarClientes() {
         for (Usuario user : clientes)
             System.out.println(user.toString());
+    }
+
+    public void listarVuelosDisponibles(Scanner scan){
+        int i=0;
+        for (Vuelo v : this.getVuelos()) {
+            boolean wifi = false;
+            if(v.getAvion().getClass().getSimpleName().equals("Gold")) {
+                Gold aux=new Gold ((Gold)v.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
+                wifi=aux.isWifi();
+            }
+            System.out.println(v.getNumeroDeVuelo() + " - Avion " + v.getAvion().getClass().getSimpleName() + " [" + v.getTipoVuelo().getOrigen() + "-" + v.getTipoVuelo().getDestino() + "] - Fecha salida: " + v.getFechaVuelo() + " - Catering: " + v.getAvion().isCatering() + " - Wifi: " + wifi);
+            i++;
+            if(i%5==0) {
+                String c;
+                System.out.println("Presione 'c' para continuar");
+                do {
+                    c = scan.nextLine();
+                } while (!c.equals("c"));
+            }
+        }
+    }
+
+    public void listarFlota(Scanner scan){
+        int i=0;
+        Iterator <Avion> it=this.getFlota().iterator();
+        while(it.hasNext()) {
+            System.out.println(i+" - "+it.next());
+            i++;
+            if(i%5==0) {
+                String c;
+                System.out.println("Presione 'c' para continuar");
+                do {
+                    c = scan.nextLine();
+                } while (!c.equals("c"));
+            }
+        }
     }
 
     public int getIndexVuelo(int numVuelo) {    //con el numero de vuelo obtengo el indice del arreglo

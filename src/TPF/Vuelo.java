@@ -38,7 +38,9 @@ public class Vuelo {
         return numeroDeVuelo;
     }
     public Set<Usuario> getPasajeros() { return pasajeros; }
-
+    public void setTipoVuelo(TipoVuelo tipoVuelo) {
+        this.tipoVuelo = tipoVuelo;
+    }
     public void setAvion(Avion avion) {
         this.avion = avion;
     }
