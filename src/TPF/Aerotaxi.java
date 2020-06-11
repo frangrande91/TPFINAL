@@ -78,26 +78,29 @@ public class Aerotaxi {
     }
 
 
-    public int listarAvionesPorFecha(LocalDate fechaElegida, int cantAcomp) {
-        int cant = 0;
+    public void listarAvionesPorFecha(LocalDate fechaElegida, int cantAcomp) {
         for (Vuelo vuelo : this.vuelos) {
             if (vuelo.getFechaVuelo().equals(fechaElegida)) {
-                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - [" + vuelo.getTipoVuelo().getOrigen() + "-" + vuelo.getTipoVuelo().getDestino() + "] - AsientosDisponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) + " - Costo: $" + vuelo.costoTotal(cantAcomp));
-                cant++;
+                boolean wifi = false;
+                if(vuelo.getAvion().getClass().getSimpleName().equals("Gold")) {
+                    Gold aux=new Gold ((Gold)vuelo.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
+                    wifi=aux.isWifi();
+                }
+                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - [" + vuelo.getTipoVuelo().getOrigen() + "-" + vuelo.getTipoVuelo().getDestino() + "] - AsientosDisponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) +" - Catering: "+vuelo.getAvion().isCatering()+" - Wifi: "+wifi+ " - Costo: $" + vuelo.costoTotal(cantAcomp));
             }
         }
-        return cant;
     }
 
-    public int listarAvionesPorRecorrido(TipoVuelo tv, int cantAcomp) {
-        int cant = 0;
+    public void listarAvionesPorRecorrido(TipoVuelo tv, int cantAcomp) {
         for (Vuelo vuelo : this.vuelos) {
             if (vuelo.getTipoVuelo().getOrigen().equals(tv.getOrigen()) && vuelo.getTipoVuelo().getDestino().equals(tv.getDestino())) {
-                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - Fecha salida: " + vuelo.getFechaVuelo() + " - Asientos disponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) + " - Costo total: $" + vuelo.costoTotal(cantAcomp));
-                cant++;
+                boolean wifi = false;
+                if(vuelo.getAvion().getClass().getSimpleName().equals("Gold")) {
+                    Gold aux=new Gold ((Gold)vuelo.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
+                    wifi=aux.isWifi();
+                }System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - Fecha salida: " + vuelo.getFechaVuelo() + " - Asientos disponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) +" - Catering: "+vuelo.getAvion().isCatering()+" - Wifi: "+wifi+ " - Costo total: $" + vuelo.costoTotal(cantAcomp));
             }
         }
-        return cant;
     }
 
     public void listarVuelosPorDatos(LocalDate fecha, TipoVuelo tipo, Avion avion) {
@@ -113,7 +116,12 @@ public class Aerotaxi {
             System.out.println("El usuario no tiene vuelos contratados");
         } else {
             for (Vuelo v : usuario.getVuelos()) {
-                System.out.println(v.getNumeroDeVuelo() + " - " + v.toString());
+                boolean wifi = false;
+                if(v.getAvion().getClass().getSimpleName().equals("Gold")) {
+                    Gold aux=new Gold ((Gold)v.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
+                    wifi=aux.isWifi();
+                }
+                System.out.println(v.getNumeroDeVuelo() + " - Avion " + v.getAvion().getClass().getSimpleName() + " [" + v.getTipoVuelo().getOrigen() + "-" + v.getTipoVuelo().getDestino() + "] - Fecha salida: " + v.getFechaVuelo() + " - Catering: " + v.getAvion().isCatering() + " - Wifi: " + wifi);
             }
         }
     }
@@ -132,17 +140,20 @@ public class Aerotaxi {
         return index;
     }
 
-    public boolean existenVuelos(TipoVuelo tipo, int cantPasajeros){
-        for(Vuelo v: this.vuelos){
-            if(v.getTipoVuelo().equals(tipo) && (cantPasajeros <= v.getAvion().getCapacidadMaxPasajeros()-v.getCantPasajeros()))
+    public boolean existenVuelos(TipoVuelo tipo, int cantPasajeros) {
+        for (Vuelo v : this.vuelos) {
+            if (v.getTipoVuelo().equals(tipo) && (cantPasajeros <= v.getAvion().getCapacidadMaxPasajeros() - v.getCantPasajeros()))
                 return true;
-        }return false;
+        }
+        return false;
     }
-    public boolean existenVuelos(LocalDate fecha, int cantPasajeros){
-        for(Vuelo v: this.vuelos){
-            if(v.getFechaVuelo().equals(fecha) && (cantPasajeros <= v.getAvion().getCapacidadMaxPasajeros()-v.getCantPasajeros()))
+
+    public boolean existenVuelos(LocalDate fecha, int cantPasajeros) {
+        for (Vuelo v : this.vuelos) {
+            if (v.getFechaVuelo().equals(fecha) && (cantPasajeros <= v.getAvion().getCapacidadMaxPasajeros() - v.getCantPasajeros()))
                 return true;
-        }return false;
+        }
+        return false;
     }
 
 }

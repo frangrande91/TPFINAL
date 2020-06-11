@@ -53,8 +53,10 @@ public class Vuelo {
 
     public void quitarPasajero(int dni){
         for(Usuario user : pasajeros){
-            if(dni == user.getDni())
-                pasajeros.remove(user);
+            if(dni == user.getDni()) {
+                this.pasajeros.remove(user);
+                this.cantPasajeros--;
+            }
         }
     }
 
