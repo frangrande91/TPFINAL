@@ -51,9 +51,9 @@ public class Vuelo {
         this.cantPasajeros++;
     }
 
-    public void quitarPasajero(String dni){
+    public void quitarPasajero(int dni){
         for(Usuario user : pasajeros){
-            if(dni.equals(user.getDni()))
+            if(dni == user.getDni())
                 pasajeros.remove(user);
         }
     }
