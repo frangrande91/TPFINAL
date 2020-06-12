@@ -38,7 +38,9 @@ public class Vuelo {
         return numeroDeVuelo;
     }
     public Set<Usuario> getPasajeros() { return pasajeros; }
-
+    public void setTipoVuelo(TipoVuelo tipoVuelo) {
+        this.tipoVuelo = tipoVuelo;
+    }
     public void setAvion(Avion avion) {
         this.avion = avion;
     }
@@ -51,10 +53,12 @@ public class Vuelo {
         this.cantPasajeros++;
     }
 
-    public void quitarPasajero(String dni){
+    public void quitarPasajero(int dni){
         for(Usuario user : pasajeros){
-            if(dni.equals(user.getDni()))
-                pasajeros.remove(user);
+            if(dni == user.getDni()) {
+                this.pasajeros.remove(user);
+                this.cantPasajeros--;
+            }
         }
     }
 

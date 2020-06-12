@@ -7,6 +7,10 @@ public class Gold extends Avion {
         super(combustible, costo, pasajeros, velMax, propulsion, catering);
         this.wifi = wifi;
     }
+    public Gold(Gold clon){ //clonar avion
+        super(clon.capacidadCombustible,clon.costoPorKm,clon.capacidadMaxPasajeros,clon.velocidadMax,clon.propulsion,clon.catering);
+        this.wifi=clon.wifi;
+    }
 
     public boolean isWifi() {
         return wifi;
