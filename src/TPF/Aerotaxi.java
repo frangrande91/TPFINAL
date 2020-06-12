@@ -79,23 +79,25 @@ public class Aerotaxi {
         for (Vuelo vuelo : this.vuelos) {
             if (vuelo.getFechaVuelo().equals(fechaElegida)) {
                 boolean wifi = false;
-                if(vuelo.getAvion().getClass().getSimpleName().equals("Gold")) {
-                    Gold aux=new Gold ((Gold)vuelo.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
-                    wifi=aux.isWifi();
+                if (vuelo.getAvion().getClass().getSimpleName().equals("Gold")) {
+                    Gold aux = new Gold((Gold) vuelo.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
+                    wifi = aux.isWifi();
                 }
-                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - [" + vuelo.getTipoVuelo().getOrigen() + "-" + vuelo.getTipoVuelo().getDestino() + "] - AsientosDisponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) +" - Catering: "+vuelo.getAvion().isCatering()+" - Wifi: "+wifi+ " - Costo: $" + vuelo.costoTotal(cantAcomp));
+                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - [" + vuelo.getTipoVuelo().getOrigen() + "-" + vuelo.getTipoVuelo().getDestino() + "] - AsientosDisponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) + " - Catering: " + vuelo.getAvion().isCatering() + " - Wifi: " + wifi + " - Costo: $" + vuelo.costoTotal(cantAcomp));
             }
         }
     }
 
     public void listarAvionesPorRecorrido(TipoVuelo tv, int cantAcomp) {
+        System.out.println("VUELOS "+tv.getOrigen()+"-"+ tv.getDestino());
         for (Vuelo vuelo : this.vuelos) {
             if (vuelo.getTipoVuelo().getOrigen().equals(tv.getOrigen()) && vuelo.getTipoVuelo().getDestino().equals(tv.getDestino())) {
                 boolean wifi = false;
-                if(vuelo.getAvion().getClass().getSimpleName().equals("Gold")) {
-                    Gold aux=new Gold ((Gold)vuelo.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
-                    wifi=aux.isWifi();
-                }System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - Fecha salida: " + vuelo.getFechaVuelo() + " - Asientos disponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) +" - Catering: "+vuelo.getAvion().isCatering()+" - Wifi: "+wifi+ " - Costo total: $" + vuelo.costoTotal(cantAcomp));
+                if (vuelo.getAvion().getClass().getSimpleName().equals("Gold")) {
+                    Gold aux = new Gold((Gold) vuelo.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
+                    wifi = aux.isWifi();
+                }
+                System.out.println(vuelo.getNumeroDeVuelo() + " - Avion " + vuelo.getAvion().getClass().getSimpleName() + " - Fecha salida: " + vuelo.getFechaVuelo() + " - Asientos disponibles: " + (vuelo.getAvion().getCapacidadMaxPasajeros() - vuelo.getCantPasajeros()) + " - Catering: " + vuelo.getAvion().isCatering() + " - Wifi: " + wifi + " - Costo total: $" + vuelo.costoTotal(cantAcomp));
             }
         }
     }
@@ -108,17 +110,17 @@ public class Aerotaxi {
     }
 
     public void listarVuelosUser(Usuario usuario) {
-        System.out.println("************** Vuelos del usuario ***************");
+        System.out.println("\n************** Vuelos de "+usuario.getNombre()+" "+usuario.getApellido()+ " ***************\n");
         if (usuario.getVuelos().size() == 0) {
             System.out.println("El usuario no tiene vuelos contratados");
         } else {
             for (Vuelo v : usuario.getVuelos()) {
                 boolean wifi = false;
-                if(v.getAvion().getClass().getSimpleName().equals("Gold")) {
-                    Gold aux=new Gold ((Gold)v.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
-                    wifi=aux.isWifi();
+                if (v.getAvion().getClass().getSimpleName().equals("Gold")) {
+                    Gold aux = new Gold((Gold) v.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
+                    wifi = aux.isWifi();
                 }
-                System.out.println(v.getNumeroDeVuelo() + " - Avion " + v.getAvion().getClass().getSimpleName() + " [" + v.getTipoVuelo().getOrigen() + "-" + v.getTipoVuelo().getDestino() + "] - Fecha salida: " + v.getFechaVuelo() + " - Catering: " + v.getAvion().isCatering() + " - Wifi: " + wifi);
+                System.out.println("N° "+v.getNumeroDeVuelo() + " - Avion " + v.getAvion().getClass().getSimpleName() + " [" + v.getTipoVuelo().getOrigen() + "-" + v.getTipoVuelo().getDestino() + "] - Fecha salida: " + v.getFechaVuelo() + " - Catering: " + v.getAvion().isCatering() + " - Wifi: " + wifi);
             }
         }
     }
@@ -128,17 +130,18 @@ public class Aerotaxi {
             System.out.println(user.toString());
     }
 
-    public void listarVuelosDisponibles(Scanner scan){
-        int i=0;
+    public void listarVuelosDisponibles(Scanner scan) {
+        int i = 0;
+        System.out.println("VUELOS DISPONIBLES AEROTAXI\n");
         for (Vuelo v : this.getVuelos()) {
             boolean wifi = false;
-            if(v.getAvion().getClass().getSimpleName().equals("Gold")) {
-                Gold aux=new Gold ((Gold)v.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
-                wifi=aux.isWifi();
+            if (v.getAvion().getClass().getSimpleName().equals("Gold")) {
+                Gold aux = new Gold((Gold) v.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
+                wifi = aux.isWifi();
             }
-            System.out.println(v.getNumeroDeVuelo() + " - Avion " + v.getAvion().getClass().getSimpleName() + " [" + v.getTipoVuelo().getOrigen() + "-" + v.getTipoVuelo().getDestino() + "] - Fecha salida: " + v.getFechaVuelo() + " - Catering: " + v.getAvion().isCatering() + " - Wifi: " + wifi);
+            System.out.println(v.getNumeroDeVuelo() + " - Avion " + v.getAvion().getClass().getSimpleName() + " [" + v.getTipoVuelo().getOrigen() + "-" + v.getTipoVuelo().getDestino() + "] - Fecha salida: " + v.getFechaVuelo() + " - Asientos disponibles: "+(v.getAvion().getCapacidadMaxPasajeros()-v.getCantPasajeros())+ " - Catering: " + v.getAvion().isCatering() + " - Wifi: " + wifi );
             i++;
-            if(i%5==0) {
+            if (i % 5 == 0) {
                 String c;
                 System.out.println("Presione 'c' para continuar");
                 do {
@@ -148,13 +151,14 @@ public class Aerotaxi {
         }
     }
 
-    public void listarFlota(Scanner scan){
-        int i=0;
-        Iterator <Avion> it=this.getFlota().iterator();
-        while(it.hasNext()) {
-            System.out.println(i+" - "+it.next());
+    public void listarFlota(Scanner scan) {
+        int i = 0;
+        Iterator<Avion> it = this.getFlota().iterator();
+        System.out.println("FLOTA AEROTAXI\n");
+        while (it.hasNext()) {
+            System.out.println(i+1 + " - " + it.next());
             i++;
-            if(i%5==0) {
+            if (i % 5 == 0) {
                 String c;
                 System.out.println("Presione 'c' para continuar");
                 do {

@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Menu {
     Scanner scan;
     Aerotaxi aerotaxi;
@@ -21,13 +22,13 @@ public class Menu {
     public void menuPrincipal() {
         int op = 0;
 
-        clearScreen();
-        //  autoGenerarVuelos(aerotaxi);
         do {
+            clearScreen();
             ingresoRegistro();
             while (true) {
                 clearScreen();
-                System.out.println("**************** Bienvenido a AEROTAXI " + usuario.getNombre() + " " + usuario.getApellido() + " ****************");
+                imprimirTitulo();
+                System.out.println("\n**************** Bienvenido a AEROTAXI " + usuario.getNombre() + " " + usuario.getApellido() + " ****************");
                 imprimirOpcMenuPrincipal();
                 try {
                     op = scan.nextInt();
@@ -41,10 +42,13 @@ public class Menu {
                             break;
                         case 2:
                             clearScreen();
+                            imprimirTitulo();
+                            System.out.println("\n");
                             cancelarVuelo(usuario.getDni());
                             break;
                         case 3:
                             clearScreen();
+                            imprimirTitulo();
                             aerotaxi.listarVuelosUser(usuario);
                             System.out.println("Presione 'c' para continuar..");
                             String c;
@@ -54,9 +58,15 @@ public class Menu {
                             clearScreen();
                             break;
                         case 4:
+                            clearScreen();
+                            imprimirTitulo();
+                            System.out.println("\n");
                             aerotaxi.listarVuelosDisponibles(scan);
                             break;
                         case 5:
+                            clearScreen();
+                            imprimirTitulo();
+                            System.out.println("\n");
                             aerotaxi.listarFlota(scan);
                             break;
                         case 0:
@@ -83,22 +93,23 @@ public class Menu {
 
     public void ingresoRegistro() {      // ingresar o registrarse para acceder al menu
         int dni = -1;
-        System.out.println("********************* AEROTAXI *********************\n");
+        imprimirTitulo();
         while (usuario == null) {
-            System.out.println("Ingrese su DNI:");
+            System.out.println("\nBIENVENIDO A AEROTAXI");
+            System.out.println("\nPor favor, ingrese su DNI:");
             try {
                 dni = scan.nextInt();
                 usuario = this.aerotaxi.buscarUsuario(dni);
                 if (usuario == null) {
                     clearScreen();
-                    System.out.println("********************* AEROTAXI *********************\n");
-                    System.out.println("Usuario no registrado. Registrese:");
+                    imprimirTitulo();
+                    System.out.println("\nUsuario no registrado. Registrese:");
                     usuario = registrarUsuario();
                 }
             } catch (InputMismatchException e) {
                 clearScreen();
-                System.out.println("********************* AEROTAXI *********************\n");
-                System.out.println("Ingrese un numero valido");
+                imprimirTitulo();
+                System.out.println("\nIngrese un numero valido");
                 scan.nextLine(); //limpiar buffer
             }
         }
@@ -118,17 +129,22 @@ public class Menu {
                 tipoElegido = seleccionarTipoVuelo();  //Elige origen y destino
                 if (tipoElegido != null) {
                     clearScreen();
-                    System.out.println("Vuelos " + tipoElegido.getOrigen() + " - " + tipoElegido.getDestino());
-                    System.out.println("Cantidad de acompañantes:");
+                    imprimirTitulo();
+                    System.out.println("\nVuelos " + tipoElegido.getOrigen() + " - " + tipoElegido.getDestino());
+                    System.out.println("\nIngrese la cantidad de acompañantes:");
                     cantAcompañantes = scan.nextInt();
                     if (aerotaxi.existenVuelos(tipoElegido, cantAcompañantes + 1)) { //validar q existan vuelos con esas caract
                         if (cantAcompañantes != 0) {
                             clearScreen();
-                            System.out.println("Ingrese los datos de sus acompañantes: ");
+                            imprimirTitulo();
+                            System.out.println("\nIngrese los datos de sus acompañantes: ");
                             acompañantesDelUsuario = registrarAcompañantes(cantAcompañantes);
                         }
+                        clearScreen();
+                        imprimirTitulo();
+                        System.out.println("\n");
                         aerotaxi.listarAvionesPorRecorrido(tipoElegido, cantAcompañantes + 1);
-                        System.out.println("Seleccione el numero de vuelo:");
+                        System.out.println("\nSeleccione el numero de vuelo:");
                         numVuelo = scan.nextInt();
                     } else {
                         System.out.println("No hay vuelos para esa ruta");
@@ -151,6 +167,9 @@ public class Menu {
                             System.out.println("Ingrese los datos de sus acompañantes: ");
                             acompañantesDelUsuario = registrarAcompañantes(cantAcompañantes);
                         }
+                        clearScreen();
+                        imprimirTitulo();
+                        System.out.println("\n");
                         aerotaxi.listarAvionesPorFecha(fechaBuscada, cantAcompañantes + 1);
                         System.out.println("Seleccione el numero de vuelo:");
                         numVuelo = scan.nextInt();
@@ -201,8 +220,9 @@ public class Menu {
     public LocalDate datosFechaDelVuelo() {
         LocalDate elegida = null;
         LocalDate fechaActual = LocalDate.now();
-        System.out.println("FECHA ACTUAL: " + fechaActual);
-        System.out.println("Ingrese los datos de la fecha en la cual desea realizar el vuelo: ");
+        imprimirTitulo();
+        System.out.println("\nFECHA ACTUAL: " + fechaActual);
+        System.out.println("\nIngrese los datos de la fecha en la cual desea realizar el vuelo: ");
         System.out.println("Año: ");
         int año = scan.nextInt();
         if (año > 2019 && año < 2100) {
@@ -240,7 +260,8 @@ public class Menu {
         int destinoElegido = 0;
 
         do {
-            System.out.println("************* ORIGEN *************");
+            imprimirTitulo();
+            System.out.println("\n************* ORIGEN *************\n");
             imprimirCiudades();
             origenElegido = scan.nextInt();
             if (origenElegido < 1 || origenElegido > 4) {
@@ -250,7 +271,8 @@ public class Menu {
         } while (origenElegido < 1 || origenElegido > 4);
         do {
             clearScreen();
-            System.out.println("************* DESTINO *************");
+            imprimirTitulo();
+            System.out.println("\n************* DESTINO *************\n");
             imprimirCiudades();
             destinoElegido = scan.nextInt();
             if (destinoElegido < 1 || destinoElegido > 4) {
@@ -277,8 +299,8 @@ public class Menu {
             System.out.println("\n-- No se cancelaran los pasajes de sus acompañantes --");
             System.out.println("Ingrese el numero de vuelo a cancelar: ");
             int cancelar = scan.nextInt();
-            if ((aerotaxi.getIndexVuelo(cancelar) <= usuario.getVuelos().size()) && (aerotaxi.getIndexVuelo(cancelar) >= 0)) {  //Valido que el numero elegido coincida con un vuelo
-                usuario.darDeBajaVuelo(cancelar);           //Se elimina el vuelo de la lista de vuelos del pasajero
+            if ((usuario.getIndexVuelo(cancelar) <= usuario.getVuelos().size()) && (aerotaxi.getIndexVuelo(cancelar) >= 0)) {  //Valido que el numero elegido coincida con un vuelo
+                usuario.darDeBajaVuelo(cancelar);          //Se elimina el vuelo de la lista de vuelos del pasajero
                 aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(cancelar)).quitarPasajero(dni); //Se quita el pasajero de la lista de pasajeros del vuelo
             }
         } else {
@@ -334,7 +356,8 @@ public class Menu {
     }
 
     public void imprimirOpcMenuContratar() {
-        System.out.println("************* MENU USUARIO *************");
+        imprimirTitulo();
+        System.out.println("\n************* MENU USUARIO *************\n");
         System.out.println("1. Contratar vuelo por origen/destino");
         System.out.println("2. Contratar vuelo por fecha");
         System.out.println("0. Volver al menu anterior");
@@ -349,6 +372,16 @@ public class Menu {
 
         System.out.println("\nIngrese una opcion: ");
     }
+
+    public void imprimirTitulo() {
+        System.out.println("      _       ________  _______      ___    _________     _       ____  ____  _____  ");
+        System.out.println("     / \\     |_   __  ||_   __ \\   .'   `. |  _   _  |   / \\     |_  _||_  _||_   _| ");
+        System.out.println("    / _ \\      | |_ \\_|  | |__) | /  .-.  \\|_/ | | \\_|  / _ \\      \\ \\  / /    | |   ");
+        System.out.println("   / ___ \\     |  _| _   |  __ /  | |   | |    | |     / ___ \\      > `' <     | |   ");
+        System.out.println(" _/ /   \\ \\_  _| |__/ | _| |  \\ \\_\\  `-'  /   _| |_  _/ /   \\ \\_  _/ /'`\\ \\_  _| |_  ");
+        System.out.println("|____| |____||________||____| |___|`.___.'   |_____||____| |____||____||____||_____| ");
+    }
+
 
     public String elegirCiudad(int elegido) {
         String ciudad = "";
@@ -376,9 +409,6 @@ public class Menu {
         for (int i = 0; i < 80 * 300; i++)
             System.out.println("\b");
     }
-
-
 }
-
 
 

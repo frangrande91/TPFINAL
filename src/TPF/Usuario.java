@@ -42,17 +42,19 @@ public class Usuario {
         this.vuelos.add(vuelo);
     }
 
-    public void darDeBajaVuelo(int index) {
-        int i=getIndexVuelo(index);
-        this.vuelos.remove(i);
-    }
+    public void darDeBajaVuelo(int numVuelo) {
+        int i=getIndexVuelo(numVuelo);
+       if(i > -1)
+            this.getVuelos().remove(i);
+            }
 
-    public int getIndexVuelo(int numVuelo){ //con el numero de vuelo obtengo el indice del arreglo
+    public int getIndexVuelo(int numVuelo){ //con el numero de vuelo obtengo el indice del arreglo ((en lista user))
         int index=-1;
-        for (Vuelo vuelo:this.vuelos){
-            System.out.println("numvuelo= " +vuelo.getNumeroDeVuelo());
-            if(vuelo.getNumeroDeVuelo()==numVuelo)
-                index=this.vuelos.indexOf(vuelo);
+        for (Vuelo vuelo: this.getVuelos()){
+            if(vuelo.getNumeroDeVuelo()==numVuelo) {
+                index=this.getVuelos().indexOf(vuelo);
+                return index;
+            }
         }return index;
     }
 

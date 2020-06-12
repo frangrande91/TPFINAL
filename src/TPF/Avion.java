@@ -9,9 +9,9 @@ public abstract class Avion {
     protected boolean catering;
 
 
-    public Avion(int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering){
+    public Avion(int combustible, double costoXkm, int pasajeros, int velMax, String propulsion, boolean catering){
         this.capacidadCombustible=combustible;
-        this.costoPorKm=costo;
+        this.costoPorKm=costoXkm;
         this.capacidadMaxPasajeros =pasajeros;
         this.velocidadMax=velMax;
         this.propulsion=propulsion;
