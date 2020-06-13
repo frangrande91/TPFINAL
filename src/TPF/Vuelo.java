@@ -1,27 +1,29 @@
 package TPF;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+
 
 public class Vuelo {
-    private int numeroDeVuelo;
+    public static int i = 1;
+
+    private long id;
     private LocalDate fechaVuelo;
     private TipoVuelo tipoVuelo;
     private Avion avion;
-    private Set<Usuario> pasajeros;
+    private Usuario cliente;
     private int cantPasajeros;
 
 
-    public Vuelo(int numeroDeVuelo, LocalDate fechaVuelo, TipoVuelo tipoVuelo, Avion avion) {
-        this.numeroDeVuelo = numeroDeVuelo;
+    public Vuelo(LocalDate fechaVuelo, TipoVuelo tipoVuelo, Avion avion, Usuario cliente, int cantPasajeros) {
+        this.id = i++;
         this.fechaVuelo = fechaVuelo;
         this.tipoVuelo = tipoVuelo;
         this.avion = avion;
-        pasajeros = new HashSet<Usuario>();
-        this.cantPasajeros = 0;
+        this.cliente = cliente;
+        this.cantPasajeros = cantPasajeros;
     }
 
+    public long getId(){ return id; }
     public LocalDate getFechaVuelo() {
         return fechaVuelo;
     }
@@ -34,10 +36,10 @@ public class Vuelo {
     public int getCantPasajeros() {
         return cantPasajeros;
     }
-    public int getNumeroDeVuelo() {
-        return numeroDeVuelo;
+    public long getNumeroDeVuelo() {
+        return id;
     }
-    public Set<Usuario> getPasajeros() { return pasajeros; }
+    public Usuario getCliente() { return cliente; }
     public void setTipoVuelo(TipoVuelo tipoVuelo) {
         this.tipoVuelo = tipoVuelo;
     }
@@ -49,29 +51,28 @@ public class Vuelo {
     }
 
     public void agregarPasajero(Usuario nuevo){
-        this.pasajeros.add(nuevo);
         this.cantPasajeros++;
     }
-
     public void quitarPasajero(int dni){
-        for(Usuario user : pasajeros){
-            if(dni == user.getDni()) {
-                this.pasajeros.remove(user);
-                this.cantPasajeros--;
-            }
-        }
+        this.cantPasajeros--;
     }
 
-    public double costoTotal(int cantAcomp) {
-        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantAcomp * 3500) + (avion.getTarifa());
+    public double costoTotal() {
+        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.getTarifa());
     }
 
     @Override
     public String toString() {
-        return "Vuelo {" +
-                "Fecha del vuelo: " + fechaVuelo +
-                " - Tipo de vuelo: " + tipoVuelo + ", "
+        return "---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
+                "Vuelo {" +
+                "Numero de vuelo: <<<< " + id + " >>>>" +
+                ", Fecha del vuelo: " + fechaVuelo +
+                " " + tipoVuelo.toString() + "}\n"
                 + avion.toString() +
-                '}';
+                "\nCliente: " + cliente.getNombre() + " " + cliente.getApellido() +
+                "\nCantidad de pasajeros: " + cantPasajeros +
+                "\nCosto total: $" + costoTotal() +
+                "\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+
     }
 }

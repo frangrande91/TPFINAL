@@ -4,23 +4,23 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Aerotaxi {
-    private List<Avion> flota;
+    private HashSet<Avion> flota;
     private Set<Usuario> clientes;
     private List<Vuelo> vuelos;
 
     public Aerotaxi() {
-        this.flota = new ArrayList<Avion>();
+        this.flota = new HashSet<Avion>();
         this.clientes = new HashSet<Usuario>();
         this.vuelos = new ArrayList<Vuelo>();
     }
 
-    public Aerotaxi(List<Avion> flota, Set<Usuario> clientes, List<Vuelo> vuelos) {
+    public Aerotaxi(HashSet<Avion> flota, Set<Usuario> clientes, List<Vuelo> vuelos) {
         this.flota = flota;
         this.clientes = clientes;
         this.vuelos = vuelos;
     }
 
-    public List<Avion> getFlota() {
+    public Set<Avion> getFlota() {
         return flota;
     }
 
@@ -32,7 +32,7 @@ public class Aerotaxi {
         return clientes;
     }
 
-    public void setFlota(List<Avion> flota) {
+    public void setFlota(HashSet<Avion> flota) {
         this.flota = flota;
     }
 
@@ -47,14 +47,16 @@ public class Aerotaxi {
     public void addAvion(Avion avion) {
         this.flota.add(avion);
     }
-
     public void addVuelo(Vuelo vuelo) {
         this.vuelos.add(vuelo);
+//        vuelo.getCliente().agregarVuelo(vuelo);  //Agrego el id del vuelo a la lista de vuelos(id) del cliente
+//        vuelo.getCliente().mejorAvionContratado(vuelo.getAvion());  //Comparto el vuelo para identificar el mejor avion contratado por cliente
+//        vuelo.getCliente().setTotalGastado(vuelo.getCliente().getTotalGastado() + vuelo.costoTotal()); //Sumo el costo del vuelo al total gastado por el cliente
     }
-
     public void addUsuario(Usuario usuario) {
         this.clientes.add(usuario);
     }
+    public void borrarVuelo(Vuelo vuelo){ this.vuelos.remove(vuelo); }
 
     public Usuario buscarUsuario(int dni) {
         Usuario buscado = null;
@@ -65,16 +67,87 @@ public class Aerotaxi {
         return buscado; //Retorna el usuario si existe o null si no existe
     }
 
-    public boolean isPasajero(Set<Usuario> pasajerosDelVuelo, int dni) {
-        boolean rta = false;
-        for (Usuario aux : pasajerosDelVuelo) {
-            if (dni == aux.getDni())
-                rta = true;
+
+    public HashSet<Avion> avionesDisponibles(LocalDate fecha, int cantPasajeros){
+        HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
+        if(this.vuelos.size() > 0){            //Si hay vuelos contratados..
+            for(Avion avion : this.flota){             //Recorro la lista de aviones
+                for(Vuelo aux : this.vuelos){            //Recorro la lista de vuelos
+                    if(!buscarAvionEnListaDeVuelos(avion.id))     //Si el avion no está en ningun vuelo..
+                        avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
+                    else if(avion.equals(aux.getAvion())){    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
+                        if((!fecha.isEqual(aux.getFechaVuelo())) && (avion.capacidadMaxPasajeros >= cantPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
+                            avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
+                    }
+                }
+            }
         }
-        return rta; //Retorna true si el usuario ya está registrado en el vuelo y false si no lo está
+        else{       //Si no hay vuelos contratados directamente agrego al set los aviones cuya capacidad de pasajeros alcance
+            for(Avion avion : this.flota){
+                if(cantPasajeros <= avion.capacidadMaxPasajeros)
+                    avionesDisponibles.add(avion);
+            }
+        }
+
+        return avionesDisponibles; //Retorna un set de los aviones disponibles
     }
 
+    public boolean buscarAvionEnListaDeVuelos(int id){
+            boolean rta = false;
+            for(Vuelo aux : this.vuelos){
+                if(aux.getId() == id)
+                    rta = true;
+            }
+            return rta;  //Retorna true si el avion está en la lista de vuelos y false si no está
+    }
 
+    public void listarClientes() {
+        System.out.println("\n******************************* Clientes de AEROTAXI ******************************");
+        for (Usuario user : clientes)
+            System.out.println(user.toString());
+    }
+
+    public void listarVuelosPorFecha(LocalDate fecha) {
+        boolean flag = false;
+        for (Vuelo v : this.vuelos) {
+            if (fecha.isEqual(v.getFechaVuelo()))
+                System.out.println(v.toString());
+                flag = true;
+        }
+        if(!flag)
+            System.out.println("No hay vuelos para la fecha");
+    }
+
+    public void listarVuelosUser(Usuario usuario) {
+        if (usuario.getVuelos().size() == 0)
+            System.out.println("El usuario no tiene vuelos contratados");
+        else {
+            for (Long aux : usuario.getVuelos())
+                System.out.println(buscarVuelo(aux));
+        }
+    }
+
+    public Vuelo buscarVuelo(long id){
+        Vuelo buscado = null;
+        for(Vuelo vuelo : this.vuelos){
+            if(id == vuelo.getId())
+                buscado = vuelo;
+        }
+        return buscado; //Retorna el vuelo buscado o null si no existe
+    }
+
+    public void listarAviones(){
+        System.out.println("\n******************************* Aviones de AEROTAXI ******************************");
+        for (Avion avion : this.flota){
+            System.out.println(avion.toString());
+        }
+    }
+
+}
+
+
+
+    /*
     public void listarAvionesPorFecha(LocalDate fechaElegida, int cantAcomp) {
         for (Vuelo vuelo : this.vuelos) {
             if (vuelo.getFechaVuelo().equals(fechaElegida)) {
@@ -102,6 +175,8 @@ public class Aerotaxi {
         }
     }
 
+
+
     public void listarVuelosPorDatos(LocalDate fecha, TipoVuelo tipo, Avion avion) {
         for (Vuelo vuelo : this.vuelos) {
             if ((vuelo.getFechaVuelo().equals(fecha)) && (vuelo.getTipoVuelo().equals(tipo)) && (vuelo.getAvion().equals(avion)))
@@ -109,26 +184,6 @@ public class Aerotaxi {
         }
     }
 
-    public void listarVuelosUser(Usuario usuario) {
-        System.out.println("\n************** Vuelos de "+usuario.getNombre()+" "+usuario.getApellido()+ " ***************\n");
-        if (usuario.getVuelos().size() == 0) {
-            System.out.println("El usuario no tiene vuelos contratados");
-        } else {
-            for (Vuelo v : usuario.getVuelos()) {
-                boolean wifi = false;
-                if (v.getAvion().getClass().getSimpleName().equals("Gold")) {
-                    Gold aux = new Gold((Gold) v.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
-                    wifi = aux.isWifi();
-                }
-                System.out.println("N° "+v.getNumeroDeVuelo() + " - Avion " + v.getAvion().getClass().getSimpleName() + " [" + v.getTipoVuelo().getOrigen() + "-" + v.getTipoVuelo().getDestino() + "] - Fecha salida: " + v.getFechaVuelo() + " - Catering: " + v.getAvion().isCatering() + " - Wifi: " + wifi);
-            }
-        }
-    }
-
-    public void listarClientes() {
-        for (Usuario user : clientes)
-            System.out.println(user.toString());
-    }
 
     public void listarVuelosDisponibles(Scanner scan) {
         int i = 0;
@@ -151,6 +206,8 @@ public class Aerotaxi {
         }
     }
 
+
+
     public void listarFlota(Scanner scan) {
         int i = 0;
         Iterator<Avion> it = this.getFlota().iterator();
@@ -168,6 +225,8 @@ public class Aerotaxi {
         }
     }
 
+
+
     public int getIndexVuelo(int numVuelo) {    //con el numero de vuelo obtengo el indice del arreglo
         int index = -1;
         for (Vuelo vuelo : this.vuelos) {
@@ -176,6 +235,8 @@ public class Aerotaxi {
         }
         return index;
     }
+
+
 
     public boolean existenVuelos(TipoVuelo tipo, int cantPasajeros) {
         for (Vuelo v : this.vuelos) {
@@ -193,4 +254,6 @@ public class Aerotaxi {
         return false;
     }
 
-}
+     */
+
+

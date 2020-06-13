@@ -3,8 +3,8 @@ package TPF;
 public class Bronze extends Avion {
 
 
-    public Bronze (int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering){
-        super(combustible,costo,pasajeros,velMax,propulsion,catering);
+    public Bronze (int id, int combustible, double costo, int pasajeros, int velMax, Propulsion propulsion, boolean catering){
+        super(id, combustible,costo,pasajeros,velMax,propulsion,catering);
     }
 
     @Override

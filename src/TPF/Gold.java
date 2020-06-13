@@ -3,14 +3,11 @@ package TPF;
 public class Gold extends Avion {
     private boolean wifi;
 
-    public Gold(int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering, boolean wifi) {
-        super(combustible, costo, pasajeros, velMax, propulsion, catering);
+    public Gold(int id, int combustible, double costo, int pasajeros, int velMax, Propulsion propulsion, boolean catering, boolean wifi) {
+        super(id, combustible, costo, pasajeros, velMax, propulsion, catering);
         this.wifi = wifi;
     }
-    public Gold(Gold clon){ //clonar avion
-        super(clon.capacidadCombustible,clon.costoPorKm,clon.capacidadMaxPasajeros,clon.velocidadMax,clon.propulsion,clon.catering);
-        this.wifi=clon.wifi;
-    }
+
 
     public boolean isWifi() {
         return wifi;
@@ -28,7 +25,17 @@ public class Gold extends Avion {
     @Override
     public String toString() {
         return super.toString() +
-                "wifi=" + wifi +
+                ", Wifi: " + wifi +
                 '}';
     }
 }
+
+
+
+    /*
+    public Gold(Gold clon){ //clonar avion
+        super(clon.capacidadCombustible,clon.costoPorKm,clon.capacidadMaxPasajeros,clon.velocidadMax,clon.propulsion,clon.catering);
+        this.wifi=clon.wifi;
+    }
+
+     */

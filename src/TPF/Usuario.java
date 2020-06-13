@@ -9,22 +9,19 @@ public class Usuario {
     private String apellido;
     private int dni;
     private int edad;
-    private List<Vuelo> vuelos;
+    private List<Long> vuelos;
+    private String mejorAvion;
+    private double totalGastado;
 
-    public Usuario() {
-        this.nombre = "";
-        this.apellido = "";
-        this.dni = 0;
-        this.edad = 0;
-        this.vuelos = new ArrayList<Vuelo>();
-    }
 
     public Usuario(String nombre, String apellido, int dni, int edad) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.edad = edad;
-        this.vuelos = new ArrayList<Vuelo>();
+        this.vuelos = new ArrayList<Long>();
+        this.mejorAvion = "";
+        this.totalGastado = 0;
     }
 
     public String getNombre() {return nombre;}
@@ -35,19 +32,54 @@ public class Usuario {
     public void setDni(int dni) {this.dni = dni;}
     public int getEdad() {return edad;}
     public void setEdad(int edad) {this.edad = edad;}
-    public List<Vuelo> getVuelos() {return vuelos;}
-    public void setVuelos(List<Vuelo> vuelos) {this.vuelos = vuelos;}
+    public List<Long> getVuelos() {return vuelos;}
+    public String getMejorAvion() {return mejorAvion;}
+    public void setMejorAvion(String mejorAvion) {this.mejorAvion = mejorAvion; }
+    public double getTotalGastado() {return totalGastado;}
+    public void setTotalGastado(double totalGastado) { this.totalGastado = totalGastado;}
 
     public void agregarVuelo(Vuelo vuelo) {
-        this.vuelos.add(vuelo);
+        this.vuelos.add(vuelo.getId());
     }
 
-    public void darDeBajaVuelo(int numVuelo) {
-        int i=getIndexVuelo(numVuelo);
-       if(i > -1)
-            this.getVuelos().remove(i);
-            }
+    public void darDeBajaVuelo(Vuelo vuelo) {
+        this.vuelos.remove(vuelo.getId());
+    }
 
+
+    public void mejorAvionContratado(Avion avion){  //Compara el nuevo avion contratado con el atributo mejorAvion
+        if(avion instanceof Gold)
+            this.mejorAvion = "Gold";
+        else if(avion instanceof Silver){
+            if(!this.mejorAvion.equals("Gold"))
+                this.mejorAvion = "Silver";
+        }
+        else if(this.mejorAvion.equals(""))
+            this.mejorAvion = "Bronze";
+    }
+
+    public void listarVuelosUser(){
+        for(Long aux : this.vuelos){
+            System.out.println(aux.toString());
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "Cliente {" +
+                "Nombre: "+ nombre +
+                ", Apellido: " + apellido +
+                ", DNI: " + dni +
+                ", Edad: " + edad +
+                ", Mejor avión contratado: " + mejorAvion +
+                ", Total gastado en AEROTAXI: " + totalGastado +
+                '}';
+    }
+
+}
+
+        /*
     public int getIndexVuelo(int numVuelo){ //con el numero de vuelo obtengo el indice del arreglo ((en lista user))
         int index=-1;
         for (Vuelo vuelo: this.getVuelos()){
@@ -58,13 +90,6 @@ public class Usuario {
         }return index;
     }
 
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "Nombre: "+ nombre +
-                ", Apellido: " + apellido +
-                ", DNI: " + dni +
-                ", Edad: " + edad +
-                '}';
-    }
-}
+     */
+
+

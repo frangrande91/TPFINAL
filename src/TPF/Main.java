@@ -3,29 +3,50 @@ package TPF;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
-import static java.lang.Math.*;
-
-
-// salir del menu principal no funciona
 
 public class Main {
 
     public static void main(String[] args) {
+        Usuario user1 = new Usuario("Pepe", "Argento", 12, 45);
+        Usuario user2 = new Usuario ("Juan", "Perez", 10, 33);
+        Avion avion1 = new Gold(1, 2000, 300, 10, 300, Propulsion.HEL, true, true);
+        Avion avion2 = new Gold(2, 1800, 280, 9, 280, Propulsion.HEL, true, false);
+        Avion avion3 = new Silver(3, 1600, 250, 8, 260, Propulsion.PIST, true);
+        Avion avion4 = new Silver(4, 1400, 220, 7, 240, Propulsion.PIST, true);
+        Avion avion5 = new Bronze(5, 1200, 190, 6, 220, Propulsion.REAC, false);
+        Avion avion6 = new Bronze(6, 1200, 150, 5, 200, Propulsion.REAC, false);
+
+//        Vuelo vuelo1 = new Vuelo(LocalDate.of(2020, 12, 1), TipoVuelo.UNO, avion1, user1, 2);
+
         Aerotaxi aeroTaxi = new Aerotaxi();
-        Usuario user = new Usuario("Pepe", "Argento", 12, 45);
-        aeroTaxi.addUsuario(user);
-        autoCrearVuelos(aeroTaxi, 55,15);
+
+        aeroTaxi.addUsuario(user1);
+        aeroTaxi.addUsuario(user2);
+
+        aeroTaxi.addAvion(avion1);
+        aeroTaxi.addAvion(avion2);
+        aeroTaxi.addAvion(avion3);
+        aeroTaxi.addAvion(avion4);
+        aeroTaxi.addAvion(avion5);
+        aeroTaxi.addAvion(avion6);
+
+//        aeroTaxi.addVuelo(vuelo1);
+
         Menu menu = new Menu(aeroTaxi);
         menu.menuPrincipal();
     }
 
+}
 
 
+
+
+/*
 
     //crea vuelos con todos los param aleatorios //tambien genera los aviones - se agrega tutti a las listas de la empresa
     public static void autoCrearVuelos(Aerotaxi aero, int cantidadVuelos, int cantAviones) {
         int numeroVuelo = 1;
-        Avion deJuguete = new Bronze(1, 1, 1, 1, Propulsion.REAC.toString(), true);
+        Avion deJuguete = new Bronze(1, 1, 1, 1, 1, Propulsion.REAC, true);
         List<Avion> aeroplanes=new ArrayList<Avion>();
 
         //random aviones
@@ -100,8 +121,6 @@ public class Main {
             }
         }return disponible;
     }
-
-
 
     public static LocalDate randomFecha() {
         int randomDay = 1;
@@ -205,4 +224,5 @@ public class Main {
     }
 
 
-}
+
+ */

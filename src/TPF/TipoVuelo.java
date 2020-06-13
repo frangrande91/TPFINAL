@@ -34,7 +34,7 @@ public enum TipoVuelo {
     public String toString() {
         return  "Origen: " + origen +
                 " - Destino: " + destino +
-                " - distancia: " + distancia;
+                " - Distancia: " + distancia + " km";
     }
 
 }

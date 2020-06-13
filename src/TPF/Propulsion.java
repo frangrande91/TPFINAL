@@ -1,13 +1,18 @@
 package TPF;
 
 public enum Propulsion {
-    HEL ("MotorAHelice"),
-    REAC ("MotorAReaccion"),
-    PIST ("MotorDePistones");
+    HEL ("Motor a hélice"),
+    REAC ("Motor a reaccion"),
+    PIST ("Motor de pistones");
 
     private String motor;
 
     Propulsion(String motor) {
         this.motor=motor;
+    }
+
+    @Override
+    public String toString() {
+        return "Propulsion: " + motor;
     }
 }
