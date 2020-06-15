@@ -43,8 +43,8 @@ public class Main {
 
 /*
 
-    //crea vuelos con todos los param aleatorios //tambien genera los aviones - se agrega tutti a las listas de la empresa
-    public static void autoCrearVuelos(Aerotaxi aero, int cantidadVuelos, int cantAviones) {
+
+      public static void autoCrearVuelos(Aerotaxi aero, int cantidadVuelos, int cantAviones) {
         int numeroVuelo = 1;
         Avion deJuguete = new Bronze(1, 1, 1, 1, 1, Propulsion.REAC, true);
         List<Avion> aeroplanes=new ArrayList<Avion>();
