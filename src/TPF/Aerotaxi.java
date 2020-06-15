@@ -157,12 +157,7 @@ public class Aerotaxi {
             System.out.println("\nNo hay vuelos reservados\n");
         } else {
             for (Vuelo v : this.getVuelos()) {
-                boolean wifi = false;
-                if (v.getAvion().getClass().getSimpleName().equals("Gold")) {
-                    Gold aux = new Gold((Gold) v.getAvion());   //si es gold, se clona para poder acceder al metodo isWifi
-                    wifi = aux.isWifi();
-                }
-                System.out.println(v.getNumeroDeVuelo() + " - Avion " + v.getAvion().getClass().getSimpleName() + " [" + v.getTipoVuelo().getOrigen() + "-" + v.getTipoVuelo().getDestino() + "] - Fecha salida: " + v.getFechaVuelo() + " - Asientos disponibles: " + (v.getAvion().getCapacidadMaxPasajeros() - v.getCantPasajeros()) + " - Catering: " + v.getAvion().isCatering() + " - Wifi: " + wifi);
+                System.out.println(v.toString());
                 i++;
                 if (i % 5 == 0) {
                     try {

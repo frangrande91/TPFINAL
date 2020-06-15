@@ -8,11 +8,6 @@ public class Gold extends Avion {
         this.wifi = wifi;
     }
 
-    public Gold(Gold clon){ //clonar avion
-        super(clon.id,clon.capacidadCombustible,clon.costoPorKm,clon.capacidadMaxPasajeros,clon.velocidadMax,clon.propulsion,clon.catering);
-        this.wifi=clon.wifi;
-    }
-
     public boolean isWifi() {
         return wifi;
     }
@@ -37,4 +32,8 @@ public class Gold extends Avion {
 
 
 
-
+/*
+    public Gold(Gold clon){ //clonar avion
+        super(clon.id,clon.capacidadCombustible,clon.costoPorKm,clon.capacidadMaxPasajeros,clon.velocidadMax,clon.propulsion,clon.catering);
+        this.wifi=clon.wifi;
+    }*/

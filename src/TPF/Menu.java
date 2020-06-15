@@ -39,14 +39,23 @@ public class Menu {
                     case 2:
                         imprimirTitulo();
                         System.out.println("\n");
-                        cancelarVuelo();
+                        menuIdVuelo();
+                        cancelarVueloPorId();
                         pausar();
                         break;
                     case 3:
-                        //Agregar pasajeros
+                        imprimirTitulo();
+                        System.out.println("\n");
+                        menuIdVuelo();
+                        agregarPasajeros();
+                        pausar();
                         break;
                     case 4:
-                        //Dar de baja pasajeros
+                        imprimirTitulo();
+                        System.out.println("\n");
+                        menuIdVuelo();
+                        quitarPasajeros();
+                        pausar();
                         break;
                     case 5:
                         menuVerVuelos();
@@ -63,18 +72,20 @@ public class Menu {
                         System.out.println("\n");
                         pausar();
                         break;
+                    case 8:
+                        //cambiar de cliente sin salir del programa
                     case 0:
                         clearScreen();
                         imprimirTitulo();
-                        System.out.println("Saliendo del programa..");
+                        System.out.println("\nSaliendo del programa..");
                         break;
                     default:
-                        System.out.println("Opcion incorrecta. Intente nuevamente");
+                        System.out.println("\nOpcion incorrecta. Intente nuevamente");
                         pausar();
                         break;
                 }
             } catch (InputMismatchException e) {
-                System.err.println("Ingrese un numero valido");
+                System.err.println("\nIngrese un numero valido");
                 scan = new Scanner(System.in);  //limpiar buffer
                 pausar();
             }
@@ -82,7 +93,6 @@ public class Menu {
         } while (op != 0);
 
     }
-
 
     public void ingreso() {      // ingresar o registrarse para acceder al menu
         int dni = -1;
@@ -133,7 +143,7 @@ public class Menu {
                     aerotaxi.addVuelo(nuevoVuelo);  //Agrego el nuevo vuelo a la lista de vuelos de la empresa
                     usuario.setTotalGastado(usuario.getTotalGastado() + nuevoVuelo.costoTotal()); //Sumo el importe del vuelo al total gastado por el usuario
                     usuario.agregarVuelo(nuevoVuelo);    //Agrego el vuelo a la lista de vuelos(id) del usuario
-                    usuario.mejorAvionContratado(nuevoVuelo.getAvion());      //Comparo el nivel del avion con el mejor que ha contratado el usuario
+                    usuario.mejorAvionContratado(aerotaxi.getVuelos());      //buscar mejor avion contratado
                     System.out.println("Vuelo contratado. Imprimiendo ticket...");
                     System.out.println("El número de vuelo del cliente es: <<<< " + nuevoVuelo.getId() + " >>>>. No lo pierda por favor");
                 } else {
@@ -253,21 +263,18 @@ public class Menu {
         return ruta;
     }
 
-    public void cancelarVuelo() {
+    public void menuIdVuelo() {
         clearScreen();
         imprimirTitulo();
         if (usuario.getVuelos().size() > 0) {
-            System.out.println("Tiene el numero del vuelo a cancelar? s/n");
+            System.out.println("Tiene el numero del vuelo a editar? s/n");
             scan.nextLine();
             String op = scan.nextLine();
-            if (op.equals("s"))      //Si tiene el id del vuelo lo cancelo buscandolo por el id
-                cancelarVueloPorId();
             if (op.equals("n")) {     //Si no tiene el id le muestro todos los vuelos del usuario para que elija
                 clearScreen();
                 imprimirTitulo();
                 System.out.println("\n************** Vuelos de " + usuario.getNombre() + " " + usuario.getApellido() + " ***************");
                 aerotaxi.listarVuelosUser(usuario);      //Muestro la lista de vuelos del usuario
-                cancelarVueloPorId();
             }
         } else
             System.out.println("El cliente no tiene vuelos reservados");
@@ -278,6 +285,8 @@ public class Menu {
         long id = scan.nextLong();
         Vuelo buscado = aerotaxi.buscarVuelo(id);
         if (buscado != null) {
+            clearScreen();
+            imprimirTitulo();
             System.out.println("\n******************************* CANCELAR VUELO *******************************");
             System.out.println(buscado.toString());    //Muestro el vuelo a cancelar
             System.out.println("Para confirmar la cancelación del vuelo presione 'c'");
@@ -286,14 +295,86 @@ public class Menu {
             if (op.equals("c")) {
                 aerotaxi.borrarVuelo(buscado);  //Elimino el vuelo de la lista de vuelos de AEROTAXI
                 usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
+                usuario.mejorAvionContratado(aerotaxi.getVuelos()); //actualizar lista de mejor avion
                 usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal());  //Resto el costo del vuelo cancelado en el total gastado por el usuario
                 System.out.println("Vuelo cancelado");
             }
         } else
             System.out.println("No tiene ningún vuelo con ese número de vuelo");
-
-
     }
+
+    public void agregarPasajeros() {
+        System.out.println("Ingrese el número del vuelo al que desea agregar pasajeros: ");
+        long id = scan.nextLong();
+        Vuelo buscado = aerotaxi.buscarVuelo(id);
+        if (buscado != null) {
+            clearScreen();
+            imprimirTitulo();
+            int asientosDisponibles = buscado.getAvion().getCapacidadMaxPasajeros() - buscado.getCantPasajeros();
+            System.out.println("\n******************************* AGREGAR PASAJEROS *******************************");
+            System.out.println(buscado.toString());    //Muestro el vuelo
+            System.out.println("\nIngrese la cantidad de pasajeros a agregar: [Asientos disponibles: " + asientosDisponibles + "]");
+            int cantAagregar = scan.nextInt();
+            if (asientosDisponibles >= cantAagregar) {
+                double costoAnterior = buscado.costoTotal();
+                double costoNuevo = buscado.costoConPasajerosNuevos(cantAagregar);
+                System.out.println("El costo se modificará de $ " + costoAnterior + " a $ " + costoNuevo + "\nPresione 'c' para confirmar");
+                scan.nextLine(); // limpiar buffer
+                String op = scan.nextLine();
+                if (op.equals("c")) {
+                    buscado.setCantPasajeros(buscado.getCantPasajeros() + cantAagregar);  //agregar pasajeros nuevos
+                    usuario.setTotalGastado(usuario.getTotalGastado() - costoAnterior + costoNuevo);  //ajustar costo del vuelo
+                    clearScreen();
+                    imprimirTitulo();
+                    System.out.println(buscado.toString());
+                    System.out.println("\nPasajeros agregados");
+                }
+            } else
+                System.out.println("No hay suficientes asientos disponibles");
+        }
+    }
+
+    public void quitarPasajeros() {
+        System.out.println("Ingrese el número del vuelo al que desea quitar pasajeros: ");
+        long id = scan.nextLong();
+        Vuelo buscado = aerotaxi.buscarVuelo(id);
+        if (buscado != null) {
+            int totalPasajeros = buscado.getCantPasajeros();
+            System.out.println("\n******************************* QUITAR PASAJEROS *******************************");
+            System.out.println(buscado.toString());    //Muestro el vuelo
+            System.out.println("\nIngrese la cantidad de pasajeros a quitar: [Total pasajeros: " + buscado.getCantPasajeros() + "]");
+            int cantAquitar = scan.nextInt();
+            if (totalPasajeros == cantAquitar) {
+                System.out.println("Ha elegido quitar todos los pasajeros");
+                System.out.println("Presione 'c' para cancelar el vuelo");
+                scan.nextLine(); //limpiar buffer
+                String op = scan.nextLine();
+                if (op.equals("c")) {
+                    aerotaxi.borrarVuelo(buscado);  //Elimino el vuelo de la lista de vuelos de AEROTAXI
+                    usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
+                    usuario.mejorAvionContratado(aerotaxi.getVuelos()); //actualizar lista de mejor avion
+                    usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal());  //Resto el costo del vuelo cancelado en el total gastado por el usuario
+                    System.out.println("Vuelo cancelado");
+                }
+            }else if(totalPasajeros > cantAquitar){
+                double costoAnterior = buscado.costoTotal();
+                double costoNuevo = buscado.costoConPasajerosNuevos(cantAquitar*(-1));
+                System.out.println("El costo se modificará de $ " + costoAnterior + " a $ " + costoNuevo + "\nPresione 'c' para confirmar");
+                scan.nextLine(); // limpiar buffer
+                String op = scan.nextLine();
+                if (op.equals("c")) {
+                    buscado.setCantPasajeros(buscado.getCantPasajeros() - cantAquitar);  //agregar pasajeros nuevos
+                    usuario.setTotalGastado(usuario.getTotalGastado() - costoAnterior + costoNuevo);  //ajustar costo del vuelo
+                    clearScreen();
+                    imprimirTitulo();
+                    System.out.println(buscado.toString());
+                    System.out.println("\nPasajeros quitados");
+                }
+            } else
+                System.out.println("No puede quitar mas pasajeros de los que existen");
+        }
+    }
+
 
     public void menuVerVuelos() {
         imprimirOpcVerVuelos();
