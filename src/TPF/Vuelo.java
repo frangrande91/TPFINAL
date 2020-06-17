@@ -36,6 +36,11 @@ public class Vuelo {
     public int getCantPasajeros() {
         return cantPasajeros;
     }
+
+    public void setCantPasajeros(int cantPasajeros) {
+        this.cantPasajeros = cantPasajeros;
+    }
+
     public long getNumeroDeVuelo() {
         return id;
     }
@@ -59,6 +64,9 @@ public class Vuelo {
 
     public double costoTotal() {
         return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.getTarifa());
+    }
+    public double costoConPasajerosNuevos(int aAgregar) {
+        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + ((cantPasajeros+aAgregar) * 3500) + (avion.getTarifa());
     }
 
     @Override
