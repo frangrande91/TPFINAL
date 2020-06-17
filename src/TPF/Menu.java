@@ -263,6 +263,9 @@ public class Menu {
         return ruta;
     }
 
+
+    //FALTA AGREGAR TRY-CATCH
+
     public void menuIdVuelo() {
         clearScreen();
         imprimirTitulo();
@@ -387,7 +390,7 @@ public class Menu {
                     aerotaxi.listarVuelosPorFecha(fecha);
                     System.out.println("\n");
                     pausar();
-
+                    break;
                 case 1:
                     imprimirTitulo();
                     aerotaxi.listarVuelos();

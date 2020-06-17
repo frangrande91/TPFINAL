@@ -1,8 +1,6 @@
 package TPF;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Usuario {
     private String nombre;
@@ -86,36 +84,34 @@ public class Usuario {
 
 
     public void mejorAvionContratado(List<Vuelo> vuelos) {  //Compara el nuevo avion contratado con el atributo mejorAvion
-        /*if(avion instanceof Gold)
-            this.mejorAvion = "Gold";
-        else if(avion instanceof Silver){                       // }---->    no funcionaba si cancelas vuelo
-            if(!this.mejorAvion.equals("Gold"))
-                this.mejorAvion = "Silver";
-        }
-        else if(this.mejorAvion.equals(""))
-            this.mejorAvion = "Bronze";*/
-        List<Vuelo> vuelosUser = new ArrayList<Vuelo>();
+        HashMap<String, Vuelo> vuelosUser = new HashMap<String, Vuelo>();
 
-        if (this.getVuelos().size() > 0) {          //copiar vuelos de user a lista auxiliar
+        if (this.getVuelos().size() > 0) {
             for (Long id : this.getVuelos()) {
-                System.out.println(id);
                 for (Vuelo aux : vuelos) {
-                    if (aux.getId() == id)
-                        vuelosUser.add(aux);
+                    if (aux.getId() == id)         //Agrego los vuelos del user a un HashMap auxiliar y depende el tipo de Avion lo identifico con keys(Strings) diferentes
+                        if (aux.getAvion() instanceof Gold)
+                            vuelosUser.put("Gold", aux);
+                        else if(aux.getAvion() instanceof Silver)
+                            vuelosUser.put("Silver", aux);
+                        else
+                            vuelosUser.put("Bronze", aux);
                 }
-                for (Vuelo vuelo : vuelosUser) {
-                    if (vuelo.getAvion() instanceof Gold) {
+                    if (vuelosUser.containsKey("Gold"))        //Modifico el atributo mejorAvion según el avion que contiene la lista de vuelos del user
                         this.mejorAvion = "Gold";
-                        break;
-                    } else if (vuelo.getAvion() instanceof Silver) {
-                        if (!this.mejorAvion.equals("Gold"))
-                            this.mejorAvion = "Silver";
-                    } else if (this.mejorAvion.equals("") && vuelo.getAvion() instanceof Bronze)
+                    else if (vuelosUser.containsKey("Silver"))
+                        this.mejorAvion = "Silver";
+                    else if (vuelosUser.containsKey("Bronze"))
                         this.mejorAvion = "Bronze";
-                }
+                    else
+                        this.mejorAvion = "";
             }
         }
+        else
+            this.mejorAvion = "";
     }
+
+
 
     public void listarVuelosUser() {
         for (Long aux : this.vuelos) {

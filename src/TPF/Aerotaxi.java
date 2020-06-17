@@ -95,7 +95,7 @@ public class Aerotaxi {
             }
         }
 
-        return avionesDisponibles; //Retorna un set de los aviones disponibles
+        return avionesDisponibles; //Retorna un hashSet de los aviones disponibles
     }
 
     public boolean buscarAvionEnListaDeVuelos(int id) {
@@ -152,7 +152,7 @@ public class Aerotaxi {
 
     public void listarVuelos() {
         int i = 0;
-        System.out.println("\n******************************Vuelos de AEROTAXI******************************\n");
+        System.out.println("\n****************************** Vuelos de AEROTAXI ******************************\n");
         if (this.getVuelos().isEmpty()) {
             System.out.println("\nNo hay vuelos reservados\n");
         } else {
