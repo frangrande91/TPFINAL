@@ -16,7 +16,7 @@ public class Main {
         Avion avion5 = new Bronze(5, 1200, 190, 6, 220, Propulsion.REAC, false);
         Avion avion6 = new Bronze(6, 1200, 150, 5, 200, Propulsion.REAC, false);
 
-//        Vuelo vuelo1 = new Vuelo(LocalDate.of(2020, 12, 1), TipoVuelo.UNO, avion1, user1, 2);
+     //   Vuelo vuelo1 = new Vuelo(LocalDate.of(2020, 12, 1), TipoVuelo.UNO, avion3, user1, 2);
 
         Aerotaxi aeroTaxi = new Aerotaxi();
 
@@ -30,7 +30,7 @@ public class Main {
         aeroTaxi.addAvion(avion5);
         aeroTaxi.addAvion(avion6);
 
-//        aeroTaxi.addVuelo(vuelo1);
+      // aeroTaxi.addVuelo(vuelo1);
 
         Menu menu = new Menu(aeroTaxi);
         menu.menuPrincipal();

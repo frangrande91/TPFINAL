@@ -39,22 +39,34 @@ public class Menu {
                     case 2:
                         imprimirTitulo();
                         System.out.println("\n");
-                        menuIdVuelo();
-                        cancelarVueloPorId();
+                        if(usuario.getVuelos().size() > 0){
+                            menuIdVuelo();
+                            cancelarVueloPorId();
+                        }
+                        else
+                            System.out.println("El usuario no tiene vuelos contratados");
                         pausar();
                         break;
                     case 3:
                         imprimirTitulo();
                         System.out.println("\n");
-                        menuIdVuelo();
-                        agregarPasajeros();
+                        if(usuario.getVuelos().size() > 0){
+                            menuIdVuelo();
+                            agregarPasajeros();
+                        }
+                        else
+                            System.out.println("El usuario no tiene vuelos contratados");
                         pausar();
                         break;
                     case 4:
                         imprimirTitulo();
                         System.out.println("\n");
-                        menuIdVuelo();
-                        quitarPasajeros();
+                        if(usuario.getVuelos().size() > 0){
+                            menuIdVuelo();
+                            quitarPasajeros();
+                        }
+                        else
+                            System.out.println("El usuario no tiene vuelos registrados");
                         pausar();
                         break;
                     case 5:
@@ -149,7 +161,6 @@ public class Menu {
                 } else {
                     Vuelo.i = Vuelo.i--; //Como no se contrata resto el numero de vuelo que se sumó cuando se instanció el vuelo
                     System.out.println("Vuelo cancelado");
-                    pausar();
                 }
             }
         }
@@ -264,23 +275,25 @@ public class Menu {
     }
 
 
-    //FALTA AGREGAR TRY-CATCH
-
     public void menuIdVuelo() {
         clearScreen();
         imprimirTitulo();
-        if (usuario.getVuelos().size() > 0) {
+        try{
             System.out.println("Tiene el numero del vuelo a editar? s/n");
             scan.nextLine();
-            String op = scan.nextLine();
-            if (op.equals("n")) {     //Si no tiene el id le muestro todos los vuelos del usuario para que elija
+            char op = scan.next().charAt(0);     //  ===========> NO ATRAPA LA EXCEPTION SI PONES OTRA COSA QUE "s" o "n"!!!!!
+            if (op == 'n') {     //Si no tiene el id le muestro todos los vuelos del usuario para que elija
                 clearScreen();
                 imprimirTitulo();
                 System.out.println("\n************** Vuelos de " + usuario.getNombre() + " " + usuario.getApellido() + " ***************");
                 aerotaxi.listarVuelosUser(usuario);      //Muestro la lista de vuelos del usuario
             }
-        } else
-            System.out.println("El cliente no tiene vuelos reservados");
+        }
+        catch (InputMismatchException e){
+            System.out.println("\nIngrese un numero valido");
+            scan.nextLine(); //limpiar buffer
+            pausar();
+        }
     }
 
     public void cancelarVueloPorId() {

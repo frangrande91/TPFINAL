@@ -79,16 +79,17 @@ public class Aerotaxi {
         HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
         if (this.vuelos.size() > 0) {            //Si hay vuelos contratados..
             for (Avion avion : this.flota) {             //Recorro la lista de aviones
-                for (Vuelo aux : this.vuelos) {            //Recorro la lista de vuelos
-                    if (!buscarAvionEnListaDeVuelos(avion.id))     //Si el avion no está en ningun vuelo..
-                        avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
-                    else if (avion.equals(aux.getAvion())) {    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
-                        if ((!fecha.isEqual(aux.getFechaVuelo())) && ((aux.getCantPasajeros()+cantPasajeros) <= avion.capacidadMaxPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
-                            avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
+                if (!buscarAvionEnListaDeVuelos(avion))     //Si el avion no está en ningun vuelo..
+                    avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
+                    else
+                        for (Vuelo aux : this.vuelos) {            //Recorro la lista de vuelos
+                             if (avion.equals(aux.getAvion())) {    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
+                                if ((!fecha.isEqual(aux.getFechaVuelo())) && ((aux.getCantPasajeros()+cantPasajeros) <= avion.capacidadMaxPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
+                                    avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
                     }
                 }
             }
-        } else {       //Si no hay vuelos contratados directamente agrego al set los aviones cuya capacidad de pasajeros alcance
+        } else {       //Si no hay vuelos contratados directamente agrego al HashSet los aviones cuya capacidad de pasajeros alcance
             for (Avion avion : this.flota) {
                 if (cantPasajeros <= avion.capacidadMaxPasajeros)
                     avionesDisponibles.add(avion);
@@ -98,10 +99,10 @@ public class Aerotaxi {
         return avionesDisponibles; //Retorna un hashSet de los aviones disponibles
     }
 
-    public boolean buscarAvionEnListaDeVuelos(int id) {
+    public boolean buscarAvionEnListaDeVuelos(Avion avion) {
         boolean rta = false;
-        for (Vuelo aux : this.vuelos) {
-            if (aux.getId() == id)
+        for (Vuelo vuelo : this.vuelos) {
+            if (vuelo.getAvion().getId() == avion.getId())
                 rta = true;
         }
         return rta;  //Retorna true si el avion está en la lista de vuelos y false si no está
