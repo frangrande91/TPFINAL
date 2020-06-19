@@ -128,7 +128,7 @@ public class Usuario {
                 ", DNI: " + dni +
                 ", Edad: " + edad +
                 ", Mejor avión contratado: " + mejorAvion +
-                ", Total gastado en AEROTAXI: " + totalGastado +
+                ", Total gastado en AEROTAXI: $ " + totalGastado +
                 '}';
     }
 
