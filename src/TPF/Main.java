@@ -32,9 +32,6 @@ public class Main {
 //        usuarios.add(user1);
 //        usuarios.add(user2);
 
-//        persistenciaVuelos.escribirJson(usuarios);
-//        persistenciaVuelos.leerJson();
-
         Menu menu = new Menu(aeroTaxi);
         menu.menuPrincipal();
     }

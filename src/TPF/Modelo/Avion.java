@@ -1,7 +1,7 @@
 package TPF.Modelo;
 
 import java.io.Serializable;
-
+/*
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 @JsonTypeInfo (use = Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes ({ @Type (value = Gold.class), @Type (value = Silver.class), @Type (value = Bronze.class),
 })
+
+ */
 public class Avion implements Serializable {
     protected int id;
     protected double capacidadCombustible;

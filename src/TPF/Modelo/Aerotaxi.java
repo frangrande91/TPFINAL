@@ -1,5 +1,7 @@
 package TPF.Modelo;
 
+import TPF.Menu.Utilidades;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -7,7 +9,7 @@ import java.util.*;
 public class Aerotaxi {
     private HashSet<Avion> flota;
     private HashSet<Usuario> clientes;
-    private List<Vuelo> vuelos;
+    private ArrayList<Vuelo> vuelos;
 
     public Aerotaxi() {
         this.flota = new HashSet<Avion>();
@@ -15,7 +17,7 @@ public class Aerotaxi {
         this.vuelos = new ArrayList<Vuelo>();
     }
 
-    public Aerotaxi(HashSet<Avion> flota, HashSet<Usuario> clientes, List<Vuelo> vuelos) {
+    public Aerotaxi(HashSet<Avion> flota, HashSet<Usuario> clientes, ArrayList<Vuelo> vuelos) {
         this.flota = flota;
         this.clientes = clientes;
         this.vuelos = vuelos;
@@ -41,7 +43,7 @@ public class Aerotaxi {
         this.clientes = clientes;
     }
 
-    public void setVuelos(List<Vuelo> vuelos) {
+    public void setVuelos(ArrayList<Vuelo> vuelos) {
         this.vuelos = vuelos;
     }
 
@@ -51,9 +53,6 @@ public class Aerotaxi {
 
     public void addVuelo(Vuelo vuelo) {
         this.vuelos.add(vuelo);
-//        vuelo.getCliente().agregarVuelo(vuelo);  //Agrego el id del vuelo a la lista de vuelos(id) del cliente
-//        vuelo.getCliente().mejorAvionContratado(vuelo.getAvion());  //Comparto el vuelo para identificar el mejor avion contratado por cliente
-//        vuelo.getCliente().setTotalGastado(vuelo.getCliente().getTotalGastado() + vuelo.costoTotal()); //Sumo el costo del vuelo al total gastado por el cliente
     }
 
     public void addUsuario(Usuario usuario) {
@@ -102,10 +101,11 @@ public class Aerotaxi {
     }
 
  */
-    public HashSet<Avion> avionesDisponibles(LocalDate fecha, int cantPasajeros){
-        HashSet<Avion> avionesOcupados = buscarAvionesPorFecha(fecha);
+    public HashSet<Avion> buscarAvionesDisponibles(LocalDate fecha, int cantPasajeros){
         HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
-        if(avionesOcupados != null){
+        if(vuelos != null){
+            HashSet<Avion> avionesOcupados = buscarAvionesPorFecha(fecha);
+
             for(Avion avion : flota){
                 if(!avionesOcupados.contains(avion) && avion.capacidadMaxPasajeros >= cantPasajeros)
                     avionesDisponibles.add(avion);
@@ -116,15 +116,22 @@ public class Aerotaxi {
                     avionesDisponibles.add(avion);
             }
         }
+        for (Avion a : avionesDisponibles){
+            System.out.println("PROBANDOOOOO");
+            System.out.println(a.toString());
+            Utilidades.pausar();
+        }
         return avionesDisponibles;
     }
 
     public HashSet<Avion> buscarAvionesPorFecha(LocalDate fecha){
         HashSet<Avion> avionesDeLaFecha = new HashSet<Avion>();
         for (Vuelo vuelo : this.vuelos){
-            if(fecha.isEqual(vuelo.getFechaVuelo()))
+            if(fecha.isEqual(vuelo.getFechaVuelo())){
                 avionesDeLaFecha.add(vuelo.getAvion());
+            }
         }
+
         return avionesDeLaFecha;
     }
 

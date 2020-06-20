@@ -15,11 +15,12 @@ public class PersistenciaUsuarios {
             try{
             File file = new File("\\Users\\franc\\Desktop\\TPFINAL\\files\\users.json");
             ObjectMapper mapper = new ObjectMapper();
-            usuarios = mapper.readValue(file, new TypeReference<HashSet<Usuario>>(){});
+            if(file.exists())
+                usuarios = mapper.readValue(file, new TypeReference<HashSet<Usuario>>(){});
             }
 
             catch (IOException e){
-            System.out.println("No se pudo leer el archivo");
+            System.err.println("No se pudo leer el archivo de usuarios");
             }
 
             return usuarios;

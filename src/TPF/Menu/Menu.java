@@ -2,8 +2,8 @@ package TPF.Menu;
 
 import TPF.Modelo.*;
 import TPF.Persistencia.PersistenciaUsuarios;
+import TPF.Persistencia.PersistenciaVuelos;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -22,23 +22,24 @@ public class Menu {
     public void menuPrincipal() {
         int op = 0;
         aerotaxi.setClientes(PersistenciaUsuarios.leerUsuarios());
+        aerotaxi.setVuelos(PersistenciaVuelos.leerVuelos());
         ingreso();
 
         do {
-            clearScreen();
+            Utilidades.clearScreen();
             imprimirTitulo();
             System.out.println("\n**************** Cliente: " + usuario.getNombre() + " " + usuario.getApellido() + " ****************");
             imprimirOpcMenuPrincipal();
             try {
                 op = scan.nextInt();
-                clearScreen();
+                Utilidades.clearScreen();
                 switch (op) {
                     case 1:
-                        clearScreen();
+                        Utilidades.clearScreen();
                         imprimirTitulo();
                         System.out.println("\n");
                         contratarVuelo();
-                        pausar();
+                        Utilidades.pausar();
                         break;
                     case 2:
                         imprimirTitulo();
@@ -48,7 +49,7 @@ public class Menu {
                             cancelarVueloPorId();
                         } else
                             System.out.println("El usuario no tiene vuelos contratados");
-                        pausar();
+                        Utilidades.pausar();
                         break;
                     case 3:
                         imprimirTitulo();
@@ -58,7 +59,7 @@ public class Menu {
                             agregarPasajeros();
                         } else
                             System.out.println("El usuario no tiene vuelos contratados");
-                        pausar();
+                        Utilidades.pausar();
                         break;
                     case 4:
                         imprimirTitulo();
@@ -68,7 +69,7 @@ public class Menu {
                             quitarPasajeros();
                         } else
                             System.out.println("El usuario no tiene vuelos registrados");
-                        pausar();
+                        Utilidades.pausar();
                         break;
                     case 5:
                         menuVerVuelos();
@@ -77,30 +78,30 @@ public class Menu {
                         imprimirTitulo();
                         aerotaxi.listarClientes();
                         System.out.println("\n");
-                        pausar();
+                        Utilidades.pausar();
                         break;
                     case 7:
                         imprimirTitulo();
                         aerotaxi.listarAviones();
                         System.out.println("\n");
-                        pausar();
+                        Utilidades.pausar();
                         break;
                     case 8:
                         ingreso(); //cambiar de cliente
                     case 0:
-                        clearScreen();
+                        Utilidades.clearScreen();
                         imprimirTitulo();
                         System.out.println("\nSaliendo del programa..");
                         break;
                     default:
                         System.out.println("\nOpcion incorrecta. Intente nuevamente");
-                        pausar();
+                        Utilidades.pausar();
                         break;
                 }
             } catch (InputMismatchException e) {
                 System.err.println("\nIngrese un numero valido");
                 scan = new Scanner(System.in);  //limpiar buffer
-                pausar();
+                Utilidades.pausar();
             }
 
         } while (op != 0);
@@ -110,7 +111,7 @@ public class Menu {
     public void ingreso() {      // ingresar o registrarse para acceder al menu
         String dni = "";
         do {
-            clearScreen();
+            Utilidades.clearScreen();
             imprimirTitulo();
             System.out.println("\nDNI del cliente:");
             try {
@@ -118,12 +119,12 @@ public class Menu {
                 usuario = this.aerotaxi.buscarUsuario(dni);
                 if (usuario == null) {
                     System.out.println("\nEL CLIENTE NO EXISTE");
-                    pausar();
+                    Utilidades.pausar();
                 }
             } catch (InputMismatchException e) {
                 System.out.println("\nIngrese un numero valido");
                 scan.nextLine(); //limpiar buffer
-                pausar();
+                Utilidades.pausar();
             }
         } while (usuario == null);
     }
@@ -137,15 +138,15 @@ public class Menu {
             System.out.println("Fecha: " + fechaBuscada);
             System.out.println("\nIngrese la cantidad de acompañantes:");
             int cantAcompañantes = scan.nextInt();           //Ingresa cantidad de acompañantes
-            HashSet<Avion> avionesDisponiles = aerotaxi.avionesDisponibles(fechaBuscada, cantAcompañantes + 1);  //Busco los aviones disponibles para esa fecha y cantidad de pasajeros
-            clearScreen();
+            HashSet<Avion> avionesDisponiles = aerotaxi.buscarAvionesDisponibles(fechaBuscada, cantAcompañantes + 1);  //Busco los aviones disponibles para esa fecha y cantidad de pasajeros
+            Utilidades.clearScreen();
             imprimirTitulo();
 
             Avion avionElegido = elegirAvion(avionesDisponiles);    //Elige el avion
 
             if (avionElegido != null) {
                 Vuelo nuevoVuelo = new Vuelo(fechaBuscada, tipoElegido, avionElegido, usuario, cantAcompañantes + 1);  //Instancio el vuelo con los datos
-                clearScreen();
+                Utilidades.clearScreen();
                 imprimirTitulo();
                 System.out.println("\n******************************* VUELO A CONTRATAR *******************************");
                 System.out.println(nuevoVuelo.toString());                       //Muestro el vuelo a contratar
@@ -159,7 +160,7 @@ public class Menu {
                     usuario.mejorAvionContratado(aerotaxi.getVuelos());      //buscar mejor avion contratado
                     System.out.println("Vuelo contratado. Imprimiendo ticket...");
                     System.out.println("El número de vuelo del cliente es: <<<< " + nuevoVuelo.getId() + " >>>>. No lo pierda por favor");
-           //         persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
+                    PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
                 } else {
                     Vuelo.i = Vuelo.i--; //Como no se contrata resto el numero de vuelo que se sumó cuando se instanció el vuelo
                     System.out.println("Vuelo cancelado");
@@ -228,14 +229,14 @@ public class Menu {
         int origenYdestino = 0;
 
         do {
-            clearScreen();
+            Utilidades.clearScreen();
             imprimirTitulo();
             System.out.println("\n***************************** ORIGEN - DESTINO *****************************");
             imprimirRutas();
             origenYdestino = scan.nextInt();
             if (origenYdestino < 1 || origenYdestino > 6) {
                 System.out.println("Opcion incorrecta. Por favor elija una de las opciones");
-                pausar();
+                Utilidades.pausar();
             }
         } while (origenYdestino < 1 || origenYdestino > 6);
 
@@ -278,7 +279,7 @@ public class Menu {
 
 
     public void menuIdVuelo() {
-        clearScreen();
+        Utilidades.clearScreen();
         imprimirTitulo();
         try {
             boolean sn = true;
@@ -294,7 +295,7 @@ public class Menu {
                 }
             }
             if (op.equals("n")) {     //Si no tiene el id le muestro todos los vuelos del usuario para que elija
-                clearScreen();
+                Utilidades.clearScreen();
                 imprimirTitulo();
                 System.out.println("\n************** Vuelos de " + usuario.getNombre() + " " + usuario.getApellido() + " ***************");
                 aerotaxi.listarVuelosUser(usuario);      //Muestro la lista de vuelos del usuario
@@ -302,7 +303,7 @@ public class Menu {
         } catch (InputMismatchException e) {
             System.out.println("\nIngrese un numero valido");
             scan.nextLine(); //limpiar buffer
-            pausar();
+            Utilidades.pausar();
         }
     }
 
@@ -311,7 +312,7 @@ public class Menu {
         long id = scan.nextLong();
         Vuelo buscado = aerotaxi.buscarVuelo(id);
         if (buscado != null) {
-            clearScreen();
+            Utilidades.clearScreen();
             imprimirTitulo();
             System.out.println("\n******************************* CANCELAR VUELO *******************************");
             System.out.println(buscado.toString());    //Muestro el vuelo a cancelar
@@ -323,7 +324,7 @@ public class Menu {
                 usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
                 usuario.mejorAvionContratado(aerotaxi.getVuelos()); //actualizar lista de mejor avion
                 usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal());  //Resto el costo del vuelo cancelado en el total gastado por el usuario
-          //      persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
+                PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
                 System.out.println("Vuelo cancelado");
             } else {
                 System.out.println("Vuelo no cancelado");
@@ -339,7 +340,7 @@ public class Menu {
         long id = scan.nextLong();
         Vuelo buscado = aerotaxi.buscarVuelo(id);
         if (buscado != null) {
-            clearScreen();
+            Utilidades.clearScreen();
             imprimirTitulo();
             int asientosDisponibles = buscado.getAvion().getCapacidadMaxPasajeros() - buscado.getCantPasajeros();
             System.out.println("\n******************************* AGREGAR PASAJEROS *******************************");
@@ -355,10 +356,10 @@ public class Menu {
                 if (op.equals("c")) {
                     buscado.setCantPasajeros(buscado.getCantPasajeros() + cantAagregar);  //agregar pasajeros nuevos
                     usuario.setTotalGastado(usuario.getTotalGastado() - costoAnterior + costoNuevo);  //ajustar costo del vuelo
-                    clearScreen();
+                    Utilidades.clearScreen();
                     imprimirTitulo();
                     System.out.println(buscado.toString());
-           //         persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
+                    PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
                     System.out.println("\nPasajeros agregados");
                 }
             } else {
@@ -389,7 +390,7 @@ public class Menu {
                     usuario.mejorAvionContratado(aerotaxi.getVuelos()); //actualizar lista de mejor avion
                     usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal());  //Resto el costo del vuelo cancelado en el total gastado por el usuario
                     System.out.println("Vuelo cancelado");
-            //        persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
+                    PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
                 }
             } else if (totalPasajeros > cantAquitar) {
                 double costoAnterior = buscado.costoTotal();
@@ -400,11 +401,11 @@ public class Menu {
                 if (op.equals("c")) {
                     buscado.setCantPasajeros(buscado.getCantPasajeros() - cantAquitar);  //agregar pasajeros nuevos
                     usuario.setTotalGastado(usuario.getTotalGastado() - costoAnterior + costoNuevo);  //ajustar costo del vuelo
-                    clearScreen();
+                    Utilidades.clearScreen();
                     imprimirTitulo();
                     System.out.println(buscado.toString());
                     System.out.println("\nPasajeros quitados");
-        //            persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
+                    PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
                 }
             } else {
                 System.out.println("No puede quitar mas pasajeros de los que existen");
@@ -427,18 +428,23 @@ public class Menu {
                     fecha = datosFechaDelVuelo(true);
                     aerotaxi.listarVuelosPorFecha(fecha);
                     System.out.println("\n");
-                    pausar();
+                    Utilidades.pausar();
                     break;
                 case 1:                                             //todos los vuelos
                     imprimirTitulo();
                     aerotaxi.listarVuelos();
-                    pausar();
+                    Utilidades.pausar();
                     break;
             }
         } catch (InputMismatchException e) {
-            System.out.println("\nIngrese un numero valido");
+            System.err.println("\nIngrese un número válido");
             scan.nextLine(); //limpiar buffer
-            pausar();
+            Utilidades.pausar();
+        }
+        catch (NullPointerException e2){
+            System.err.println("\nEl archivo está vacío o no existe");
+            scan.nextLine(); //limpiar buffer
+            Utilidades.pausar();
         }
     }
 
@@ -484,24 +490,22 @@ public class Menu {
     }
 
     /************************************************ UTILIDADES ************************************************/
-
+/*
     public void clearScreen() {
         for (int i = 0; i < 80 * 300; i++)
             System.out.println("\b");
     }
 
-    public void pausar() {
+    public static void pausar() {
         System.out.println("Presione ENTER para continuar..");
         try {
             System.in.read();
         } catch (IOException e) {
+
         }
-      /*  String c = "";
-        do {
-            c = scan.nextLine();
-        } while (!c.equals("c"));
-       */
     }
+
+ */
 
 }
 
