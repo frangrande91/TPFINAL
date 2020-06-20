@@ -1,0 +1,31 @@
+[ {
+  "id" : 1,
+  "fechaVuelo" : "2020-12-01",
+  "tipoVuelo" : "UNO",
+  "avion" : 1,
+  "cliente" : {
+    "nombre" : "Pepe",
+    "apellido" : "Argento",
+    "dni" : "12",
+    "edad" : 44,
+    "vuelos" : [ 1, 2 ],
+    "mejorAvion" : "Gold",
+    "totalGastado" : 630000.0
+  },
+  "cantPasajeros" : 2
+}, {
+  "id" : 2,
+  "fechaVuelo" : "2020-12-01",
+  "tipoVuelo" : "DOS",
+  "avion" : 2,
+  "cliente" : {
+    "nombre" : "Pepe",
+    "apellido" : "Argento",
+    "dni" : "12",
+    "edad" : 44,
+    "vuelos" : [ 1, 2 ],
+    "mejorAvion" : "Gold",
+    "totalGastado" : 630000.0
+  },
+  "cantPasajeros" : 3
+} ]

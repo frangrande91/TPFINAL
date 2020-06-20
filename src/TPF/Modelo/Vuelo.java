@@ -3,25 +3,27 @@ package TPF.Modelo;
 import TPF.Modelo.Avion;
 import TPF.Modelo.TipoVuelo;
 import TPF.Modelo.Usuario;
+import TPF.Persistencia.PersistenciaVuelos;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Vuelo implements Serializable {
-    public static int i = 1;
+//    public int i = 1;
 
     private long id;
     private LocalDate fechaVuelo;
     private TipoVuelo tipoVuelo;
-    private Avion avion;
+    private int avion;
     private Usuario cliente;
     private int cantPasajeros;
 
     public Vuelo() {
     }
 
-    public Vuelo(LocalDate fechaVuelo, TipoVuelo tipoVuelo, Avion avion, Usuario cliente, int cantPasajeros) {
-        this.id = i++;
+    public Vuelo(LocalDate fechaVuelo, TipoVuelo tipoVuelo, int avion, Usuario cliente, int cantPasajeros) {
+        this.id = PersistenciaVuelos.cantidadVuelos() + 1;
         this.fechaVuelo = fechaVuelo;
         this.tipoVuelo = tipoVuelo;
         this.avion = avion;
@@ -36,7 +38,8 @@ public class Vuelo implements Serializable {
     public TipoVuelo getTipoVuelo() {
         return tipoVuelo;
     }
-    public Avion getAvion() {
+
+    public int getAvion() {
         return avion;
     }
     public int getCantPasajeros() {
@@ -55,7 +58,7 @@ public class Vuelo implements Serializable {
     public void setTipoVuelo(TipoVuelo tipoVuelo) {
         this.tipoVuelo = tipoVuelo;
     }
-    public void setAvion(Avion avion) {
+    public void setAvion(int avion) {
         this.avion = avion;
     }
     public void setFechaVuelo(LocalDate fechaVuelo) {
@@ -69,15 +72,14 @@ public class Vuelo implements Serializable {
         this.cantPasajeros--;
     }
 
-    public double costoTotal() {
+    public double costoTotal(Avion avion) {
         return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.obtenerTarifa());
     }
-    public double costoConPasajerosNuevos(int aAgregar) {
+    public double costoConPasajerosNuevos(int aAgregar, Avion avion) {
         return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + ((cantPasajeros+aAgregar) * 3500) + (avion.obtenerTarifa());
     }
 
-    @Override
-    public String toString() {
+    public String mostrarVuelo(Avion avion) {
         return "---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
                 "Vuelo {" +
                 "Numero de vuelo: <<<< " + id + " >>>>" +
@@ -86,7 +88,7 @@ public class Vuelo implements Serializable {
                 + avion.toString() +
                 "\nCliente: " + cliente.getNombre() + " " + cliente.getApellido() +
                 "\nCantidad de pasajeros: " + cantPasajeros +
-                "\nCosto total: $" + costoTotal() +
+                "\nCosto total: $" + costoTotal(avion) +
                 "\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
     }

@@ -1,18 +1,18 @@
 package TPF.Modelo;
 
 import java.io.Serializable;
-/*
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+//
+//import com.fasterxml.jackson.annotation.JsonSubTypes;
+//import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+//import com.fasterxml.jackson.annotation.JsonTypeInfo;
+//import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+//
+//@JsonTypeInfo (use = Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = ", tipo")
+//@JsonSubTypes ({ @Type (value = Gold.class), @Type (value = Silver.class), @Type (value = Bronze.class),
+//})
 
-@JsonTypeInfo (use = Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes ({ @Type (value = Gold.class), @Type (value = Silver.class), @Type (value = Bronze.class),
-})
 
- */
-public class Avion implements Serializable {
+public abstract class Avion implements Serializable  {
     protected int id;
     protected double capacidadCombustible;
     protected double costoPorKm;
@@ -20,12 +20,11 @@ public class Avion implements Serializable {
     protected int velocidadMax;
     protected String propulsion;
     protected boolean catering;
-    protected boolean wifi;
 
     public Avion() {
     }
 
-    public Avion(int id, double combustible, double costoXkm, int pasajeros, int velMax, String propulsion, boolean catering, boolean wifi){
+    public Avion(int id, double combustible, double costoXkm, int pasajeros, int velMax, String propulsion, boolean catering){
         this.id = id;
         this.capacidadCombustible=combustible;
         this.costoPorKm=costoXkm;
@@ -33,7 +32,6 @@ public class Avion implements Serializable {
         this.velocidadMax=velMax;
         this.propulsion=propulsion;
         this.catering=catering;
-        this.wifi=wifi;
 
     }
 
@@ -44,6 +42,7 @@ public class Avion implements Serializable {
     public int getVelocidadMax() { return velocidadMax; }
     public String getPropulsion() { return propulsion; }
     public boolean isCatering() { return catering; }
+
 
     public void setId(int id) {this.id = id; }
     public void setCapacidadCombustible(double capacidadCombustible) {this.capacidadCombustible = capacidadCombustible;}
@@ -64,8 +63,7 @@ public class Avion implements Serializable {
                 ", Capacidad pasajeros: " + capacidadMaxPasajeros +
                 ", Velocidad Max: " + velocidadMax +
                 "km/h, " + propulsion +
-                ", Catering: " + catering +
-                ", Wifi: " + wifi;
+                ", Catering: " + catering;
     }
 
     @Override
@@ -93,4 +91,6 @@ public class Avion implements Serializable {
         result = 31 * result + (catering ? 1 : 0);
         return result;
     }
+
+
 }

@@ -1,22 +1,23 @@
 package TPF.Persistencia;
 
 import TPF.Menu.Utilidades;
-import TPF.Modelo.Avion;
+import TPF.Modelo.Gold;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 
-public class PersistenciaAviones {
+public class PersistenciaAvionesGold{
 
-    public static HashSet<Avion> leerAviones(){
-        HashSet<Avion> aviones = null;
+    public static HashSet<Gold> leerAvionesGold(){
+        HashSet<Gold> aviones = null;
         try{
-            File file = new File("\\Users\\franc\\Desktop\\TPFINAL\\files\\aviones.json");
+            File file = new File("avionesGold.json");
             ObjectMapper mapper = new ObjectMapper();
-            aviones = mapper.readValue(file, new TypeReference<HashSet<Avion>>(){});
+            aviones = mapper.readValue(file, new TypeReference<HashSet<Gold>>(){});
         }
         catch (IOException e){
             System.err.println("No se pudo leer el archivo de aviones");
@@ -26,14 +27,15 @@ public class PersistenciaAviones {
         return aviones;
     }
 
-    public static void persistirAviones(HashSet<Avion> aviones){
+    public static void persistirAvionesGold(HashSet<Gold> avionesGold){
 
         try{
-            File file = new File("\\Users\\franc\\Desktop\\TPFINAL\\files\\aviones.json");
+            File file = new File("avionesGold.json");
             ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 
             //ESCRIBIR JSON
-            mapper.writeValue(file, aviones);
+            mapper.writeValue(file, avionesGold);
         }
         catch (IOException e){
             System.out.println("No se pudo escribir el archivo de aviones");

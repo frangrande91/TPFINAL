@@ -1,0 +1,19 @@
+[ {
+  "id" : 2,
+  "capacidadCombustible" : 1800.0,
+  "costoPorKm" : 280.0,
+  "capacidadMaxPasajeros" : 9,
+  "velocidadMax" : 280,
+  "propulsion" : "Motor a hélice",
+  "catering" : true,
+  "wifi" : false
+}, {
+  "id" : 1,
+  "capacidadCombustible" : 2000.0,
+  "costoPorKm" : 300.0,
+  "capacidadMaxPasajeros" : 10,
+  "velocidadMax" : 300,
+  "propulsion" : "Motor a hélice",
+  "catering" : true,
+  "wifi" : true
+} ]

@@ -1,0 +1,17 @@
+[ {
+  "id" : 4,
+  "capacidadCombustible" : 1400.0,
+  "costoPorKm" : 220.0,
+  "capacidadMaxPasajeros" : 7,
+  "velocidadMax" : 240,
+  "propulsion" : "Motor de pistones",
+  "catering" : true
+}, {
+  "id" : 3,
+  "capacidadCombustible" : 1600.0,
+  "costoPorKm" : 250.0,
+  "capacidadMaxPasajeros" : 8,
+  "velocidadMax" : 260,
+  "propulsion" : "Motor de pistones",
+  "catering" : true
+} ]

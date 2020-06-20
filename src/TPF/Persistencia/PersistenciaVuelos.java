@@ -21,9 +21,12 @@ public class PersistenciaVuelos {
     public static void persistirVuelos(List<Vuelo> vuelos){
 
         try{
-            File file = new File("\\Users\\franc\\Desktop\\TPFINAL\\files\\vuelos.json");
+            File file = new File("vuelos.json");
+//            System.out.println(file.getAbsolutePath());
+//            Systemout.println(file.getPath());
+         //   Utilidades.pausar();
             ObjectMapper mapper = new ObjectMapper();
-
+            mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
             JavaTimeModule javaTimeModule = new JavaTimeModule();
             javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME));
             mapper.registerModule(javaTimeModule);
@@ -41,9 +44,8 @@ public class PersistenciaVuelos {
     public static ArrayList<Vuelo> leerVuelos(){
         ArrayList<Vuelo> vuelos = new ArrayList<Vuelo>();
         try{
-            File file = new File("\\Users\\franc\\Desktop\\TPFINAL\\files\\vuelos.json");
+            File file = new File("vuelos.json");
             ObjectMapper mapper = new ObjectMapper();
-
             JavaTimeModule javaTimeModule = new JavaTimeModule();
             javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME));
             mapper.registerModule(javaTimeModule);
@@ -60,4 +62,12 @@ public class PersistenciaVuelos {
         return vuelos;
     }
 
+    public static int cantidadVuelos(){
+        int rta = 0;
+        ArrayList<Vuelo> vuelos = leerVuelos();
+        if(vuelos != null)
+            rta = vuelos.size();
+
+        return rta;
+    }
 }

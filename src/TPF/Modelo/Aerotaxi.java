@@ -43,20 +43,24 @@ public class Aerotaxi {
         this.clientes = clientes;
     }
 
-    public void setVuelos(ArrayList<Vuelo> vuelos) {this.vuelos = vuelos; }
-
+    public void setVuelos(ArrayList<Vuelo> vuelos) {
+        this.vuelos = vuelos;
+    }
 
 
     public void addAvion(Avion avion) {
         this.flota.add(avion);
     }
 
-    public void addVuelo(Vuelo vuelo) {this.vuelos.add(vuelo); }
+    public void addVuelo(Vuelo vuelo) {
+        this.vuelos.add(vuelo);
+    }
 
-//    public void addUsuario(Usuario usuario) { this.clientes.add(usuario); }
+    public void addUsuario(Usuario usuario) {
+        this.clientes.add(usuario);
+    }
 
-
-    public void borrarVuelo(Vuelo vuelo){
+    public void borrarVuelo(Vuelo vuelo) {
         this.vuelos.remove(vuelo);
     }
 
@@ -69,62 +73,58 @@ public class Aerotaxi {
         return buscado; //Retorna el usuario si existe o null si no existe
     }
 
-/*
-    public HashSet<Avion> avionesDisponibles(LocalDate fecha, int cantPasajeros) {
-        HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
-        if (this.vuelos.size() > 0) {            //Si hay vuelos contratados..
-            for (Avion avion : this.flota) {             //Recorro la lista de aviones
-                if (!buscarAvionEnListaDeVuelos(avion))     //Si el avion no está en ningun vuelo..
-                    if()
-                        avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
-                else {
-                    for (Vuelo aux : this.vuelos) {            //Recorro la lista de vuelos
-                        if (avion.equals(aux.getAvion())) {    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
-                            if ((!fecha.isEqual(aux.getFechaVuelo())) && ((aux.getCantPasajeros() + cantPasajeros) <= avion.capacidadMaxPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
-                                avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
+    /*
+        public HashSet<Avion> avionesDisponibles(LocalDate fecha, int cantPasajeros) {
+            HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
+            if (this.vuelos.size() > 0) {            //Si hay vuelos contratados..
+                for (Avion avion : this.flota) {             //Recorro la lista de aviones
+                    if (!buscarAvionEnListaDeVuelos(avion))     //Si el avion no está en ningun vuelo..
+                        if()
+                            avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
+                    else {
+                        for (Vuelo aux : this.vuelos) {            //Recorro la lista de vuelos
+                            if (avion.equals(aux.getAvion())) {    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
+                                if ((!fecha.isEqual(aux.getFechaVuelo())) && ((aux.getCantPasajeros() + cantPasajeros) <= avion.capacidadMaxPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
+                                    avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
+                            }
                         }
                     }
                 }
+            } else {       //Si no hay vuelos contratados directamente agrego al HashSet los aviones cuya capacidad de pasajeros alcance
+                for (Avion avion : this.flota) {
+                    if (cantPasajeros <= avion.capacidadMaxPasajeros)
+                        avionesDisponibles.add(avion);
+                }
             }
-        } else {       //Si no hay vuelos contratados directamente agrego al HashSet los aviones cuya capacidad de pasajeros alcance
-            for (Avion avion : this.flota) {
-                if (cantPasajeros <= avion.capacidadMaxPasajeros)
-                    avionesDisponibles.add(avion);
-            }
+
+            return avionesDisponibles; //Retorna un hashSet de los aviones disponibles
         }
 
-        return avionesDisponibles; //Retorna un hashSet de los aviones disponibles
-    }
-
- */
-    public HashSet<Avion> buscarAvionesDisponibles(LocalDate fecha, int cantPasajeros){
+     */
+    public HashSet<Avion> buscarAvionesDisponibles(LocalDate fecha, int cantPasajeros) {
         HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
-        if(vuelos != null){
+        if (vuelos != null) {
             HashSet<Avion> avionesOcupados = buscarAvionesPorFecha(fecha);
 
-            for(Avion avion : flota){
-                if(!avionesOcupados.contains(avion) && avion.capacidadMaxPasajeros >= cantPasajeros)
+            for (Avion avion : flota) {
+                if (!avionesOcupados.contains(avion) && avion.capacidadMaxPasajeros >= cantPasajeros)
                     avionesDisponibles.add(avion);
             }
-        }else{
+        } else {
             for (Avion avion : this.flota) {
                 if (cantPasajeros <= avion.capacidadMaxPasajeros)
                     avionesDisponibles.add(avion);
             }
         }
-        for (Avion a : avionesDisponibles){
-            System.out.println("PROBANDOOOOO");
-            System.out.println(a.toString());
-            Utilidades.pausar();
-        }
+
         return avionesDisponibles;
     }
 
-    public HashSet<Avion> buscarAvionesPorFecha(LocalDate fecha){
+    public HashSet<Avion> buscarAvionesPorFecha(LocalDate fecha) {
         HashSet<Avion> avionesDeLaFecha = new HashSet<Avion>();
-        for (Vuelo vuelo : this.vuelos){
-            if(fecha.isEqual(vuelo.getFechaVuelo())){
-                avionesDeLaFecha.add(vuelo.getAvion());
+        for (Vuelo vuelo : this.vuelos) {
+            if (fecha.isEqual(vuelo.getFechaVuelo())) {
+                avionesDeLaFecha.add(buscarAvion(vuelo.getAvion()));
             }
         }
 
@@ -132,13 +132,13 @@ public class Aerotaxi {
     }
 
 
-    public boolean buscarAvionEnListaDeVuelos(Avion avion) {
-        boolean rta = false;
-        for (Vuelo vuelo : this.vuelos) {
-            if (vuelo.getAvion().getId() == avion.getId())
-                rta = true;
+    public Avion buscarAvion(int id) {
+        Avion buscado = null;
+        for (Avion avion : this.flota) {
+            if (avion.getId() == id)
+                buscado = avion;
         }
-        return rta;  //Retorna true si el avion está en la lista de vuelos y false si no está
+        return buscado;  //Retorna el avión o false si no está
     }
 
     public void listarClientes() {
@@ -151,7 +151,7 @@ public class Aerotaxi {
         boolean flag = false;
         for (Vuelo v : this.vuelos) {
             if (fecha.isEqual(v.getFechaVuelo()))
-                System.out.println(v.toString());
+                System.out.println(v.mostrarVuelo(this.buscarAvion(v.getAvion())));
             flag = true;
         }
         if (!flag)
@@ -163,7 +163,7 @@ public class Aerotaxi {
             System.out.println("El usuario no tiene vuelos contratados");
         else {
             for (Long aux : usuario.getVuelos())
-                System.out.println(buscarVuelo(aux));
+                buscarVuelo(aux).mostrarVuelo(this.buscarAvion(buscarVuelo(aux).getAvion()));
         }
     }
 
@@ -191,17 +191,14 @@ public class Aerotaxi {
             System.out.println("\nNo hay vuelos reservados\n");
         } else {
             for (Vuelo v : this.getVuelos()) {
-                System.out.println(v.toString());
+                System.out.println(v.mostrarVuelo(this.buscarAvion(v.getAvion())));
                 i++;
-                if (i % 5 == 0) {
-                    try {
-                        System.in.read();
-                    } catch (IOException e) {
-                    }
-                }
+                if (i % 5 == 0)
+                    Utilidades.pausar();
             }
         }
     }
+
 }
 
 

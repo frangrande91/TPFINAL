@@ -1,0 +1,41 @@
+[ {
+  "nombre" : "Juan",
+  "apellido" : "Perez",
+  "dni" : "10",
+  "edad" : 33,
+  "vuelos" : [ ],
+  "mejorAvion" : "",
+  "totalGastado" : 0.0
+}, {
+  "nombre" : "Gabriel",
+  "apellido" : "Mendoza",
+  "dni" : "11",
+  "edad" : 35,
+  "vuelos" : [ ],
+  "mejorAvion" : "",
+  "totalGastado" : 0.0
+}, {
+  "nombre" : "Pepe",
+  "apellido" : "Argento",
+  "dni" : "12",
+  "edad" : 44,
+  "vuelos" : [ 1, 2 ],
+  "mejorAvion" : "Gold",
+  "totalGastado" : 630000.0
+}, {
+  "nombre" : "Ana",
+  "apellido" : "Gonzalez",
+  "dni" : "15",
+  "edad" : 22,
+  "vuelos" : [ ],
+  "mejorAvion" : "",
+  "totalGastado" : 0.0
+}, {
+  "nombre" : "Juana",
+  "apellido" : "Hernandez",
+  "dni" : "8",
+  "edad" : 37,
+  "vuelos" : [ ],
+  "mejorAvion" : "",
+  "totalGastado" : 0.0
+} ]

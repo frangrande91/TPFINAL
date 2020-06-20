@@ -1,0 +1,17 @@
+[ {
+  "id" : 6,
+  "capacidadCombustible" : 1200.0,
+  "costoPorKm" : 150.0,
+  "capacidadMaxPasajeros" : 5,
+  "velocidadMax" : 200,
+  "propulsion" : "Motor a reaccion",
+  "catering" : false
+}, {
+  "id" : 5,
+  "capacidadCombustible" : 1200.0,
+  "costoPorKm" : 190.0,
+  "capacidadMaxPasajeros" : 6,
+  "velocidadMax" : 220,
+  "propulsion" : "Motor a reaccion",
+  "catering" : false
+} ]

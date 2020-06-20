@@ -95,16 +95,16 @@ public class Usuario implements Serializable {
     }
 
 
-    public void mejorAvionContratado(List<Vuelo> vuelos) {  //Compara el nuevo avion contratado con el atributo mejorAvion
+    public void mejorAvionContratado(Aerotaxi aerotaxi) {  //Compara el nuevo avion contratado con el atributo mejorAvion
         HashMap<String, Vuelo> vuelosUser = new HashMap<String, Vuelo>();
 
         if (this.getVuelos().size() > 0) {
             for (Long id : this.getVuelos()) {
-                for (Vuelo aux : vuelos) {
+                for (Vuelo aux : aerotaxi.getVuelos()) {
                     if (aux.getId() == id)         //Agrego los vuelos del user a un HashMap auxiliar y depende el tipo de Avion lo identifico con keys(Strings) diferentes
-                        if (aux.getAvion() instanceof Gold)
+                        if (aerotaxi.buscarAvion(aux.getAvion()) instanceof Gold)
                             vuelosUser.put("Gold", aux);
-                        else if(aux.getAvion() instanceof Silver)
+                        else if(aerotaxi.buscarAvion(aux.getAvion()) instanceof Silver)
                             vuelosUser.put("Silver", aux);
                         else
                             vuelosUser.put("Bronze", aux);

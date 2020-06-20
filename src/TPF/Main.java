@@ -2,28 +2,56 @@ package TPF;
 
 import TPF.Menu.Menu;
 import TPF.Modelo.*;
+import TPF.Persistencia.PersistenciaAvionesBronze;
+import TPF.Persistencia.PersistenciaAvionesGold;
+import TPF.Persistencia.PersistenciaAvionesSilver;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Main {
 
     public static void main(String[] args) {
-
-
-//        Avion avion1 = new Gold(1, 2000, 300, 10, 300, "Motor a hélice", true, true);
-//        Avion avion2 = new Gold(2, 1800, 280, 9, 280, "Motor a hélice", true, false);
-//        Avion avion3 = new Silver(3, 1600, 250, 8, 260, "Motor de pistones", true, false);
-//        Avion avion4 = new Silver(4, 1400, 220, 7, 240, "Motor de pistones", true, false);
-//        Avion avion5 = new Bronze(5, 1200, 190, 6, 220, "Motor a reaccion", false, false);
-//        Avion avion6 = new Bronze(6, 1200, 150, 5, 200, "Motor a reaccion", false,false);
+//        Usuario user1 = new Usuario("Pepe", "Argento", "12", 44);
+//        Usuario user2 = new Usuario("Juan", "Perez", "10", 33);
+//        Usuario user3 = new Usuario("Ana", "Gonzalez", "15", 22);
+//        Usuario user4 = new Usuario("Gabriel", "Mendoza", "11", 35);
+//        Usuario user5 = new Usuario("Juana", "Hernandez", "8", 37);
 //
+////
+////
+//        Gold avion1 = new Gold(1, 2000, 300, 10, 300, "Motor a hélice", true, true);
+//        Gold avion2 = new Gold(2, 1800, 280, 9, 280, "Motor a hélice", true, false);
+//        Silver avion3 = new Silver(3, 1600, 250, 8, 260, "Motor de pistones", true);
+//        Silver avion4 = new Silver(4, 1400, 220, 7, 240, "Motor de pistones", true);
+//        Bronze avion5 = new Bronze(5, 1200, 190, 6, 220, "Motor a reaccion", false);
+//        Bronze avion6 = new Bronze(6, 1200, 150, 5, 200, "Motor a reaccion", false);
+
         Aerotaxi aeroTaxi = new Aerotaxi();
 //
-//        aeroTaxi.addAvion(avion1);
-//        aeroTaxi.addAvion(avion2);
-//        aeroTaxi.addAvion(avion3);
-//        aeroTaxi.addAvion(avion4);
-//        aeroTaxi.addAvion(avion5);
-//        aeroTaxi.addAvion(avion6);
+//       HashSet<Gold> avionesGold = new HashSet<Gold>();
+//        avionesGold.add(avion1);
+//        avionesGold.add(avion2);
+//
+//        HashSet<Silver> avionesSilver = new HashSet<Silver>();
+//        avionesSilver.add(avion3);
+//        avionesSilver.add(avion4);
+//
+//        HashSet<Bronze> avionesBronze = new HashSet<Bronze>();
+//        avionesBronze.add(avion5);
+//        avionesBronze.add(avion6);
+//
+//        PersistenciaAvionesGold.persistirAvionesGold(avionesGold);
+//        PersistenciaAvionesSilver.persistirAvionesSilver(avionesSilver);
+//        PersistenciaAvionesBronze.persistirAvionesBronze(avionesBronze);
 
+//
+//        aeroTaxi.addUsuario(user1);
+//        aeroTaxi.addUsuario(user2);
+//        aeroTaxi.addUsuario(user3);
+//        aeroTaxi.addUsuario(user4);
+//        aeroTaxi.addUsuario(user5);
 
         Menu menu = new Menu(aeroTaxi);
         menu.menuPrincipal();
