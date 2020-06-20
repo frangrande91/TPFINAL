@@ -1,18 +1,21 @@
-package TPF;
+package TPF.Modelo;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Usuario {
+public class Usuario implements Serializable {
     private String nombre;
     private String apellido;
-    private int dni;
+    private String dni;
     private int edad;
-    private List<Long> vuelos;
+    private ArrayList<Long> vuelos;
     private String mejorAvion;
     private double totalGastado;
 
+    public Usuario() {
+    }
 
-    public Usuario(String nombre, String apellido, int dni, int edad) {
+    public Usuario(String nombre, String apellido, String dni, int edad) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -38,11 +41,11 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public int getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
@@ -56,6 +59,10 @@ public class Usuario {
 
     public List<Long> getVuelos() {
         return vuelos;
+    }
+
+    public void setVuelos(ArrayList<Long> vuelos) {
+        this.vuelos = vuelos;
     }
 
     public String getMejorAvion() {
@@ -73,6 +80,11 @@ public class Usuario {
     public void setTotalGastado(double totalGastado) {
         this.totalGastado = totalGastado;
     }
+
+
+
+
+
 
     public void agregarVuelo(Vuelo vuelo) {
         this.vuelos.add(vuelo.getId());

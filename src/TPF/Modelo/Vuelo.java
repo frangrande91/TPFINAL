@@ -1,9 +1,13 @@
-package TPF;
+package TPF.Modelo;
 
+import TPF.Modelo.Avion;
+import TPF.Modelo.TipoVuelo;
+import TPF.Modelo.Usuario;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
-
-public class Vuelo {
+public class Vuelo implements Serializable {
     public static int i = 1;
 
     private long id;
@@ -13,6 +17,8 @@ public class Vuelo {
     private Usuario cliente;
     private int cantPasajeros;
 
+    public Vuelo() {
+    }
 
     public Vuelo(LocalDate fechaVuelo, TipoVuelo tipoVuelo, Avion avion, Usuario cliente, int cantPasajeros) {
         this.id = i++;
@@ -41,10 +47,11 @@ public class Vuelo {
         this.cantPasajeros = cantPasajeros;
     }
 
-    public long getNumeroDeVuelo() {
-        return id;
+    public void setId(long id) {
+        this.id = id;
     }
-    public Usuario getCliente() { return cliente; }
+
+      public Usuario getCliente() { return cliente; }
     public void setTipoVuelo(TipoVuelo tipoVuelo) {
         this.tipoVuelo = tipoVuelo;
     }
@@ -63,10 +70,10 @@ public class Vuelo {
     }
 
     public double costoTotal() {
-        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.getTarifa());
+        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.obtenerTarifa());
     }
     public double costoConPasajerosNuevos(int aAgregar) {
-        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + ((cantPasajeros+aAgregar) * 3500) + (avion.getTarifa());
+        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + ((cantPasajeros+aAgregar) * 3500) + (avion.obtenerTarifa());
     }
 
     @Override

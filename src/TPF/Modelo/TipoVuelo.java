@@ -1,6 +1,8 @@
-package TPF;
+package TPF.Modelo;
 
-public enum TipoVuelo {
+import java.io.Serializable;
+
+public enum TipoVuelo implements Serializable {
     UNO("Buenos Aires", "Córdoba", 695),
     DOS("Buenos Aires", "Santiago", 1400),
     TRES("Buenos Aires", "Montevideo", 950),

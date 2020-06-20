@@ -1,27 +1,24 @@
 package TPF;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.*;
+import TPF.Menu.Menu;
+import TPF.Modelo.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        Usuario user1 = new Usuario("Pepe", "Argento", 12, 45);
-        Usuario user2 = new Usuario ("Juan", "Perez", 10, 33);
-        Avion avion1 = new Gold(1, 2000, 300, 10, 300, Propulsion.HEL, true, true);
-        Avion avion2 = new Gold(2, 1800, 280, 9, 280, Propulsion.HEL, true, false);
-        Avion avion3 = new Silver(3, 1600, 250, 8, 260, Propulsion.PIST, true);
-        Avion avion4 = new Silver(4, 1400, 220, 7, 240, Propulsion.PIST, true);
-        Avion avion5 = new Bronze(5, 1200, 190, 6, 220, Propulsion.REAC, false);
-        Avion avion6 = new Bronze(6, 1200, 150, 5, 200, Propulsion.REAC, false);
-
-     //   Vuelo vuelo1 = new Vuelo(LocalDate.of(2020, 12, 1), TipoVuelo.UNO, avion3, user1, 2);
+//        Usuario user1 = new Usuario("Pepe", "Argento", "12", 45);
+//        Usuario user2 = new Usuario ("Juan", "Perez", "10", 33);
+        Avion avion1 = new Gold(1, 2000, 300, 10, 300, "Motor a hélice", true, true);
+        Avion avion2 = new Gold(2, 1800, 280, 9, 280, "Motor a hélice", true, false);
+        Avion avion3 = new Silver(3, 1600, 250, 8, 260, "Motor de pistones", true);
+        Avion avion4 = new Silver(4, 1400, 220, 7, 240, "Motor de pistones", true);
+        Avion avion5 = new Bronze(5, 1200, 190, 6, 220, "Motor a reaccion", false);
+        Avion avion6 = new Bronze(6, 1200, 150, 5, 200, "Motor a reaccion", false);
 
         Aerotaxi aeroTaxi = new Aerotaxi();
 
-        aeroTaxi.addUsuario(user1);
-        aeroTaxi.addUsuario(user2);
+//       aeroTaxi.addUsuario(user1);
+//       aeroTaxi.addUsuario(user2);
 
         aeroTaxi.addAvion(avion1);
         aeroTaxi.addAvion(avion2);
@@ -30,7 +27,13 @@ public class Main {
         aeroTaxi.addAvion(avion5);
         aeroTaxi.addAvion(avion6);
 
-      // aeroTaxi.addVuelo(vuelo1);
+
+//        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+//        usuarios.add(user1);
+//        usuarios.add(user2);
+
+//        persistenciaVuelos.escribirJson(usuarios);
+//        persistenciaVuelos.leerJson();
 
         Menu menu = new Menu(aeroTaxi);
         menu.menuPrincipal();

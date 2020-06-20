@@ -1,9 +1,15 @@
-package TPF;
+package TPF.Modelo;
 
-public class Gold extends Avion {
+import TPF.Modelo.Avion;
+
+import java.io.Serializable;
+
+public class Gold extends Avion implements Serializable {
     private boolean wifi;
 
-    public Gold(int id, int combustible, double costo, int pasajeros, int velMax, Propulsion propulsion, boolean catering, boolean wifi) {
+    public Gold(){}
+
+    public Gold(int id, int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering, boolean wifi) {
         super(id, combustible, costo, pasajeros, velMax, propulsion, catering);
         this.wifi = wifi;
     }
@@ -17,7 +23,7 @@ public class Gold extends Avion {
     }
 
     @Override
-    public int getTarifa(){
+    public int obtenerTarifa(){
         return 6000;
     }
 

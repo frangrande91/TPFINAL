@@ -1,6 +1,8 @@
-package TPF;
+package TPF.Modelo;
 
-public enum Propulsion {
+import java.io.Serializable;
+
+public enum Propulsion implements Serializable {
     HEL ("Motor a hélice"),
     REAC ("Motor a reaccion"),
     PIST ("Motor de pistones");

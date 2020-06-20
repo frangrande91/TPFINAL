@@ -1,4 +1,7 @@
-package TPF;
+package TPF.Menu;
+
+import TPF.Modelo.*;
+import TPF.Persistencia.PersistenciaUsuarios;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -18,6 +21,7 @@ public class Menu {
 
     public void menuPrincipal() {
         int op = 0;
+        aerotaxi.setClientes(PersistenciaUsuarios.leerUsuarios());
         ingreso();
 
         do {
@@ -104,13 +108,13 @@ public class Menu {
     }
 
     public void ingreso() {      // ingresar o registrarse para acceder al menu
-        int dni = -1;
+        String dni = "";
         do {
             clearScreen();
             imprimirTitulo();
             System.out.println("\nDNI del cliente:");
             try {
-                dni = scan.nextInt();
+                dni = scan.nextLine();
                 usuario = this.aerotaxi.buscarUsuario(dni);
                 if (usuario == null) {
                     System.out.println("\nEL CLIENTE NO EXISTE");
@@ -155,6 +159,7 @@ public class Menu {
                     usuario.mejorAvionContratado(aerotaxi.getVuelos());      //buscar mejor avion contratado
                     System.out.println("Vuelo contratado. Imprimiendo ticket...");
                     System.out.println("El número de vuelo del cliente es: <<<< " + nuevoVuelo.getId() + " >>>>. No lo pierda por favor");
+           //         persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
                 } else {
                     Vuelo.i = Vuelo.i--; //Como no se contrata resto el numero de vuelo que se sumó cuando se instanció el vuelo
                     System.out.println("Vuelo cancelado");
@@ -173,7 +178,7 @@ public class Menu {
             System.out.println("Ingrese el id del avión que desea contratar: ");
             int id = scan.nextInt();
             for (Avion aux : avionesDisponibles) {
-                if (aux.id == id)
+                if (aux.getId() == id)
                     avionElegido = aux;
             }
         } else
@@ -318,6 +323,7 @@ public class Menu {
                 usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
                 usuario.mejorAvionContratado(aerotaxi.getVuelos()); //actualizar lista de mejor avion
                 usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal());  //Resto el costo del vuelo cancelado en el total gastado por el usuario
+          //      persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
                 System.out.println("Vuelo cancelado");
             } else {
                 System.out.println("Vuelo no cancelado");
@@ -352,6 +358,7 @@ public class Menu {
                     clearScreen();
                     imprimirTitulo();
                     System.out.println(buscado.toString());
+           //         persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
                     System.out.println("\nPasajeros agregados");
                 }
             } else {
@@ -382,6 +389,7 @@ public class Menu {
                     usuario.mejorAvionContratado(aerotaxi.getVuelos()); //actualizar lista de mejor avion
                     usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal());  //Resto el costo del vuelo cancelado en el total gastado por el usuario
                     System.out.println("Vuelo cancelado");
+            //        persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
                 }
             } else if (totalPasajeros > cantAquitar) {
                 double costoAnterior = buscado.costoTotal();
@@ -396,6 +404,7 @@ public class Menu {
                     imprimirTitulo();
                     System.out.println(buscado.toString());
                     System.out.println("\nPasajeros quitados");
+        //            persistenciaVuelos.escribirJsonVuelos(aerotaxi.getVuelos());
                 }
             } else {
                 System.out.println("No puede quitar mas pasajeros de los que existen");

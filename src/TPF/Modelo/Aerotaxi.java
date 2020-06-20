@@ -1,4 +1,4 @@
-package TPF;
+package TPF.Modelo;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Aerotaxi {
     private HashSet<Avion> flota;
-    private Set<Usuario> clientes;
+    private HashSet<Usuario> clientes;
     private List<Vuelo> vuelos;
 
     public Aerotaxi() {
@@ -15,7 +15,7 @@ public class Aerotaxi {
         this.vuelos = new ArrayList<Vuelo>();
     }
 
-    public Aerotaxi(HashSet<Avion> flota, Set<Usuario> clientes, List<Vuelo> vuelos) {
+    public Aerotaxi(HashSet<Avion> flota, HashSet<Usuario> clientes, List<Vuelo> vuelos) {
         this.flota = flota;
         this.clientes = clientes;
         this.vuelos = vuelos;
@@ -29,7 +29,7 @@ public class Aerotaxi {
         return vuelos;
     }
 
-    public Set<Usuario> getClientes() {
+    public HashSet<Usuario> getClientes() {
         return clientes;
     }
 
@@ -37,7 +37,7 @@ public class Aerotaxi {
         this.flota = flota;
     }
 
-    public void setClientes(Set<Usuario> clientes) {
+    public void setClientes(HashSet<Usuario> clientes) {
         this.clientes = clientes;
     }
 
@@ -65,27 +65,29 @@ public class Aerotaxi {
         this.vuelos.remove(vuelo);
     }
 
-    public Usuario buscarUsuario(int dni) {
+    public Usuario buscarUsuario(String dni) {
         Usuario buscado = null;
         for (Usuario aux : this.clientes) {
-            if (dni == aux.getDni())
+            if (dni.equals(aux.getDni()))
                 buscado = aux;
         }
         return buscado; //Retorna el usuario si existe o null si no existe
     }
 
-
+/*
     public HashSet<Avion> avionesDisponibles(LocalDate fecha, int cantPasajeros) {
         HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
         if (this.vuelos.size() > 0) {            //Si hay vuelos contratados..
             for (Avion avion : this.flota) {             //Recorro la lista de aviones
                 if (!buscarAvionEnListaDeVuelos(avion))     //Si el avion no está en ningun vuelo..
-                    avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
-                    else
-                        for (Vuelo aux : this.vuelos) {            //Recorro la lista de vuelos
-                             if (avion.equals(aux.getAvion())) {    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
-                                if ((!fecha.isEqual(aux.getFechaVuelo())) && ((aux.getCantPasajeros()+cantPasajeros) <= avion.capacidadMaxPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
-                                    avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
+                    if()
+                        avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
+                else {
+                    for (Vuelo aux : this.vuelos) {            //Recorro la lista de vuelos
+                        if (avion.equals(aux.getAvion())) {    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
+                            if ((!fecha.isEqual(aux.getFechaVuelo())) && ((aux.getCantPasajeros() + cantPasajeros) <= avion.capacidadMaxPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
+                                avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
+                        }
                     }
                 }
             }
@@ -98,6 +100,34 @@ public class Aerotaxi {
 
         return avionesDisponibles; //Retorna un hashSet de los aviones disponibles
     }
+
+ */
+    public HashSet<Avion> avionesDisponibles(LocalDate fecha, int cantPasajeros){
+        HashSet<Avion> avionesOcupados = buscarAvionesPorFecha(fecha);
+        HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
+        if(avionesOcupados != null){
+            for(Avion avion : flota){
+                if(!avionesOcupados.contains(avion) && avion.capacidadMaxPasajeros >= cantPasajeros)
+                    avionesDisponibles.add(avion);
+            }
+        }else{
+            for (Avion avion : this.flota) {
+                if (cantPasajeros <= avion.capacidadMaxPasajeros)
+                    avionesDisponibles.add(avion);
+            }
+        }
+        return avionesDisponibles;
+    }
+
+    public HashSet<Avion> buscarAvionesPorFecha(LocalDate fecha){
+        HashSet<Avion> avionesDeLaFecha = new HashSet<Avion>();
+        for (Vuelo vuelo : this.vuelos){
+            if(fecha.isEqual(vuelo.getFechaVuelo()))
+                avionesDeLaFecha.add(vuelo.getAvion());
+        }
+        return avionesDeLaFecha;
+    }
+
 
     public boolean buscarAvionEnListaDeVuelos(Avion avion) {
         boolean rta = false;

@@ -1,16 +1,28 @@
-package TPF;
+package TPF.Modelo;
 
-public abstract class Avion {
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
+@JsonTypeInfo (use = Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes ({ @Type (value = Gold.class), @Type (value = Silver.class), @Type (value = Bronze.class),
+})
+public class Avion implements Serializable {
     protected int id;
     protected double capacidadCombustible;
     protected double costoPorKm;
     protected int capacidadMaxPasajeros;
     protected int velocidadMax;
-    protected Propulsion propulsion;
+    protected String propulsion;
     protected boolean catering;
 
+    public Avion() {
+    }
 
-    public Avion(int id, double combustible, double costoXkm, int pasajeros, int velMax, Propulsion propulsion, boolean catering){
+    public Avion(int id, double combustible, double costoXkm, int pasajeros, int velMax, String propulsion, boolean catering){
         this.id = id;
         this.capacidadCombustible=combustible;
         this.costoPorKm=costoXkm;
@@ -29,14 +41,14 @@ public abstract class Avion {
     }
     public double getCostoPorKm() {return costoPorKm; }
     public int getVelocidadMax() { return velocidadMax; }
-    public String getPropulsion() { return propulsion.toString(); }
-    public abstract int getTarifa();
+    public String getPropulsion() { return propulsion; }
+    public int obtenerTarifa() {return 0;}
 
     public void setCapacidadCombustible(int capacidadCombustible) { this.capacidadCombustible = capacidadCombustible; }
     public void setCostoPorKm(double costoPorKm) { this.costoPorKm = costoPorKm; }
     public void setCapacidadMaxPasajeros(int capacidadMaxPasajeros) {this.capacidadMaxPasajeros = capacidadMaxPasajeros;}
     public void setVelocidadMax(int velocidadMax) { this.velocidadMax = velocidadMax; }
-    public void setPropulsion(Propulsion propulsion) { this.propulsion = propulsion; }
+    public void setPropulsion(String propulsion) { this.propulsion = propulsion; }
     public boolean isCatering() { return catering; }
     public void setCatering(boolean catering) { this.catering = catering; }
 
@@ -48,7 +60,7 @@ public abstract class Avion {
                 " lts., Costo por km.: $" + costoPorKm +
                 ", Capacidad pasajeros: " + capacidadMaxPasajeros +
                 ", Velocidad Max: " + velocidadMax +
-                "km/h, " + propulsion.toString() +
+                "km/h, " + propulsion +
                 ", Catering: " + catering;
     }
 
@@ -59,11 +71,22 @@ public abstract class Avion {
 
         Avion avion = (Avion) o;
 
-        return id == avion.id;
+        return (id != avion.id);
     }
 
     @Override
     public int hashCode() {
-        return id;
+        int result;
+        long temp;
+        result = id;
+        temp = Double.doubleToLongBits(capacidadCombustible);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(costoPorKm);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + capacidadMaxPasajeros;
+        result = 31 * result + velocidadMax;
+        result = 31 * result + propulsion.hashCode();
+        result = 31 * result + (catering ? 1 : 0);
+        return result;
     }
 }
