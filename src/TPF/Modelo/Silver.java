@@ -6,10 +6,10 @@ import java.io.Serializable;
 
 public class Silver extends Avion implements Serializable {
 
-    public Silver(){}
+    public Silver(){super();}
 
-    public Silver (int id, int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering){
-        super(id, combustible,costo,pasajeros,velMax,propulsion,catering);
+    public Silver (int id, int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering, boolean wifi){
+        super(id, combustible,costo,pasajeros,velMax,propulsion,catering,wifi);
     }
 
     @Override

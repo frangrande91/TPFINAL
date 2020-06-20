@@ -13,6 +13,14 @@ public enum Propulsion implements Serializable {
         this.motor=motor;
     }
 
+    public String getMotor() {
+        return motor;
+    }
+
+    public void setMotor(String motor) {
+        this.motor = motor;
+    }
+
     @Override
     public String toString() {
         return "Propulsion: " + motor;

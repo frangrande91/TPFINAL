@@ -6,10 +6,10 @@ import java.io.Serializable;
 
 public class Bronze extends Avion implements Serializable {
 
-    public Bronze(){}
+    public Bronze(){super();}
 
-    public Bronze (int id, int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering){
-        super(id, combustible,costo,pasajeros,velMax,propulsion,catering);
+    public Bronze (int id, int combustible, double costo, int pasajeros, int velMax, String propulsion, boolean catering, boolean wifi){
+        super(id, combustible,costo,pasajeros,velMax,propulsion,catering,wifi);
     }
 
     @Override

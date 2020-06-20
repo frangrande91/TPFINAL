@@ -1,6 +1,7 @@
 package TPF.Menu;
 
 import TPF.Modelo.*;
+import TPF.Persistencia.PersistenciaAviones;
 import TPF.Persistencia.PersistenciaUsuarios;
 import TPF.Persistencia.PersistenciaVuelos;
 
@@ -21,8 +22,13 @@ public class Menu {
 
     public void menuPrincipal() {
         int op = 0;
+
+        //Leo los datos de los archivos
         aerotaxi.setClientes(PersistenciaUsuarios.leerUsuarios());
+        //PersistenciaAviones.persistirAviones(aerotaxi.getFlota());
+        aerotaxi.setFlota(PersistenciaAviones.leerAviones());
         aerotaxi.setVuelos(PersistenciaVuelos.leerVuelos());
+
         ingreso();
 
         do {

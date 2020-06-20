@@ -20,11 +20,12 @@ public class Avion implements Serializable {
     protected int velocidadMax;
     protected String propulsion;
     protected boolean catering;
+    protected boolean wifi;
 
     public Avion() {
     }
 
-    public Avion(int id, double combustible, double costoXkm, int pasajeros, int velMax, String propulsion, boolean catering){
+    public Avion(int id, double combustible, double costoXkm, int pasajeros, int velMax, String propulsion, boolean catering, boolean wifi){
         this.id = id;
         this.capacidadCombustible=combustible;
         this.costoPorKm=costoXkm;
@@ -32,27 +33,27 @@ public class Avion implements Serializable {
         this.velocidadMax=velMax;
         this.propulsion=propulsion;
         this.catering=catering;
+        this.wifi=wifi;
+
     }
 
     public int getId(){return id;}
-    public double getCapacidadCombustible() {
-        return capacidadCombustible;
-    }
-    public int getCapacidadMaxPasajeros() {
-        return capacidadMaxPasajeros;
-    }
+    public double getCapacidadCombustible() {return capacidadCombustible;}
+    public int getCapacidadMaxPasajeros() {return capacidadMaxPasajeros; }
     public double getCostoPorKm() {return costoPorKm; }
     public int getVelocidadMax() { return velocidadMax; }
     public String getPropulsion() { return propulsion; }
-    public int obtenerTarifa() {return 0;}
+    public boolean isCatering() { return catering; }
 
-    public void setCapacidadCombustible(int capacidadCombustible) { this.capacidadCombustible = capacidadCombustible; }
+    public void setId(int id) {this.id = id; }
+    public void setCapacidadCombustible(double capacidadCombustible) {this.capacidadCombustible = capacidadCombustible;}
     public void setCostoPorKm(double costoPorKm) { this.costoPorKm = costoPorKm; }
     public void setCapacidadMaxPasajeros(int capacidadMaxPasajeros) {this.capacidadMaxPasajeros = capacidadMaxPasajeros;}
     public void setVelocidadMax(int velocidadMax) { this.velocidadMax = velocidadMax; }
     public void setPropulsion(String propulsion) { this.propulsion = propulsion; }
-    public boolean isCatering() { return catering; }
     public void setCatering(boolean catering) { this.catering = catering; }
+
+    public int obtenerTarifa(){return 0;};
 
     @Override
     public String toString() {
@@ -63,7 +64,8 @@ public class Avion implements Serializable {
                 ", Capacidad pasajeros: " + capacidadMaxPasajeros +
                 ", Velocidad Max: " + velocidadMax +
                 "km/h, " + propulsion +
-                ", Catering: " + catering;
+                ", Catering: " + catering +
+                ", Wifi: " + wifi;
     }
 
     @Override

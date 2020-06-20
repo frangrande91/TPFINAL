@@ -6,31 +6,24 @@ import TPF.Modelo.*;
 public class Main {
 
     public static void main(String[] args) {
-//        Usuario user1 = new Usuario("Pepe", "Argento", "12", 45);
-//        Usuario user2 = new Usuario ("Juan", "Perez", "10", 33);
-        Avion avion1 = new Gold(1, 2000, 300, 10, 300, "Motor a hélice", true, true);
-        Avion avion2 = new Gold(2, 1800, 280, 9, 280, "Motor a hélice", true, false);
-        Avion avion3 = new Silver(3, 1600, 250, 8, 260, "Motor de pistones", true);
-        Avion avion4 = new Silver(4, 1400, 220, 7, 240, "Motor de pistones", true);
-        Avion avion5 = new Bronze(5, 1200, 190, 6, 220, "Motor a reaccion", false);
-        Avion avion6 = new Bronze(6, 1200, 150, 5, 200, "Motor a reaccion", false);
 
+
+//        Avion avion1 = new Gold(1, 2000, 300, 10, 300, "Motor a hélice", true, true);
+//        Avion avion2 = new Gold(2, 1800, 280, 9, 280, "Motor a hélice", true, false);
+//        Avion avion3 = new Silver(3, 1600, 250, 8, 260, "Motor de pistones", true, false);
+//        Avion avion4 = new Silver(4, 1400, 220, 7, 240, "Motor de pistones", true, false);
+//        Avion avion5 = new Bronze(5, 1200, 190, 6, 220, "Motor a reaccion", false, false);
+//        Avion avion6 = new Bronze(6, 1200, 150, 5, 200, "Motor a reaccion", false,false);
+//
         Aerotaxi aeroTaxi = new Aerotaxi();
+//
+//        aeroTaxi.addAvion(avion1);
+//        aeroTaxi.addAvion(avion2);
+//        aeroTaxi.addAvion(avion3);
+//        aeroTaxi.addAvion(avion4);
+//        aeroTaxi.addAvion(avion5);
+//        aeroTaxi.addAvion(avion6);
 
-//       aeroTaxi.addUsuario(user1);
-//       aeroTaxi.addUsuario(user2);
-
-        aeroTaxi.addAvion(avion1);
-        aeroTaxi.addAvion(avion2);
-        aeroTaxi.addAvion(avion3);
-        aeroTaxi.addAvion(avion4);
-        aeroTaxi.addAvion(avion5);
-        aeroTaxi.addAvion(avion6);
-
-
-//        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-//        usuarios.add(user1);
-//        usuarios.add(user2);
 
         Menu menu = new Menu(aeroTaxi);
         menu.menuPrincipal();

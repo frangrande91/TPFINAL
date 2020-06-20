@@ -23,7 +23,7 @@ public class Aerotaxi {
         this.vuelos = vuelos;
     }
 
-    public Set<Avion> getFlota() {
+    public HashSet<Avion> getFlota() {
         return flota;
     }
 
@@ -43,21 +43,17 @@ public class Aerotaxi {
         this.clientes = clientes;
     }
 
-    public void setVuelos(ArrayList<Vuelo> vuelos) {
-        this.vuelos = vuelos;
-    }
+    public void setVuelos(ArrayList<Vuelo> vuelos) {this.vuelos = vuelos; }
+
+
 
     public void addAvion(Avion avion) {
         this.flota.add(avion);
     }
 
-    public void addVuelo(Vuelo vuelo) {
-        this.vuelos.add(vuelo);
-    }
+    public void addVuelo(Vuelo vuelo) {this.vuelos.add(vuelo); }
 
-    public void addUsuario(Usuario usuario) {
-        this.clientes.add(usuario);
-    }
+//    public void addUsuario(Usuario usuario) { this.clientes.add(usuario); }
 
 
     public void borrarVuelo(Vuelo vuelo){
