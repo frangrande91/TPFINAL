@@ -42,7 +42,7 @@ public class Menu {
             validar = true;
             if (validar)
                 aerotaxi.setVuelos(PersistenciaVuelos.leerVuelos());
-                ingreso();
+            ingreso();
 
             do {
                 Utilidades.clearScreen();
@@ -156,38 +156,42 @@ public class Menu {
     public void contratarVuelo() {
         LocalDate fechaBuscada = datosFechaDelVuelo(false);  //Elige fecha para viajar
         if (fechaBuscada != null) {
-            TipoVuelo tipoElegido = seleccionarTipoVuelo();  //Elige origen y destino;
-            System.out.println("\nVuelos " + tipoElegido.getOrigen() + " - " + tipoElegido.getDestino());
-            System.out.println("Fecha: " + fechaBuscada);
-            System.out.println("\nIngrese la cantidad de acompañantes:");
-            int cantAcompañantes = scan.nextInt();           //Ingresa cantidad de acompañantes
-            HashSet<Avion> avionesDisponiles = aerotaxi.buscarAvionesDisponibles(fechaBuscada, cantAcompañantes + 1);  //Busco los aviones disponibles para esa fecha y cantidad de pasajeros
-            Utilidades.clearScreen();
-            imprimirTitulo();
-
-            Avion avionElegido = elegirAvion(avionesDisponiles);    //Elige el avion
-
-            if (avionElegido != null) {
-                Vuelo nuevoVuelo = new Vuelo(fechaBuscada, tipoElegido, avionElegido.getId(), usuario, cantAcompañantes + 1);  //Instancio el vuelo con los datos
+            int[] recorrido = seleccionarTipoVuelo();  //Elige origen y destino;
+            if (Recorridos.getDistancia(recorrido[0], recorrido[1]) != null) {
+                System.out.println("\nVuelos " + Recorridos.recorridoToString(recorrido));
+                System.out.println("Fecha: " + fechaBuscada);
+                System.out.println("\nIngrese la cantidad de acompañantes:");
+                int cantAcompañantes = scan.nextInt();           //Ingresa cantidad de acompañantes
+                HashSet<Avion> avionesDisponiles = aerotaxi.buscarAvionesDisponibles(fechaBuscada, cantAcompañantes + 1);  //Busco los aviones disponibles para esa fecha y cantidad de pasajeros
                 Utilidades.clearScreen();
                 imprimirTitulo();
-                System.out.println("\n******************************* VUELO A CONTRATAR *******************************");
-                System.out.println(nuevoVuelo.mostrarVuelo(avionElegido));                       //Muestro el vuelo a contratar
-                System.out.println("Para confirmar el vuelo presione 'c': ");
-                scan.nextLine();
-                String rta = scan.nextLine();
-                if (rta.equals("c")) {
-                    aerotaxi.addVuelo(nuevoVuelo);  //Agrego el nuevo vuelo a la lista de vuelos de la empresa
-                    usuario.setTotalGastado(usuario.getTotalGastado() + nuevoVuelo.costoTotal(aerotaxi.buscarAvion(nuevoVuelo.getAvion()))); //Sumo el importe del vuelo al total gastado por el usuario
-                    usuario.agregarVuelo(nuevoVuelo);    //Agrego el vuelo a la lista de vuelos(id) del usuario
-                    usuario.mejorAvionContratado(aerotaxi);      //buscar mejor avion contratado
-                    System.out.println("Vuelo contratado. Imprimiendo ticket...");
-                    System.out.println("El número de vuelo del cliente es: <<<< " + nuevoVuelo.getId() + " >>>>. No lo pierda por favor");
-                    PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
-                    PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
-                } else {
-                    System.out.println("Vuelo cancelado");
+
+                Avion avionElegido = elegirAvion(avionesDisponiles);    //Elige el avion
+
+                if (avionElegido != null) {
+                    Vuelo nuevoVuelo = new Vuelo(fechaBuscada, recorrido, avionElegido.getId(), usuario, cantAcompañantes + 1);  //Instancio el vuelo con los datos
+                    Utilidades.clearScreen();
+                    imprimirTitulo();
+                    System.out.println("\n******************************* VUELO A CONTRATAR *******************************");
+                    System.out.println(nuevoVuelo.mostrarVuelo(avionElegido));                       //Muestro el vuelo a contratar
+                    System.out.println("Para confirmar el vuelo presione 'c': ");
+                    scan.nextLine();
+                    String rta = scan.nextLine();
+                    if (rta.equals("c")) {
+                        aerotaxi.addVuelo(nuevoVuelo);  //Agrego el nuevo vuelo a la lista de vuelos de la empresa
+                        usuario.setTotalGastado(usuario.getTotalGastado() + nuevoVuelo.costoTotal(aerotaxi.buscarAvion(nuevoVuelo.getAvion()), recorrido)); //Sumo el importe del vuelo al total gastado por el usuario
+                        usuario.agregarVuelo(nuevoVuelo);    //Agrego el vuelo a la lista de vuelos(id) del usuario
+                        usuario.mejorAvionContratado(aerotaxi);      //buscar mejor avion contratado
+                        System.out.println("Vuelo contratado. Imprimiendo ticket...");
+                        System.out.println("El número de vuelo del cliente es: <<<< " + nuevoVuelo.getId() + " >>>>. No lo pierda por favor");
+                        PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
+                        PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
+                    } else {
+                        System.out.println("Vuelo cancelado");
+                    }
                 }
+            } else {
+                System.out.println("No hay vuelos disponibles con el recorrido seleccionado");
             }
         }
     }
@@ -247,59 +251,95 @@ public class Menu {
     }
 
 
-    public TipoVuelo seleccionarTipoVuelo() {  //Metodo para elegir origen y destino
-        TipoVuelo rta = null;
-        int origenYdestino = 0;
+//    public TipoVuelo seleccionarTipoVuelo() {  //Metodo para elegir origen y destino
+//        TipoVuelo rta = null;
+//        int origenYdestino = 0;
+//
+//        do {
+//            Utilidades.clearScreen();
+//            imprimirTitulo();
+//            System.out.println("\n***************************** ORIGEN - DESTINO *****************************");
+//            imprimirRutas();
+//            origenYdestino = scan.nextInt();
+//            if (origenYdestino < 1 || origenYdestino > 6) {
+//                System.out.println("Opcion incorrecta. Por favor elija una de las opciones");
+//                Utilidades.pausar();
+//            }
+//        } while (origenYdestino < 1 || origenYdestino > 6);
+//
+//        String eleccion = elegirRuta(origenYdestino);
+//        for (TipoVuelo tipo : TipoVuelo.values()) {
+//            if (eleccion.equals(tipo.toString()))
+//                rta = tipo;           //Convierto los datos en un TipoVuelo (enum)
+//        }
+//
+//        return rta; //Retorna el tipo de vuelo elegido(enum)
+//    }
+
+    public int[] seleccionarTipoVuelo() {  //Metodo para elegir origen y destino
+        int[] rta = new int[2];
+        int origen = 0;
+        int destino = 0;
 
         do {
             Utilidades.clearScreen();
             imprimirTitulo();
-            System.out.println("\n***************************** ORIGEN - DESTINO *****************************");
+            System.out.println("\n***************************** ORIGEN *****************************");
             imprimirRutas();
-            origenYdestino = scan.nextInt();
-            if (origenYdestino < 1 || origenYdestino > 6) {
+            origen = scan.nextInt();
+            if (origen < 1 || origen > 4) {
                 System.out.println("Opcion incorrecta. Por favor elija una de las opciones");
                 Utilidades.pausar();
+            } else
+                rta[0] = origen;
+        } while (origen < 1 || origen > 4);
+        do {
+            Utilidades.clearScreen();
+            imprimirTitulo();
+            System.out.println("\n***************************** DESTINO *****************************");
+            imprimirRutas();
+            destino = scan.nextInt();
+            if (destino < 1 || destino > 4) {
+                System.out.println("Opcion incorrecta. Por favor elija una de las opciones");
+                Utilidades.pausar();
+            } else {
+                rta[1] = destino;
             }
-        } while (origenYdestino < 1 || origenYdestino > 6);
+        } while (destino < 1 || destino > 4);
 
-        String eleccion = elegirRuta(origenYdestino);
-        for (TipoVuelo tipo : TipoVuelo.values()) {
-            if (eleccion.equals(tipo.toString()))
-                rta = tipo;           //Convierto los datos en un TipoVuelo (enum)
-        }
 
-        return rta; //Retorna el tipo de vuelo elegido(enum)
+        return rta;
     }
 
-    public String elegirRuta(int elegido) {
-        String ruta = "";
-        switch (elegido) {
-            case 1:
-                ruta = "Origen: Buenos Aires - Destino: Córdoba - Distancia: 695 km";
-                break;
-            case 2:
-                ruta = "Origen: Buenos Aires - Destino: Santiago - Distancia: 1400 km";
-                break;
-            case 3:
-                ruta = "Origen: Buenos Aires - Destino: Montevideo - Distancia: 950 km";
-                break;
-            case 4:
-                ruta = "Origen: Córdoba - Destino: Montevideo - Distancia: 1190 km";
-                break;
-            case 5:
-                ruta = "Origen: Córdoba - Destino: Santiago - Distancia: 1050 km";
-                break;
-            case 6:
-                ruta = "Origen: Montevideo - Destino: Santiago - Distancia: 2100 km";
-                break;
-            default:
-                ruta = null;
-                break;
-        }
-        return ruta;
-    }
 
+//    public String elegirRuta(int elegido) {
+//        String ruta = "";
+//        switch (elegido) {
+//            case 1:
+//                ruta = "Origen: Buenos Aires - Destino: Córdoba - Distancia: 695 km";
+//                break;
+//            case 2:
+//                ruta = "Origen: Buenos Aires - Destino: Santiago - Distancia: 1400 km";
+//                break;
+//            case 3:
+//                ruta = "Origen: Buenos Aires - Destino: Montevideo - Distancia: 950 km";
+//                break;
+//            case 4:
+//                ruta = "Origen: Córdoba - Destino: Montevideo - Distancia: 1190 km";
+//                break;
+//            case 5:
+//                ruta = "Origen: Córdoba - Destino: Santiago - Distancia: 1050 km";
+//                break;
+//            case 6:
+//                ruta = "Origen: Montevideo - Destino: Santiago - Distancia: 2100 km";
+//                break;
+//            default:
+//                ruta = null;
+//                break;
+//        }
+//        return ruta;
+//    }
+//
 
     public void menuIdVuelo() {
         Utilidades.clearScreen();
@@ -346,7 +386,7 @@ public class Menu {
                 aerotaxi.borrarVuelo(buscado);  //Elimino el vuelo de la lista de vuelos de AEROTAXI
                 usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
                 usuario.mejorAvionContratado(aerotaxi); //actualizar lista de mejor avion
-                usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal(aerotaxi.buscarAvion(buscado.getAvion())));  //Resto el costo del vuelo cancelado en el total gastado por el usuario
+                usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal(aerotaxi.buscarAvion(buscado.getAvion()), buscado.getRecorrido()));  //Resto el costo del vuelo cancelado en el total gastado por el usuario
                 PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
                 PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes());
                 System.out.println("Vuelo cancelado");
@@ -373,8 +413,8 @@ public class Menu {
             System.out.println("\nIngrese la cantidad de pasajeros a agregar: [Asientos disponibles: " + asientosDisponibles + "]");
             int cantAagregar = scan.nextInt();
             if (asientosDisponibles >= cantAagregar) {
-                double costoAnterior = buscado.costoTotal(aerotaxi.buscarAvion(buscar));
-                double costoNuevo = buscado.costoConPasajerosNuevos(cantAagregar, aerotaxi.buscarAvion(buscar));
+                double costoAnterior = buscado.costoTotal(aerotaxi.buscarAvion(buscar), buscado.getRecorrido());
+                double costoNuevo = buscado.costoConPasajerosNuevos(cantAagregar, aerotaxi.buscarAvion(buscar), buscado.getRecorrido());
                 System.out.println("El costo se modificará de $ " + costoAnterior + " a $ " + costoNuevo + "\nPresione 'c' para confirmar");
                 scan.nextLine(); // limpiar buffer
                 String op = scan.nextLine();
@@ -414,15 +454,15 @@ public class Menu {
                     aerotaxi.borrarVuelo(buscado);  //Elimino el vuelo de la lista de vuelos de AEROTAXI
                     usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
                     usuario.mejorAvionContratado(aerotaxi); //actualizar lista de mejor avion
-                    usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal(aerotaxi.buscarAvion(buscado.getAvion())));  //Resto el costo del vuelo cancelado en el total gastado por el usuario
+                    usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal(aerotaxi.buscarAvion(buscado.getAvion()), buscado.getRecorrido()));  //Resto el costo del vuelo cancelado en el total gastado por el usuario
                     System.out.println("Vuelo cancelado");
                     PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
                     PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
                 }
             } else if (totalPasajeros > cantAquitar) {
                 int buscar = buscado.getAvion();
-                double costoAnterior = buscado.costoTotal(aerotaxi.buscarAvion(buscar));
-                double costoNuevo = buscado.costoConPasajerosNuevos(cantAquitar * (-1), aerotaxi.buscarAvion(buscar));
+                double costoAnterior = buscado.costoTotal(aerotaxi.buscarAvion(buscar), buscado.getRecorrido());
+                double costoNuevo = buscado.costoConPasajerosNuevos(cantAquitar * (-1), aerotaxi.buscarAvion(buscar), buscado.getRecorrido());
                 System.out.println("El costo se modificará de $ " + costoAnterior + " a $ " + costoNuevo + "\nPresione 'c' para confirmar");
                 scan.nextLine(); // limpiar buffer
                 String op = scan.nextLine();
@@ -468,11 +508,11 @@ public class Menu {
             }
         } catch (InputMismatchException e) {
             System.err.println("\nIngrese un número válido");
-            scan.nextLine(); //limpiar buffer
+            scan = new Scanner(System.in); //limpiar buffer
             Utilidades.pausar();
         } catch (NullPointerException e2) {
             System.err.println("\nEl archivo está vacío o no existe");
-            scan.nextLine(); //limpiar buffer
+            scan = new Scanner(System.in); //limpiar buffer
             Utilidades.pausar();
         }
     }
@@ -509,12 +549,10 @@ public class Menu {
     }
 
     public void imprimirRutas() {
-        System.out.println("1. Buenos Aires - Córdoba (695 km)");
-        System.out.println("2. Buenos Aires - Santiago (1400 km)");
-        System.out.println("3. Buenos Aires - Montevideo (950 km)");
-        System.out.println("4. Córdoba - Montevideo (1190 km)");
-        System.out.println("5. Córdoba - Santiago - (1050 km)");
-        System.out.println("6. Montevideo - Santiago - (2100 km)");
+        System.out.println("1. Buenos Aires");
+        System.out.println("2. Córdoba");
+        System.out.println("3. Santiago");
+        System.out.println("4. Montevideo");
         System.out.println("\nIngrese una opcion: ");
     }
 

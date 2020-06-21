@@ -15,26 +15,26 @@
   "mejorAvion" : "",
   "totalGastado" : 0.0
 }, {
+  "nombre" : "Juana",
+  "apellido" : "Hernandez",
+  "dni" : "8",
+  "edad" : 37,
+  "vuelos" : [ ],
+  "mejorAvion" : "",
+  "totalGastado" : 0.0
+}, {
   "nombre" : "Pepe",
   "apellido" : "Argento",
   "dni" : "12",
   "edad" : 44,
-  "vuelos" : [ 1, 2 ],
-  "mejorAvion" : "Gold",
-  "totalGastado" : 630000.0
+  "vuelos" : [ 1, 2, 1, 2, 1, 1, 2 ],
+  "mejorAvion" : "Silver",
+  "totalGastado" : 1250000.0
 }, {
   "nombre" : "Ana",
   "apellido" : "Gonzalez",
   "dni" : "15",
   "edad" : 22,
-  "vuelos" : [ ],
-  "mejorAvion" : "",
-  "totalGastado" : 0.0
-}, {
-  "nombre" : "Juana",
-  "apellido" : "Hernandez",
-  "dni" : "8",
-  "edad" : 37,
   "vuelos" : [ ],
   "mejorAvion" : "",
   "totalGastado" : 0.0
