@@ -1,6 +1,6 @@
 package TPF.Modelo;
 
-public class Recorridos {
+public class Recorrido {
     private static String[][] matriz={
         {null, "BuenosAires", "Córdoba", "Santiago", "Montevideo"},
         {"BuenosAires", null, "695", "1400", "950"},
@@ -9,11 +9,7 @@ public class Recorridos {
         {"Montevideo", null, null, "2100", null}
     };
 
-    public Recorridos() {
-    }
-
-    public String[][] getMatriz() {
-        return matriz;
+    public Recorrido() {
     }
 
     public static String getOrigen(int origen) {
@@ -29,7 +25,7 @@ public class Recorridos {
     }
 
 
-    public void imprimirMatriz() {
+    public static void imprimirMatriz() {
         for (int origen = 0; origen < matriz.length; origen++) {
             System.out.println(matriz[origen][0] + "\t\t\t" + matriz[origen][1] + "\t\t\t" + matriz[origen][2] + "\t\t\t" + matriz[origen][3] + "\t\t\t" + matriz[origen][4]);
         }

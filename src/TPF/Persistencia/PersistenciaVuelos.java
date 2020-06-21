@@ -53,7 +53,6 @@ public class PersistenciaVuelos {
 
             vuelos = mapper.readValue(file, new TypeReference<ArrayList<Vuelo>>(){});
         }
-
         catch (IOException e){
             System.err.println("No se pudo leer el archivo de vuelos");
             Utilidades.pausar();
@@ -62,11 +61,13 @@ public class PersistenciaVuelos {
         return vuelos;
     }
 
-    public static int cantidadVuelos(){
+    public static int cantidadVuelos(){        //obtener el mayor id de todos los vuelos
         int rta = 0;
         ArrayList<Vuelo> vuelos = leerVuelos();
-        if(vuelos != null)
-            rta = vuelos.size();
+        for(Vuelo v:vuelos){
+            if(v.getId()>rta)
+                rta= v.getId();
+        }
 
         return rta;
     }
