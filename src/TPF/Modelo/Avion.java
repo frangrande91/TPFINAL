@@ -12,7 +12,7 @@ import java.io.Serializable;
 //})
 
 
-public abstract class Avion implements Serializable  {
+public abstract class Avion implements Serializable,Comparable<Avion> {
     protected int id;
     protected double capacidadCombustible;
     protected double costoPorKm;
@@ -52,7 +52,7 @@ public abstract class Avion implements Serializable  {
     public void setPropulsion(String propulsion) { this.propulsion = propulsion; }
     public void setCatering(boolean catering) { this.catering = catering; }
 
-    public int obtenerTarifa(){return 0;};
+    public abstract int obtenerTarifa();
 
     @Override
     public String toString() {
@@ -92,5 +92,8 @@ public abstract class Avion implements Serializable  {
         return result;
     }
 
-
+    @Override
+    public int compareTo(Avion o) {
+        return id - o.id;
+    }
 }

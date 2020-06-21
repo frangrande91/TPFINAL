@@ -2,7 +2,6 @@ package TPF.Modelo;
 
 import TPF.Menu.Utilidades;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -73,36 +72,8 @@ public class Aerotaxi {
         return buscado; //Retorna el usuario si existe o null si no existe
     }
 
-    /*
-        public HashSet<Avion> avionesDisponibles(LocalDate fecha, int cantPasajeros) {
-            HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
-            if (this.vuelos.size() > 0) {            //Si hay vuelos contratados..
-                for (Avion avion : this.flota) {             //Recorro la lista de aviones
-                    if (!buscarAvionEnListaDeVuelos(avion))     //Si el avion no está en ningun vuelo..
-                        if()
-                            avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
-                    else {
-                        for (Vuelo aux : this.vuelos) {            //Recorro la lista de vuelos
-                            if (avion.equals(aux.getAvion())) {    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
-                                if ((!fecha.isEqual(aux.getFechaVuelo())) && ((aux.getCantPasajeros() + cantPasajeros) <= avion.capacidadMaxPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
-                                    avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
-                            }
-                        }
-                    }
-                }
-            } else {       //Si no hay vuelos contratados directamente agrego al HashSet los aviones cuya capacidad de pasajeros alcance
-                for (Avion avion : this.flota) {
-                    if (cantPasajeros <= avion.capacidadMaxPasajeros)
-                        avionesDisponibles.add(avion);
-                }
-            }
-
-            return avionesDisponibles; //Retorna un hashSet de los aviones disponibles
-        }
-
-     */
-    public HashSet<Avion> buscarAvionesDisponibles(LocalDate fecha, int cantPasajeros) {
-        HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
+    public TreeSet<Avion> buscarAvionesDisponibles(LocalDate fecha, int cantPasajeros) {
+        TreeSet<Avion> avionesDisponibles = new TreeSet<Avion>();
         if (vuelos != null) {
             HashSet<Avion> avionesOcupados = buscarAvionesPorFecha(fecha);
 
@@ -149,11 +120,19 @@ public class Aerotaxi {
 
     public void listarVuelosPorFecha(LocalDate fecha) {
         boolean flag = false;
+        double costo = 0;
+        int i = 0;
+
         for (Vuelo v : this.vuelos) {
-            if (fecha.isEqual(v.getFechaVuelo()))
+            if (fecha.isEqual(v.getFechaVuelo())) {
                 System.out.println(v.mostrarVuelo(this.buscarAvion(v.getAvion())));
-            flag = true;
+                i++;
+                flag = true;
+                costo += v.costoTotal(this.buscarAvion(v.getAvion()), v.getRecorrido());
+            }
         }
+        System.out.println("\nCANTIDAD DE VUELOS " + fecha + ": " + i + " - TOTAL: $ " + costo+"\n");
+
         if (!flag)
             System.out.println("No hay vuelos para la fecha");
     }
@@ -162,8 +141,8 @@ public class Aerotaxi {
         if (usuario.getVuelos().size() == 0)
             System.out.println("El usuario no tiene vuelos contratados");
         else {
-            for (Long aux : usuario.getVuelos())
-                buscarVuelo(aux).mostrarVuelo(this.buscarAvion(buscarVuelo(aux).getAvion()));
+            for (Integer aux : usuario.getVuelos())
+                System.out.println(buscarVuelo(aux).mostrarVuelo(this.buscarAvion(buscarVuelo(aux).getAvion())));
         }
     }
 
@@ -178,9 +157,12 @@ public class Aerotaxi {
 
     public void listarAviones() {
         System.out.println("\n******************************* Aviones de AEROTAXI ******************************");
-        for (Avion avion : this.flota) {
+        TreeSet<Avion> flotaTreeSet = new TreeSet<Avion>();
+        for (Avion avion : this.flota)
+            flotaTreeSet.add(avion);          //Paso los aviones a un TreeSet para mostrarlos ordenados por id
+
+        for (Avion avion : flotaTreeSet)
             System.out.println(avion.toString());
-        }
     }
 
 
@@ -190,18 +172,77 @@ public class Aerotaxi {
         if (this.getVuelos().isEmpty()) {
             System.out.println("\nNo hay vuelos reservados\n");
         } else {
+            double costo = 0;
             for (Vuelo v : this.getVuelos()) {
                 System.out.println(v.mostrarVuelo(this.buscarAvion(v.getAvion())));
                 i++;
                 if (i % 5 == 0)
                     Utilidades.pausar();
+                costo += v.costoTotal(this.buscarAvion(v.getAvion()), v.getRecorrido());
             }
+            System.out.println("\nCANTIDAD DE VUELOS: " + i + " - TOTAL: $ " + costo+"\n");
+
         }
     }
 
+    public void listarVuelosDesde(int i) {
+        double costo = 0;
+        int cant = 0;
+        for (Vuelo v : this.getVuelos()) {
+            int[] aux = v.getRecorrido();
+            if (aux[0] == i) {
+                cant++;
+                System.out.println(v.mostrarVuelo(this.buscarAvion(v.getAvion())));
+                costo += v.costoTotal(this.buscarAvion(v.getAvion()), v.getRecorrido());
+            }
+        }
+        System.out.println("\nCANTIDAD DE VUELOS: " + cant + " - TOTAL: $ " + costo+"\n");
+    }
+
+    public void listarVuelosHacia(int i) {
+        int cant = 0;
+        double costo = 0;
+        for (Vuelo v : this.getVuelos()) {
+            int[] aux = v.getRecorrido();
+            if (aux[1] == i) {
+                cant++;
+                System.out.println(v.mostrarVuelo(this.buscarAvion(v.getAvion())));
+                costo += v.costoTotal(this.buscarAvion(v.getAvion()), v.getRecorrido());
+            }
+        }
+        System.out.println("\nCANTIDAD DE VUELOS: " + cant + " - TOTAL: $ " + costo+"\n");
+
+    }
 }
 
+    /*
+        public HashSet<Avion> avionesDisponibles(LocalDate fecha, int cantPasajeros) {
+            HashSet<Avion> avionesDisponibles = new HashSet<Avion>();
+            if (this.vuelos.size() > 0) {            //Si hay vuelos contratados..
+                for (Avion avion : this.flota) {             //Recorro la lista de aviones
+                    if (!buscarAvionEnListaDeVuelos(avion))     //Si el avion no está en ningun vuelo..
+                        if()
+                            avionesDisponibles.add(avion);            //Lo agrego a la lista de aviones disponibles
+                    else {
+                        for (Vuelo aux : this.vuelos) {            //Recorro la lista de vuelos
+                            if (avion.equals(aux.getAvion())) {    //Si el avión está en algún vuelo.. me fijo si el avion de la lista de aviones es igual al avion del vuelo..
+                                if ((!fecha.isEqual(aux.getFechaVuelo())) && ((aux.getCantPasajeros() + cantPasajeros) <= avion.capacidadMaxPasajeros))   //Comparo la fecha que desea viajar el cliente con la fecha de cada vuelo y que la cantidad max de pasajeros sea suficiente
+                                    avionesDisponibles.add(avion);     //Agrego a la lista de aviones disponibles los aviones que no se usan esa fecha y tienen capacidad de pasajeros para el viaje
+                            }
+                        }
+                    }
+                }
+            } else {       //Si no hay vuelos contratados directamente agrego al HashSet los aviones cuya capacidad de pasajeros alcance
+                for (Avion avion : this.flota) {
+                    if (cantPasajeros <= avion.capacidadMaxPasajeros)
+                        avionesDisponibles.add(avion);
+                }
+            }
 
+            return avionesDisponibles; //Retorna un hashSet de los aviones disponibles
+        }
+
+     */
 
     /*
     public void listarAvionesPorFecha(LocalDate fechaElegida, int cantAcomp) {

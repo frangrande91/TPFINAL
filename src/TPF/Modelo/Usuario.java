@@ -8,7 +8,7 @@ public class Usuario implements Serializable {
     private String apellido;
     private String dni;
     private int edad;
-    private ArrayList<Long> vuelos;
+    private ArrayList<Integer> vuelos;
     private String mejorAvion;
     private double totalGastado;
 
@@ -20,7 +20,7 @@ public class Usuario implements Serializable {
         this.apellido = apellido;
         this.dni = dni;
         this.edad = edad;
-        this.vuelos = new ArrayList<Long>();
+        this.vuelos = new ArrayList<Integer>();
         this.mejorAvion = "";
         this.totalGastado = 0;
     }
@@ -57,11 +57,11 @@ public class Usuario implements Serializable {
         this.edad = edad;
     }
 
-    public List<Long> getVuelos() {
+    public List<Integer> getVuelos() {
         return vuelos;
     }
 
-    public void setVuelos(ArrayList<Long> vuelos) {
+    public void setVuelos(ArrayList<Integer> vuelos) {
         this.vuelos = vuelos;
     }
 
@@ -91,7 +91,7 @@ public class Usuario implements Serializable {
     }
 
     public void darDeBajaVuelo(Vuelo vuelo) {
-        this.vuelos.remove(vuelo.getId());
+        this.vuelos.remove(getIndexVuelo(vuelo.getId()));
     }
 
 
@@ -99,7 +99,7 @@ public class Usuario implements Serializable {
         HashMap<String, Vuelo> vuelosUser = new HashMap<String, Vuelo>();
 
         if (this.getVuelos().size() > 0) {
-            for (Long id : this.getVuelos()) {
+            for (Integer id : this.getVuelos()) {
                 for (Vuelo aux : aerotaxi.getVuelos()) {
                     if (aux.getId() == id)         //Agrego los vuelos del user a un HashMap auxiliar y depende el tipo de Avion lo identifico con keys(Strings) diferentes
                         if (aerotaxi.buscarAvion(aux.getAvion()) instanceof Gold)
@@ -126,12 +126,19 @@ public class Usuario implements Serializable {
 
 
     public void listarVuelosUser() {
-        for (Long aux : this.vuelos) {
+        for (Integer aux : this.vuelos) {
             System.out.println(aux.toString());
         }
     }
 
-
+    public int getIndexVuelo(int numVuelo){ //con el numero de vuelo obtengo el indice del arreglo ((en lista user))
+        int index=-1;
+        for (int vuelo: this.getVuelos()){
+            if(vuelo == numVuelo) {
+                index=this.getVuelos().indexOf(vuelo);
+            }
+        }return index;
+    }
     @Override
     public String toString() {
         return "Cliente {" +
@@ -144,19 +151,23 @@ public class Usuario implements Serializable {
                 '}';
     }
 
-}
-
-        /*
-    public int getIndexVuelo(int numVuelo){ //con el numero de vuelo obtengo el indice del arreglo ((en lista user))
-        int index=-1;
-        for (Vuelo vuelo: this.getVuelos()){
-            if(vuelo.getNumeroDeVuelo()==numVuelo) {
-                index=this.getVuelos().indexOf(vuelo);
-                return index;
-            }
-        }return index;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(dni, usuario.dni);
     }
 
-     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(dni);
+    }
+}
+
+
+
+
+
 
 

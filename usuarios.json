@@ -1,19 +1,19 @@
 [ {
-  "nombre" : "Juan",
-  "apellido" : "Perez",
-  "dni" : "10",
-  "edad" : 33,
+  "nombre" : "Pepe",
+  "apellido" : "Argento",
+  "dni" : "12",
+  "edad" : 44,
   "vuelos" : [ ],
   "mejorAvion" : "",
   "totalGastado" : 0.0
 }, {
-  "nombre" : "Gabriel",
-  "apellido" : "Mendoza",
-  "dni" : "11",
-  "edad" : 35,
-  "vuelos" : [ ],
-  "mejorAvion" : "",
-  "totalGastado" : 0.0
+  "nombre" : "Ana",
+  "apellido" : "Gonzalez",
+  "dni" : "15",
+  "edad" : 22,
+  "vuelos" : [ 5 ],
+  "mejorAvion" : "Gold",
+  "totalGastado" : 298000.0
 }, {
   "nombre" : "Juana",
   "apellido" : "Hernandez",
@@ -23,18 +23,58 @@
   "mejorAvion" : "",
   "totalGastado" : 0.0
 }, {
-  "nombre" : "Pepe",
-  "apellido" : "Argento",
-  "dni" : "12",
-  "edad" : 44,
-  "vuelos" : [ 1, 2, 1, 2, 1, 1, 2 ],
+  "nombre" : "Charles",
+  "apellido" : "Bukowski",
+  "dni" : "41",
+  "edad" : 67,
+  "vuelos" : [ 13, 14 ],
   "mejorAvion" : "Silver",
-  "totalGastado" : 1250000.0
+  "totalGastado" : 457750.0
 }, {
-  "nombre" : "Ana",
-  "apellido" : "Gonzalez",
-  "dni" : "15",
-  "edad" : 22,
+  "nombre" : "Facundo",
+  "apellido" : "Gimenez",
+  "dni" : "42",
+  "edad" : 39,
+  "vuelos" : [ ],
+  "mejorAvion" : "",
+  "totalGastado" : 0.0
+}, {
+  "nombre" : "Emanuel",
+  "apellido" : "Ginobili",
+  "dni" : "31",
+  "edad" : 26,
+  "vuelos" : [ 6 ],
+  "mejorAvion" : "Gold",
+  "totalGastado" : 225100.0
+}, {
+  "nombre" : "Juan",
+  "apellido" : "Perez",
+  "dni" : "10",
+  "edad" : 33,
+  "vuelos" : [ 1, 2 ],
+  "mejorAvion" : "Gold",
+  "totalGastado" : 585000.0
+}, {
+  "nombre" : "Lionel",
+  "apellido" : "Messi",
+  "dni" : "32",
+  "edad" : 33,
+  "vuelos" : [ 7, 8 ],
+  "mejorAvion" : "Gold",
+  "totalGastado" : 937000.0
+}, {
+  "nombre" : "Gabriel",
+  "apellido" : "Mendoza",
+  "dni" : "11",
+  "edad" : 35,
+  "vuelos" : [ 9, 10, 11, 12 ],
+  "mejorAvion" : "Gold",
+  "totalGastado" : 1051500.0
+}, {
+  "nombre" : "Mariana",
+  "apellido" : "Paz",
+  "dni" : "22",
+  "edad" : 45,
   "vuelos" : [ ],
   "mejorAvion" : "",
   "totalGastado" : 0.0

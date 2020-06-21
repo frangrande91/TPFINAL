@@ -1,10 +1,6 @@
 package TPF.Modelo;
 
-import TPF.Modelo.Avion;
-import TPF.Modelo.TipoVuelo;
-import TPF.Modelo.Usuario;
 import TPF.Persistencia.PersistenciaVuelos;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,7 +8,7 @@ import java.time.LocalDate;
 public class Vuelo implements Serializable {
 //    public int i = 1;
 
-    private long id;
+    private int id;
     private LocalDate fechaVuelo;
     private int[]recorrido;
     private int avion;
@@ -31,7 +27,7 @@ public class Vuelo implements Serializable {
         this.cantPasajeros = cantPasajeros;
     }
 
-    public long getId(){ return id; }
+    public int getId(){ return id; }
     public LocalDate getFechaVuelo() {
         return fechaVuelo;
     }
@@ -53,7 +49,7 @@ public class Vuelo implements Serializable {
         this.cantPasajeros = cantPasajeros;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -73,23 +69,23 @@ public class Vuelo implements Serializable {
     }
 
     public double costoTotal(Avion avion,int[]a) {
-        int i=0;
-        String b=Recorridos.getDistancia(a[0],a[1]);
+        int cantKilometros=0;
+        String b= Recorrido.getDistancia(a[0],a[1]);  //retorna distancia en kilometros (string)
         try {
-            i = Integer.parseInt(b);
+            cantKilometros = Integer.parseInt(b);                    //string a int
         }catch(NumberFormatException e){
         }
 
-        return (i * avion.costoPorKm + (cantPasajeros * 3500) + (avion.obtenerTarifa()));
+        return (cantKilometros * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.obtenerTarifa());
     }
     public double costoConPasajerosNuevos(int aAgregar, Avion avion, int []a) {
-        int i=0;
-        String b=Recorridos.getDistancia(a[0],a[1]);
+        int cantKilometros=0;
+        String b= Recorrido.getDistancia(a[0],a[1]);
         try {
-            i = Integer.parseInt(b);
+            cantKilometros = Integer.parseInt(b);
         }catch(NumberFormatException e){
         }
-        return (i * avion.costoPorKm) + ((cantPasajeros+aAgregar) * 3500) + (avion.obtenerTarifa());
+        return (cantKilometros * avion.costoPorKm) + ((cantPasajeros+aAgregar) * 3500) + (avion.obtenerTarifa());
     }
 
     public String mostrarVuelo(Avion avion) {
@@ -97,7 +93,7 @@ public class Vuelo implements Serializable {
                 "Vuelo {" +
                 "Numero de vuelo: <<<< " + id + " >>>>" +
                 ", Fecha del vuelo: " + fechaVuelo +
-                " " +Recorridos.recorridoToString(this.recorrido)+  "}\n"
+                " " + Recorrido.recorridoToString(this.recorrido)+  "}\n"
                 + avion.toString() +
                 "\nCliente: " + cliente.getNombre() + " " + cliente.getApellido() +
                 "\nCantidad de pasajeros: " + cantPasajeros +

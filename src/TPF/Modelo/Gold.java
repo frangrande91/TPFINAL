@@ -28,8 +28,10 @@ public class Gold extends Avion implements Serializable{
         public int obtenerTarifa(){
             return 6000;
         }
-    @Override
-    public String toString() {
+
+        @Override
+        public String toString() {
         return super.toString()+", wifi: "+wifi+"}";
     }
-    }
+
+}
