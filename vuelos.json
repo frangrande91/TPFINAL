@@ -1,31 +1,31 @@
 [ {
   "id" : 1,
-  "fechaVuelo" : "2020-12-01",
-  "tipoVuelo" : "UNO",
-  "avion" : 1,
+  "fechaVuelo" : "2022-02-02",
+  "recorrido" : [ 2, 4 ],
+  "avion" : 5,
   "cliente" : {
     "nombre" : "Pepe",
     "apellido" : "Argento",
     "dni" : "12",
     "edad" : 44,
-    "vuelos" : [ 1, 2 ],
-    "mejorAvion" : "Gold",
-    "totalGastado" : 630000.0
+    "vuelos" : [ 1, 2, 1, 2, 1, 1 ],
+    "mejorAvion" : "Bronze",
+    "totalGastado" : 927500.0
   },
-  "cantPasajeros" : 2
+  "cantPasajeros" : 6
 }, {
   "id" : 2,
-  "fechaVuelo" : "2020-12-01",
-  "tipoVuelo" : "DOS",
-  "avion" : 2,
+  "fechaVuelo" : "2022-02-02",
+  "recorrido" : [ 2, 4 ],
+  "avion" : 3,
   "cliente" : {
     "nombre" : "Pepe",
     "apellido" : "Argento",
     "dni" : "12",
     "edad" : 44,
-    "vuelos" : [ 1, 2 ],
-    "mejorAvion" : "Gold",
-    "totalGastado" : 630000.0
+    "vuelos" : [ 1, 2, 1, 2, 1, 1, 2 ],
+    "mejorAvion" : "Silver",
+    "totalGastado" : 1250000.0
   },
-  "cantPasajeros" : 3
+  "cantPasajeros" : 6
 } ]

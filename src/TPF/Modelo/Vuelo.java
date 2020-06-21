@@ -14,7 +14,7 @@ public class Vuelo implements Serializable {
 
     private long id;
     private LocalDate fechaVuelo;
-    private TipoVuelo tipoVuelo;
+    private int[]recorrido;
     private int avion;
     private Usuario cliente;
     private int cantPasajeros;
@@ -22,10 +22,10 @@ public class Vuelo implements Serializable {
     public Vuelo() {
     }
 
-    public Vuelo(LocalDate fechaVuelo, TipoVuelo tipoVuelo, int avion, Usuario cliente, int cantPasajeros) {
+    public Vuelo(LocalDate fechaVuelo, int[]recorrido, int avion, Usuario cliente, int cantPasajeros) {
         this.id = PersistenciaVuelos.cantidadVuelos() + 1;
         this.fechaVuelo = fechaVuelo;
-        this.tipoVuelo = tipoVuelo;
+        this.recorrido = recorrido;
         this.avion = avion;
         this.cliente = cliente;
         this.cantPasajeros = cantPasajeros;
@@ -35,10 +35,13 @@ public class Vuelo implements Serializable {
     public LocalDate getFechaVuelo() {
         return fechaVuelo;
     }
-    public TipoVuelo getTipoVuelo() {
-        return tipoVuelo;
-    }
 
+    public int[]getRecorrido() {
+        return recorrido;
+    }
+    public void setRecorrido(int[] recorrido) {
+        this.recorrido = recorrido;
+    }
     public int getAvion() {
         return avion;
     }
@@ -55,9 +58,6 @@ public class Vuelo implements Serializable {
     }
 
       public Usuario getCliente() { return cliente; }
-    public void setTipoVuelo(TipoVuelo tipoVuelo) {
-        this.tipoVuelo = tipoVuelo;
-    }
     public void setAvion(int avion) {
         this.avion = avion;
     }
@@ -72,11 +72,24 @@ public class Vuelo implements Serializable {
         this.cantPasajeros--;
     }
 
-    public double costoTotal(Avion avion) {
-        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.obtenerTarifa());
+    public double costoTotal(Avion avion,int[]a) {
+        int i=0;
+        String b=Recorridos.getDistancia(a[0],a[1]);
+        try {
+            i = Integer.parseInt(b);
+        }catch(NumberFormatException e){
+        }
+
+        return (i * avion.costoPorKm + (cantPasajeros * 3500) + (avion.obtenerTarifa()));
     }
-    public double costoConPasajerosNuevos(int aAgregar, Avion avion) {
-        return (this.tipoVuelo.getDistancia() * avion.costoPorKm) + ((cantPasajeros+aAgregar) * 3500) + (avion.obtenerTarifa());
+    public double costoConPasajerosNuevos(int aAgregar, Avion avion, int []a) {
+        int i=0;
+        String b=Recorridos.getDistancia(a[0],a[1]);
+        try {
+            i = Integer.parseInt(b);
+        }catch(NumberFormatException e){
+        }
+        return (i * avion.costoPorKm) + ((cantPasajeros+aAgregar) * 3500) + (avion.obtenerTarifa());
     }
 
     public String mostrarVuelo(Avion avion) {
@@ -84,11 +97,11 @@ public class Vuelo implements Serializable {
                 "Vuelo {" +
                 "Numero de vuelo: <<<< " + id + " >>>>" +
                 ", Fecha del vuelo: " + fechaVuelo +
-                " " + tipoVuelo.toString() + "}\n"
+                " " +Recorridos.recorridoToString(this.recorrido)+  "}\n"
                 + avion.toString() +
                 "\nCliente: " + cliente.getNombre() + " " + cliente.getApellido() +
                 "\nCantidad de pasajeros: " + cantPasajeros +
-                "\nCosto total: $" + costoTotal(avion) +
+                "\nCosto total: $" + costoTotal(avion,recorrido) +
                 "\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
     }

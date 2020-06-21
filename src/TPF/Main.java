@@ -1,6 +1,7 @@
 package TPF;
 
 import TPF.Menu.Menu;
+import TPF.Menu.Utilidades;
 import TPF.Modelo.*;
 import TPF.Persistencia.PersistenciaAvionesBronze;
 import TPF.Persistencia.PersistenciaAvionesGold;
@@ -27,6 +28,12 @@ public class Main {
 //        Silver avion4 = new Silver(4, 1400, 220, 7, 240, "Motor de pistones", true);
 //        Bronze avion5 = new Bronze(5, 1200, 190, 6, 220, "Motor a reaccion", false);
 //        Bronze avion6 = new Bronze(6, 1200, 150, 5, 200, "Motor a reaccion", false);
+
+//        Recorridos e = new Recorridos();
+//        e.imprimirMatriz();
+//        Utilidades.pausar();
+
+
 
         Aerotaxi aeroTaxi = new Aerotaxi();
 //
