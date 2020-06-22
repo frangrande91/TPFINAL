@@ -1,5 +1,7 @@
 package TPF.Modelo;
 
+import TPF.Modelo.Avion;
+
 import java.io.Serializable;
 
 public class Gold extends Avion implements Serializable{
@@ -14,7 +16,6 @@ public class Gold extends Avion implements Serializable{
             super(id, combustible, costo, pasajeros, velMax, propulsion, catering);
             this.wifi = wifi;
         }
-
 
         public boolean isWifi() {
             return wifi;

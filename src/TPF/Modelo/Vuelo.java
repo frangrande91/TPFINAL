@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Vuelo implements Serializable {
-//    public int i = 1;
 
     private int id;
     private LocalDate fechaVuelo;
@@ -31,12 +30,8 @@ public class Vuelo implements Serializable {
     public LocalDate getFechaVuelo() {
         return fechaVuelo;
     }
-
     public int[]getRecorrido() {
         return recorrido;
-    }
-    public void setRecorrido(int[] recorrido) {
-        this.recorrido = recorrido;
     }
     public int getAvion() {
         return avion;
@@ -44,16 +39,17 @@ public class Vuelo implements Serializable {
     public int getCantPasajeros() {
         return cantPasajeros;
     }
+    public Usuario getCliente() { return cliente; }
 
     public void setCantPasajeros(int cantPasajeros) {
         this.cantPasajeros = cantPasajeros;
     }
-
+    public void setRecorrido(int[] recorrido) {
+        this.recorrido = recorrido;
+    }
     public void setId(int id) {
         this.id = id;
     }
-
-      public Usuario getCliente() { return cliente; }
     public void setAvion(int avion) {
         this.avion = avion;
     }
@@ -61,12 +57,6 @@ public class Vuelo implements Serializable {
         this.fechaVuelo = fechaVuelo;
     }
 
-    public void agregarPasajero(Usuario nuevo){
-        this.cantPasajeros++;
-    }
-    public void quitarPasajero(int dni){
-        this.cantPasajeros--;
-    }
 
     public double costoTotal(Avion avion,int[]a) {
         int cantKilometros=0;
@@ -78,6 +68,7 @@ public class Vuelo implements Serializable {
 
         return (cantKilometros * avion.costoPorKm) + (cantPasajeros * 3500) + (avion.obtenerTarifa());
     }
+
     public double costoConPasajerosNuevos(int aAgregar, Avion avion, int []a) {
         int cantKilometros=0;
         String b= Recorrido.getDistancia(a[0],a[1]);

@@ -1,7 +1,6 @@
 package TPF.Persistencia;
 
 import TPF.Menu.Utilidades;
-import TPF.Modelo.Avion;
 import TPF.Modelo.Usuario;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +23,6 @@ public class PersistenciaUsuarios {
             System.err.println("No se pudo leer el archivo de usuarios");
             Utilidades.pausar();
         }
-
         return usuarios;
     }
 
@@ -35,7 +33,6 @@ public class PersistenciaUsuarios {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 
-            //ESCRIBIR JSON
             mapper.writeValue(file, usuarios);
         }
         catch (IOException e){
@@ -43,7 +40,5 @@ public class PersistenciaUsuarios {
             Utilidades.pausar();
         }
     }
-
-
 
 }

@@ -34,7 +34,6 @@ public class PersistenciaAvionesGold{
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 
-            //ESCRIBIR JSON
             mapper.writeValue(file, avionesGold);
         }
         catch (IOException e){

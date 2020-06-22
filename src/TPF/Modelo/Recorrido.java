@@ -15,20 +15,17 @@ public class Recorrido {
     public static String getOrigen(int origen) {
         return matriz[origen][0];
     }
-
     public static String getDestino(int destino) {
         return matriz[0][destino];
     }
-
     public static String getDistancia(int origen, int destino) {
         return matriz[origen][destino];
     }
 
 
     public static void imprimirMatriz() {
-        for (int origen = 0; origen < matriz.length; origen++) {
+        for (int origen = 0; origen < matriz.length; origen++)
             System.out.println(matriz[origen][0] + "\t\t\t" + matriz[origen][1] + "\t\t\t" + matriz[origen][2] + "\t\t\t" + matriz[origen][3] + "\t\t\t" + matriz[origen][4]);
-        }
     }
 
     public static String recorridoToString(int []recorrido) {

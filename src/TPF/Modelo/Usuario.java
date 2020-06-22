@@ -28,62 +28,44 @@ public class Usuario implements Serializable {
     public String getNombre() {
         return nombre;
     }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getApellido() {
         return apellido;
     }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
     public String getDni() {
         return dni;
     }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
     public int getEdad() {
         return edad;
     }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public List<Integer> getVuelos() {
-        return vuelos;
-    }
-
-    public void setVuelos(ArrayList<Integer> vuelos) {
-        this.vuelos = vuelos;
-    }
-
+    public List<Integer> getVuelos() {return vuelos;}
     public String getMejorAvion() {
         return mejorAvion;
     }
-
-    public void setMejorAvion(String mejorAvion) {
-        this.mejorAvion = mejorAvion;
-    }
-
     public double getTotalGastado() {
         return totalGastado;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+    public void setVuelos(ArrayList<Integer> vuelos) {
+        this.vuelos = vuelos;
+    }
+    public void setMejorAvion(String mejorAvion) {
+        this.mejorAvion = mejorAvion;
+    }
     public void setTotalGastado(double totalGastado) {
         this.totalGastado = totalGastado;
     }
-
-
-
-
 
 
     public void agregarVuelo(Vuelo vuelo) {
@@ -93,7 +75,6 @@ public class Usuario implements Serializable {
     public void darDeBajaVuelo(Vuelo vuelo) {
         this.vuelos.remove(getIndexVuelo(vuelo.getId()));
     }
-
 
     public void mejorAvionContratado(Aerotaxi aerotaxi) {  //Compara el nuevo avion contratado con el atributo mejorAvion
         HashMap<String, Vuelo> vuelosUser = new HashMap<String, Vuelo>();
@@ -124,13 +105,6 @@ public class Usuario implements Serializable {
     }
 
 
-
-    public void listarVuelosUser() {
-        for (Integer aux : this.vuelos) {
-            System.out.println(aux.toString());
-        }
-    }
-
     public int getIndexVuelo(int numVuelo){ //con el numero de vuelo obtengo el indice del arreglo ((en lista user))
         int index=-1;
         for (int vuelo: this.getVuelos()){
@@ -139,6 +113,7 @@ public class Usuario implements Serializable {
             }
         }return index;
     }
+
     @Override
     public String toString() {
         return "Cliente {" +

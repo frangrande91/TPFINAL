@@ -21,10 +21,6 @@ public class Menu {
     public void menuPrincipal() {
         int op = 0;
 
-        //PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes());
-        //PersistenciaAviones.persistirAviones(aerotaxi.getFlota());
-        //     Utilidades.pausar();
-
         //Leo los datos de los archivos
         boolean validar = false;
         aerotaxi.setClientes(PersistenciaUsuarios.leerUsuarios());
@@ -164,9 +160,6 @@ public class Menu {
                 int cantAcompañantes = scan.nextInt();           //Ingresa cantidad de acompañantes
                 if (cantAcompañantes >= 0) {
                     TreeSet<Avion> avionesDisponiles = aerotaxi.buscarAvionesDisponibles(fechaBuscada, cantAcompañantes + 1);  //Busco los aviones disponibles para esa fecha y cantidad de pasajeros
-//                    Utilidades.clearScreen();
-//                    imprimirTitulo();
-
                     Avion avionElegido = elegirAvion(avionesDisponiles);    //Elige el avion
 
                     if (avionElegido != null) {
@@ -195,10 +188,8 @@ public class Menu {
             } else {
                 System.out.println("No hay vuelos disponibles con el recorrido seleccionado");
             }
-
         }
     }
-
 
     public Avion elegirAvion(TreeSet<Avion> avionesDisponibles) {
         Avion avionElegido = null;
@@ -225,7 +216,6 @@ public class Menu {
             } while (id > avionesDisponibles.size() || id < 1);
         } else
             System.out.println("No hay aviones disponibles");
-
 
         return avionElegido;
     }
@@ -265,7 +255,6 @@ public class Menu {
         return elegida;  //Retorna la fecha elegida o null si se ingresó una fecha inválida
     }
 
-
     public int[] seleccionarRecorrido() {  //Metodo para elegir origen y destino
         int[] rta = new int[2];
         int origen = 0;
@@ -297,10 +286,8 @@ public class Menu {
             }
         } while (destino < 1 || destino > 4);
 
-
         return rta;
     }
-
 
     public void menuIdVuelo() {    //preguntar si tiene el id del vuelo, si no se muestran todos sus vuelos
         Utilidades.clearScreen();
@@ -314,16 +301,14 @@ public class Menu {
                 if (op.equals("s") || op.equals("n")) {
                     sn = false;
                     break;
-                } else {
+                } else
                     scan = new Scanner(System.in); //limpiar buffer
-                }
             }
             if (op.equals("n")) {     //Si no tiene el id le muestro todos los vuelos del usuario para que elija
                 Utilidades.clearScreen();
                 imprimirTitulo();
                 System.out.println("\n************** Vuelos de " + usuario.getNombre() + " " + usuario.getApellido() + " ***************");
                 aerotaxi.listarVuelosUser(usuario);      //Muestro la lista de vuelos del usuario
-                //Utilidades.pausar();
             }
         } catch (InputMismatchException e) {
             System.out.println("\nIngrese un numero valido");
@@ -362,7 +347,6 @@ public class Menu {
             System.out.println("No tiene vuelos con ese numero");
         }
     }
-
 
     public void agregarPasajeros() {
         System.out.println("Ingrese el número del vuelo al que desea agregar pasajeros: ");
@@ -441,16 +425,11 @@ public class Menu {
                     PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
                     PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
                 }
-            } else {                                    //no quitar, numero imposible
+            } else                                    //no quitar, numero imposible
                 System.out.println("No se puede quitar la cantidad de pasajeros elegida");
-                //pausar();
-            }
-        } else {
+        } else
             System.out.println("No tiene vuelos con ese numero");
-            //pausar();
-        }
     }
-
 
     public void menuVerVuelos() {
         imprimirOpcVerVuelos();
@@ -493,7 +472,6 @@ public class Menu {
                     System.out.println("\n******************************* Vuelos de " + usuario.getNombre() + " " + usuario.getApellido() + "******************************");
                     aerotaxi.listarVuelosUser(usuario);
                     Utilidades.pausar();
-
             }
         } catch (InputMismatchException e) {
             System.err.println("\nIngrese un número válido");
@@ -508,8 +486,7 @@ public class Menu {
         }
     }
 
-
-    /************************************************ IMPRESIONES ************************************************/
+    /*************************************************************** IMPRESIONES ***************************************************************/
     public void imprimirTitulo() {
         System.out.println("      _       ________  _______      ___    _________     _       ____  ____  _____  ");
         System.out.println("     / \\     |_   __  ||_   __ \\   .'   `. |  _   _  |   / \\     |_  _||_  _||_   _| ");
@@ -549,230 +526,4 @@ public class Menu {
         System.out.println("4. Montevideo");
         System.out.println("\nIngrese una opcion: ");
     }
-
-    // /************************************************ UTILIDADES ************************************************/
-/*
-    public void clearScreen() {
-        for (int i = 0; i < 80 * 300; i++)
-            System.out.println("\b");
-    }
-
-    public static void pausar() {
-        System.out.println("Presione ENTER para continuar..");
-        try {
-            System.in.read();
-        } catch (IOException e) {
-
-        }
-    }
-
- */
-
-//    public TipoVuelo seleccionarTipoVuelo() {  //Metodo para elegir origen y destino
-//        TipoVuelo rta = null;
-//        int origenYdestino = 0;
-//
-//        do {
-//            Utilidades.clearScreen();
-//            imprimirTitulo();
-//            System.out.println("\n***************************** ORIGEN - DESTINO *****************************");
-//            imprimirRutas();
-//            origenYdestino = scan.nextInt();
-//            if (origenYdestino < 1 || origenYdestino > 6) {
-//                System.out.println("Opcion incorrecta. Por favor elija una de las opciones");
-//                Utilidades.pausar();
-//            }
-//        } while (origenYdestino < 1 || origenYdestino > 6);
-//
-//        String eleccion = elegirRuta(origenYdestino);
-//        for (TipoVuelo tipo : TipoVuelo.values()) {
-//            if (eleccion.equals(tipo.toString()))
-//                rta = tipo;           //Convierto los datos en un TipoVuelo (enum)
-//        }
-//
-//        return rta; //Retorna el tipo de vuelo elegido(enum)
-//    }
-
-
-//    public String elegirRuta(int elegido) {
-//        String ruta = "";
-//        switch (elegido) {
-//            case 1:
-//                ruta = "Origen: Buenos Aires - Destino: Córdoba - Distancia: 695 km";
-//                break;
-//            case 2:
-//                ruta = "Origen: Buenos Aires - Destino: Santiago - Distancia: 1400 km";
-//                break;
-//            case 3:
-//                ruta = "Origen: Buenos Aires - Destino: Montevideo - Distancia: 950 km";
-//                break;
-//            case 4:
-//                ruta = "Origen: Córdoba - Destino: Montevideo - Distancia: 1190 km";
-//                break;
-//            case 5:
-//                ruta = "Origen: Córdoba - Destino: Santiago - Distancia: 1050 km";
-//                break;
-//            case 6:
-//                ruta = "Origen: Montevideo - Destino: Santiago - Distancia: 2100 km";
-//                break;
-//            default:
-//                ruta = null;
-//                break;
-//        }
-//        return ruta;
-//    }
-//
 }
-
-
-
-
-
-
-
-
-
-
-
-/*
-        public void menuContratarVuelo() {
-        int opcion = scan.nextInt();
-        LocalDate fechaBuscada;
-        TipoVuelo tipoElegido;
-        int numVuelo = 0;
-        int cantAcompañantes = 0;
-        ArrayList<Usuario> acompañantesDelUsuario = new ArrayList<Usuario>();
-        clearScreen();
-        do{
-            switch (opcion) {
-                case 1: //filtro x origen y destino
-                    tipoElegido = seleccionarTipoVuelo();  //Elige origen y destino
-                    if (tipoElegido != null) {
-                        clearScreen();
-                        imprimirTitulo();
-                        System.out.println("\nVuelos " + tipoElegido.getOrigen() + " - " + tipoElegido.getDestino());
-                        System.out.println("\nIngrese la cantidad de acompañantes:");
-                        cantAcompañantes = scan.nextInt();
-                        if (aerotaxi.existenVuelos(tipoElegido, cantAcompañantes + 1)) { //validar q existan vuelos con esas caract
-                            if (cantAcompañantes != 0) {
-                                clearScreen();
-                                imprimirTitulo();
-                                System.out.println("\nIngrese los datos de sus acompañantes: ");
-                                acompañantesDelUsuario = registrarAcompañantes(cantAcompañantes);
-                            }
-                            clearScreen();
-                            imprimirTitulo();
-                            System.out.println("\n");
-                            aerotaxi.listarAvionesPorRecorrido(tipoElegido, cantAcompañantes + 1);
-                            System.out.println("\nSeleccione el numero de vuelo:");
-                            numVuelo = scan.nextInt();
-                        } else {
-                            System.out.println("No hay vuelos para esa ruta");
-                            pausar();
-                        }
-                    }
-                    break;
-                case 2: //filtro x fecha
-                    fechaBuscada = datosFechaDelVuelo();
-                    if (fechaBuscada != null) {
-                        System.out.println("Fecha: " + fechaBuscada);
-                        System.out.println("Cantidad de acompañantes:");
-                        cantAcompañantes = scan.nextInt();
-                        if (aerotaxi.existenVuelos(fechaBuscada, cantAcompañantes + 1)) { //validar q existan vuelos
-                            if (cantAcompañantes != 0) {
-                                System.out.println("Ingrese los datos de sus acompañantes: ");
-                                acompañantesDelUsuario = registrarAcompañantes(cantAcompañantes);
-                            }
-                            clearScreen();
-                            imprimirTitulo();
-                            System.out.println("\n");
-                            aerotaxi.listarAvionesPorFecha(fechaBuscada, cantAcompañantes + 1);
-                            System.out.println("Seleccione el numero de vuelo:");
-                            numVuelo = scan.nextInt();
-                        } else {
-                            System.out.println("No hay vuelos para esa ruta");
-                            pausar();
-                        }
-                    }
-                    break;
-                default:
-                    System.out.println("Opcion incorrecta. Intente nuevamente");
-                    break;
-            }
-        }while(opcion != 0);
-
-        //HABRÍA QUE MODULARIZAR ESTO EN METODOS
-        //chequear asientos disponibles
-        if (numVuelo != 0) {
-            Vuelo aux = aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(numVuelo)); //Busco el vuelo elegido
-            if ((aux.getCantPasajeros() + cantAcompañantes + 1) <= aux.getAvion().getCapacidadMaxPasajeros()) { //Si hay lugar para el usuario y sus acompañantes en el vuelo
-                for (Usuario aAgregar : acompañantesDelUsuario) {
-                    if (!aerotaxi.isPasajero(aux.getPasajeros(), aAgregar.getDni())) {    //valido que el acompañante ya no exista como pasajero del vuelo
-                        aux.agregarPasajero(aAgregar); //agrega el acompañante al vuelo
-                        aAgregar.agregarVuelo(aux);       //Agrega el vuelo a la lista de vuelos del acompañante
-                        aAgregar.setTotalGastado(aAgregar.getTotalGastado() + aux.costoIndividual()); //Sumo el costo del vuelo al total gastado del acompañante
-                        aAgregar.mejorAvionContratado(aux.getAvion());  //Compara el atributo mejorAvion del acompañante con el avion del nuevo vuelo contratado
-                    } else
-                        System.out.println("Su acompañante ya está registrado en ese vuelo");
-                }
-                if (!aerotaxi.isPasajero(aux.getPasajeros(), usuario.getDni())) {   //Valido que el usuario ya no exista como pasajeros del vuelo
-                    aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(numVuelo)).agregarPasajero(usuario); //agrega el usuario al vuelo
-                    usuario.agregarVuelo(aux);       //Agrega el vuelo a la lista de vuelos del usuario
-                    usuario.setTotalGastado(usuario.getTotalGastado() + aux.costoIndividual()); //Sumo el costo del vuelo al total gastado del usuario
-                    usuario.mejorAvionContratado(aux.getAvion()); //Compara el atributo mejorAvion del usuario con el avion del nuevo vuelo contratado
-                } else
-                System.out.println("Ud ya está registrado en ese vuelo");
-            } else
-                System.out.println("No hay esos asientos disponibles");
-            pausar();
-        }
-    }
-
-        aerotaxi.listarVuelosUser(usuario);     //Muestro los vuelos del usuario
-        if (usuario.getVuelos().size() > 0) {     //Valido que haya vuelos para cancelar
-            System.out.println("\n-- No se cancelaran los pasajes de sus acompañantes --");
-            System.out.println("Ingrese el numero de vuelo a cancelar: ");
-            int cancelar = scan.nextInt();
-            if ((usuario.getIndexVuelo(cancelar) <= usuario.getVuelos().size()) && (aerotaxi.getIndexVuelo(cancelar) >= 0)) {  //Valido que el numero elegido coincida con un vuelo
-                usuario.darDeBajaVuelo(cancelar);          //Se elimina el vuelo de la lista de vuelos del pasajero
-                aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(cancelar)).quitarPasajero(dni); //Se quita el pasajero de la lista de pasajeros del vuelo
-                usuario.setTotalGastado(usuario.getTotalGastado() - aerotaxi.getVuelos().get(aerotaxi.getIndexVuelo(cancelar)).costoIndividual()); //Resto el costo del vuelo al total gastado del usuario
-            }
-        } else
-            pausar();
-    }
-
-
-
-    public Usuario registrarUsuario() {
-        scan.nextLine(); //limpiar buffer
-        System.out.println("Nombre: ");
-        String nombre = scan.nextLine();
-        System.out.println("Apellido: ");
-        String apellido = scan.nextLine();
-        System.out.println("DNI: ");
-        int dni = scan.nextInt();
-        System.out.println("Edad: ");
-        int edad = scan.nextInt();
-
-        Usuario nuevo = new Usuario(nombre, apellido, dni, edad); //Instancion un nuevo usuario
-        aerotaxi.addUsuario(nuevo);           //Lo agrego a la lista de clientes de AeroTaxi
-        return nuevo;
-    }
-
-    public ArrayList<Usuario> registrarAcompañantes(int cantAcompañantes) { //Registra todos los acompañantes
-        ArrayList<Usuario> acompañantes = new ArrayList<Usuario>();
-        int aux = 1;
-        while (cantAcompañantes != 0) {
-            System.out.println("Acompañante " + aux);
-            Usuario nuevo = registrarUsuario();
-            acompañantes.add(nuevo);
-            clearScreen();
-            cantAcompañantes--;
-            aux++;
-        }
-        return acompañantes;   //Registra como usuario a cada acompañante y retorna la lista de los acompañantes del usuario
-    }
-
- */
-

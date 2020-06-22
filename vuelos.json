@@ -178,4 +178,19 @@
     "totalGastado" : 457750.0
   },
   "cantPasajeros" : 3
+}, {
+  "id" : 15,
+  "fechaVuelo" : "2020-11-05",
+  "recorrido" : [ 4, 3 ],
+  "avion" : 4,
+  "cliente" : {
+    "nombre" : "Pepe",
+    "apellido" : "Argento",
+    "dni" : "12",
+    "edad" : 44,
+    "vuelos" : [ 15 ],
+    "mejorAvion" : "Silver",
+    "totalGastado" : 487000.0
+  },
+  "cantPasajeros" : 6
 } ]

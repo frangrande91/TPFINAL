@@ -22,9 +22,6 @@ public class PersistenciaVuelos {
 
         try{
             File file = new File("vuelos.json");
-//            System.out.println(file.getAbsolutePath());
-//            Systemout.println(file.getPath());
-         //   Utilidades.pausar();
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
             JavaTimeModule javaTimeModule = new JavaTimeModule();
@@ -32,8 +29,6 @@ public class PersistenciaVuelos {
             mapper.registerModule(javaTimeModule);
             mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-
-            //ESCRIBIR JSON
             mapper.writeValue(file, vuelos);
         }
         catch (IOException e){

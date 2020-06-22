@@ -3,9 +3,9 @@
   "apellido" : "Argento",
   "dni" : "12",
   "edad" : 44,
-  "vuelos" : [ ],
-  "mejorAvion" : "",
-  "totalGastado" : 0.0
+  "vuelos" : [ 15 ],
+  "mejorAvion" : "Silver",
+  "totalGastado" : 487000.0
 }, {
   "nombre" : "Ana",
   "apellido" : "Gonzalez",
