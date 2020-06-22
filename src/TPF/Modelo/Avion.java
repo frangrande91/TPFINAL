@@ -46,7 +46,7 @@ public abstract class Avion implements Serializable,Comparable<Avion> {
     @Override
     public String toString() {
         return "Avion {" + this.getClass().getSimpleName() +
-                ", Id: " + id +
+                ", Numero de avion: " + id +
                 " - Capacidad combustible: " + capacidadCombustible +
                 " lts., Costo por km.: $" + costoPorKm +
                 ", Capacidad pasajeros: " + capacidadMaxPasajeros +
