@@ -212,6 +212,10 @@ public class Menu {
                 for (Avion aux : avionesDisponibles) {
                     if (aux.getId() == id)
                         avionElegido = aux;
+                    else {
+                        System.out.println("El avion elegido no esta disponible");
+                        break;
+                    }
                 }
                 flag = true;
             } while (id > avionesDisponibles.size() || id < 1);
@@ -277,7 +281,8 @@ public class Menu {
                 Utilidades.pausar();
             } else
                 rta[0] = origen;
-        } while (origen < 1 || origen > 4);
+        } while (origen < 1 || origen > 4
+        );
         do {
             Utilidades.clearScreen();
             imprimirTitulo();
@@ -316,7 +321,7 @@ public class Menu {
                 if (!usuario.getVuelos().isEmpty() && !aerotaxi.getVuelos().isEmpty()) {
                     System.out.println("\n************** Vuelos de " + usuario.getNombre() + " " + usuario.getApellido() + " ***************");
                     aerotaxi.listarVuelosUser(usuario);      //Muestro la lista de vuelos del usuario
-                }else
+                } else
                     System.out.println("\nEl usuario no tiene vuelos contratados");
             }
         } catch (InputMismatchException e) {
@@ -328,35 +333,35 @@ public class Menu {
 
 
     public void cancelarVueloPorId() {
-            System.out.println("Ingrese el número del vuelo a cancelar: ");
-            long id = scan.nextLong();
-            Vuelo buscado = aerotaxi.buscarVuelo(id);
-            if (buscado != null && usuario.equals(buscado.getCliente())) {
-                if (buscado.getFechaVuelo().isAfter(LocalDate.now().plusDays(1))) {//cancelar vuelo con mas de un dia de anticipacion
-                    Utilidades.clearScreen();
-                    imprimirTitulo();
-                    System.out.println("\n******************************* CANCELAR VUELO *******************************");
-                    System.out.println(buscado.mostrarVuelo(aerotaxi.buscarAvion(buscado.getAvion())));    //Muestro el vuelo a cancelar
-                    System.out.println("Para confirmar la cancelación del vuelo presione 'c'");
-                    scan.nextLine(); //por esto no andaba... limpiar buffer
-                    String op = scan.nextLine();
-                    if (op.equals("c")) {
-                        aerotaxi.borrarVuelo(buscado);  //Elimino el vuelo de la lista de vuelos de AEROTAXI
-                        usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
-                        usuario.mejorAvionContratado(aerotaxi); //actualizar lista de mejor avion
-                        usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal(aerotaxi.buscarAvion(buscado.getAvion()), buscado.getRecorrido()));  //Resto el costo del vuelo cancelado en el total gastado por el usuario
-                        PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
-                        PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes());
-                        System.out.println("Vuelo cancelado");
-                    } else {
-                        System.out.println("Vuelo no cancelado");
-                    }
-                } else
-                    System.out.println("No se puede cancelar un vuelo con menos de 24 horas de anticipación");
-            } else {
-                System.out.println("No tiene vuelos con ese numero");
-            }
+        System.out.println("Ingrese el número del vuelo a cancelar: ");
+        long id = scan.nextLong();
+        Vuelo buscado = aerotaxi.buscarVuelo(id);
+        if (buscado != null && usuario.equals(buscado.getCliente())) {
+            if (buscado.getFechaVuelo().isAfter(LocalDate.now().plusDays(1))) {//cancelar vuelo con mas de un dia de anticipacion
+                Utilidades.clearScreen();
+                imprimirTitulo();
+                System.out.println("\n******************************* CANCELAR VUELO *******************************");
+                System.out.println(buscado.mostrarVuelo(aerotaxi.buscarAvion(buscado.getAvion())));    //Muestro el vuelo a cancelar
+                System.out.println("Para confirmar la cancelación del vuelo presione 'c'");
+                scan.nextLine(); //por esto no andaba... limpiar buffer
+                String op = scan.nextLine();
+                if (op.equals("c")) {
+                    aerotaxi.borrarVuelo(buscado);  //Elimino el vuelo de la lista de vuelos de AEROTAXI
+                    usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
+                    usuario.mejorAvionContratado(aerotaxi); //actualizar lista de mejor avion
+                    usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal(aerotaxi.buscarAvion(buscado.getAvion()), buscado.getRecorrido()));  //Resto el costo del vuelo cancelado en el total gastado por el usuario
+                    PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
+                    PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes());
+                    System.out.println("Vuelo cancelado");
+                } else {
+                    System.out.println("Vuelo no cancelado");
+                }
+            } else
+                System.out.println("No se puede cancelar un vuelo con menos de 24 horas de anticipación");
+        } else {
+            System.out.println("No tiene vuelos con ese numero");
         }
+    }
 
 
     public void agregarPasajeros() {
@@ -389,6 +394,8 @@ public class Menu {
                         PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
                         System.out.println("\nPasajeros agregados");
                     }
+                } else {
+                    System.out.println("Ingrese un numero válido");
                 }
             } else
                 System.out.println("No hay suficientes asientos disponibles");
@@ -406,41 +413,45 @@ public class Menu {
             System.out.println(buscado.mostrarVuelo(aerotaxi.buscarAvion(buscado.getAvion())));   //Muestro el vuelo
             System.out.println("\nIngrese la cantidad de pasajeros a quitar: [Total pasajeros: " + buscado.getCantPasajeros() + "]");
             int cantAquitar = scan.nextInt();
-            if (totalPasajeros == cantAquitar) {                //quitar todos los pasajeros=cancelar vuelo
-                System.out.println("Ha elegido quitar todos los pasajeros\nPresione 'c' para cancelar el vuelo");
-                scan.nextLine(); //limpiar buffer
-                String op = scan.nextLine();
-                if (op.equals("c")) {
-                    aerotaxi.borrarVuelo(buscado);  //Elimino el vuelo de la lista de vuelos de AEROTAXI
-                    usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
-                    usuario.mejorAvionContratado(aerotaxi); //actualizar lista de mejor avion
-                    usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal(aerotaxi.buscarAvion(buscado.getAvion()), buscado.getRecorrido()));  //Resto el costo del vuelo cancelado en el total gastado por el usuario
-                    System.out.println("Vuelo cancelado");
-                    PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
-                    PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
-                }
-            } else if (totalPasajeros > cantAquitar) {          //quitar algunos pasajeros
-                int buscar = buscado.getAvion();
-                double costoAnterior = buscado.costoTotal(aerotaxi.buscarAvion(buscar), buscado.getRecorrido());
-                double costoNuevo = buscado.costoConPasajerosNuevos(cantAquitar * (-1), aerotaxi.buscarAvion(buscar), buscado.getRecorrido());
-                System.out.println("El costo se modificará de $ " + costoAnterior + " a $ " + costoNuevo + "\nPresione 'c' para confirmar");
-                scan.nextLine(); // limpiar buffer
-                String op = scan.nextLine();
-                if (op.equals("c")) {
-                    buscado.setCantPasajeros(buscado.getCantPasajeros() - cantAquitar);  //agregar pasajeros nuevos
-                    usuario.setTotalGastado(usuario.getTotalGastado() - costoAnterior + costoNuevo);  //ajustar costo del vuelo
-                    Utilidades.clearScreen();
-                    imprimirTitulo();
-                    System.out.println(buscado.toString());
-                    System.out.println("\nPasajeros quitados");
-                    PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
-                    PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
-                }
-            } else                                    //no quitar, numero imposible
-                System.out.println("No se puede quitar la cantidad de pasajeros elegida");
+            if (cantAquitar > 0) {
+                if (totalPasajeros == cantAquitar) {                //quitar todos los pasajeros=cancelar vuelo
+                    System.out.println("Ha elegido quitar todos los pasajeros\nPresione 'c' para cancelar el vuelo");
+                    scan.nextLine(); //limpiar buffer
+                    String op = scan.nextLine();
+                    if (op.equals("c")) {
+                        aerotaxi.borrarVuelo(buscado);  //Elimino el vuelo de la lista de vuelos de AEROTAXI
+                        usuario.darDeBajaVuelo(buscado); //Elimino el vuelo(id) de la lista de vuelos del usuario
+                        usuario.mejorAvionContratado(aerotaxi); //actualizar lista de mejor avion
+                        usuario.setTotalGastado(usuario.getTotalGastado() - buscado.costoTotal(aerotaxi.buscarAvion(buscado.getAvion()), buscado.getRecorrido()));  //Resto el costo del vuelo cancelado en el total gastado por el usuario
+                        System.out.println("Vuelo cancelado");
+                        PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
+                        PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
+                    }
+                } else if (totalPasajeros > cantAquitar) {          //quitar algunos pasajeros
+                    int buscar = buscado.getAvion();
+                    double costoAnterior = buscado.costoTotal(aerotaxi.buscarAvion(buscar), buscado.getRecorrido());
+                    double costoNuevo = buscado.costoConPasajerosNuevos(cantAquitar * (-1), aerotaxi.buscarAvion(buscar), buscado.getRecorrido());
+                    System.out.println("El costo se modificará de $ " + costoAnterior + " a $ " + costoNuevo + "\nPresione 'c' para confirmar");
+                    scan.nextLine(); // limpiar buffer
+                    String op = scan.nextLine();
+                    if (op.equals("c")) {
+                        buscado.setCantPasajeros(buscado.getCantPasajeros() - cantAquitar);  //agregar pasajeros nuevos
+                        usuario.setTotalGastado(usuario.getTotalGastado() - costoAnterior + costoNuevo);  //ajustar costo del vuelo
+                        Utilidades.clearScreen();
+                        imprimirTitulo();
+                        System.out.println(buscado.toString());
+                        System.out.println("\nPasajeros quitados");
+                        PersistenciaVuelos.persistirVuelos(aerotaxi.getVuelos());  //Persisto los vuelos
+                        PersistenciaUsuarios.persistirUsuarios(aerotaxi.getClientes()); //Persisto los usuarios
+                    }
+                } else                                    //no quitar, numero imposible
+                    System.out.println("No se puede quitar la cantidad de pasajeros elegida");
+            } else
+                System.out.println("Ingrese un número válido"); //numero negativo
         } else
             System.out.println("No tiene vuelos con ese numero");
     }
+
     public void menuVerVuelos() {
         imprimirOpcVerVuelos();
         LocalDate fecha;
@@ -459,8 +470,10 @@ public class Menu {
                 case 2:                                             //vuelos de un dia en particular
                     if (!aerotaxi.getVuelos().isEmpty()) {
                         fecha = datosFechaDelVuelo(true);
-                        aerotaxi.listarVuelosPorFecha(fecha);
-                        System.out.println("\n");
+                        if (fecha != null) {
+                            aerotaxi.listarVuelosPorFecha(fecha);
+                            System.out.println("\n");
+                        }
                     } else
                         System.out.println("La empresa no tiene vuelos contratados");
                     Utilidades.pausar();
@@ -471,7 +484,10 @@ public class Menu {
                         imprimirRutas();
                         int i = scan.nextInt();
                         Utilidades.clearScreen();
-                        aerotaxi.listarVuelosDesde(i);
+                        if (i > 0 && i < 5)
+                            aerotaxi.listarVuelosDesde(i);
+                        else
+                            System.out.println("No existe el origen seleccionado");
                     } else
                         System.out.println("La empresa no tiene vuelos contratados");
                     Utilidades.pausar();
@@ -482,7 +498,10 @@ public class Menu {
                         imprimirRutas();
                         int j = scan.nextInt();
                         Utilidades.clearScreen();
-                        aerotaxi.listarVuelosHacia(j);
+                        if (j > 0 && j < 5)
+                            aerotaxi.listarVuelosHacia(j);
+                        else
+                            System.out.println("No existe el destino seleccionado");
                     } else
                         System.out.println("La empresa no tiene vuelos contratados");
                     Utilidades.pausar();

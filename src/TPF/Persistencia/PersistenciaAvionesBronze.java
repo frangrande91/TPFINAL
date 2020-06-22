@@ -8,9 +8,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 
-public class PersistenciaAvionesBronze {
+public abstract class PersistenciaAvionesBronze {
 
     public static HashSet<Bronze> leerAvionesBronze(){
         HashSet<Bronze> aviones = null;
@@ -28,7 +29,6 @@ public class PersistenciaAvionesBronze {
     }
 
     public static void persistirAvionesBronze(HashSet<Bronze> avionesBronze){
-
         try{
             File file = new File("avionesBronze.json");
             ObjectMapper mapper = new ObjectMapper();
@@ -41,4 +41,5 @@ public class PersistenciaAvionesBronze {
             Utilidades.pausar();
         }
     }
+
 }
