@@ -3,6 +3,7 @@ package TPF.Menu;
 import TPF.Modelo.*;
 import TPF.Persistencia.*;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -226,31 +227,36 @@ public class Menu {
         LocalDate fechaActual = LocalDate.now();
         System.out.println("\nFECHA ACTUAL: " + fechaActual);
         System.out.println("\nIngrese la fecha del vuelo: ");
-        System.out.println("Año: ");
-        int año = scan.nextInt();
-        if (año > 2019 && año < 2100) {
-            System.out.println("Mes: ");
-            int mes = scan.nextInt();
-            if (mes > 0 && mes < 13) {
-                System.out.println("Día: ");
-                int dia = scan.nextInt();
-                if ((dia > 0) && (dia < 32)) {
-                    LocalDate aux = LocalDate.of(año, mes, dia);
-                    if (!fechasPasadas) {                               //solo fechas posteriores al dia actual
-                        if (aux.isAfter(fechaActual))
-                            elegida = aux;
-                        else
-                            System.out.println("Eligió una fecha vieja");
-                    } else {                                            //cualquier fecha valida pasada o futura
-                        elegida = aux;
-                    }
-                } else
-                    System.out.println("Día inválido");
-            } else
-                System.out.println("Mes inválido");
-        } else
-            System.out.println("Año inválido");
 
+        try{
+            System.out.println("Año: ");
+            int año = scan.nextInt();
+            if (año > 2019 && año < 2100) {
+                System.out.println("Mes: ");
+                int mes = scan.nextInt();
+                if (mes > 0 && mes < 13) {
+                    System.out.println("Día: ");
+                    int dia = scan.nextInt();
+                    if ((dia > 0) && (dia < 32)) {
+                        LocalDate aux = LocalDate.of(año, mes, dia);
+                        if (!fechasPasadas) {                               //solo fechas posteriores al dia actual
+                            if (aux.isAfter(fechaActual))
+                                elegida = aux;
+                            else
+                                System.out.println("Eligió una fecha vieja");
+                        } else {                                            //cualquier fecha valida pasada o futura
+                            elegida = aux;
+                        }
+                    } else
+                        System.out.println("Día inválido");
+                } else
+                    System.out.println("Mes inválido");
+            } else
+                System.out.println("Año inválido");
+        }catch (DateTimeException e){
+            System.err.println("Fecha inválida");
+            scan.nextLine();  //limpiar buffer
+        }
 
         return elegida;  //Retorna la fecha elegida o null si se ingresó una fecha inválida
     }
@@ -292,9 +298,9 @@ public class Menu {
     public void menuIdVuelo() {    //preguntar si tiene el id del vuelo, si no se muestran todos sus vuelos
         Utilidades.clearScreen();
         imprimirTitulo();
+        boolean sn = true;
+        String op = "";
         try {
-            boolean sn = true;
-            String op = "";
             while (sn) {
                 System.out.println("Tiene el numero del vuelo a editar? s/n");
                 op = scan.next();
@@ -312,6 +318,10 @@ public class Menu {
             }
         } catch (InputMismatchException e) {
             System.out.println("\nIngrese un numero valido");
+            scan = new Scanner(System.in); //limpiar buffer
+            Utilidades.pausar();
+        } catch (NullPointerException e){
+            System.err.println("La lista de vuelos es nula");
             scan = new Scanner(System.in); //limpiar buffer
             Utilidades.pausar();
         }
@@ -478,7 +488,7 @@ public class Menu {
             scan = new Scanner(System.in); //limpiar buffer
             Utilidades.pausar();
         } catch (NullPointerException e2) {
-            System.err.println("\nEl archivo está vacío o no existe");
+            System.err.println("La lista de vuelos es nula");
             scan = new Scanner(System.in); //limpiar buffer
             Utilidades.pausar();
         } finally {
