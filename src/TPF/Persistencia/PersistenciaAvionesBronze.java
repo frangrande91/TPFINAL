@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 
-public abstract class PersistenciaAvionesBronze {
+public class PersistenciaAvionesBronze {
 
     public static HashSet<Bronze> leerAvionesBronze(){
         HashSet<Bronze> aviones = null;
