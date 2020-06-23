@@ -185,6 +185,8 @@ public class Menu {
                             System.out.println("Vuelo cancelado");
                         }
                     }
+                    else
+                        System.out.println("El avion no se encuentra disponible");
                 }
             } else {
                 System.out.println("No hay vuelos disponibles con el recorrido seleccionado");
@@ -212,11 +214,7 @@ public class Menu {
                 for (Avion aux : avionesDisponibles) {
                     if (aux.getId() == id)
                         avionElegido = aux;
-                    else {
-                        System.out.println("El avion elegido no esta disponible");
-                        break;
-                    }
-                }
+            }
                 flag = true;
             } while (id > avionesDisponibles.size() || id < 1);
         } else
